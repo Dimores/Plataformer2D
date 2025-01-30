@@ -2889,11 +2889,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 360329861656448334, guid: f8266f1882c0ee04bafb47485b29412e, type: 3}
       propertyPath: m_text
-      value: Credits
+      value: About
       objectReference: {fileID: 0}
     - target: {fileID: 4082924337997660952, guid: f8266f1882c0ee04bafb47485b29412e, type: 3}
       propertyPath: m_Name
-      value: PFB_Credits
+      value: PFB_About
       objectReference: {fileID: 0}
     - target: {fileID: 5482681995899034246, guid: f8266f1882c0ee04bafb47485b29412e, type: 3}
       propertyPath: m_Interactable
