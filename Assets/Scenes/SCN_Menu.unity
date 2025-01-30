@@ -4017,8 +4017,8 @@ MonoBehaviour:
   - {fileID: 1359151471}
   - {fileID: 61831225}
   - {fileID: 881185841}
-  duration: 0.5
-  delay: 0.1
+  duration: 0.4
+  delay: 0.08
   ease: 27
 --- !u!4 &1884973260
 Transform:
