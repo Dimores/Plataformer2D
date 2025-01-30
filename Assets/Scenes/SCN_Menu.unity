@@ -123,6 +123,11 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &61831225 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4082924337997660952, guid: f8266f1882c0ee04bafb47485b29412e, type: 3}
+  m_PrefabInstance: {fileID: 1598245764}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &172683978
 GameObject:
   m_ObjectHideFlags: 0
@@ -811,7 +816,7 @@ GameObject:
   - component: {fileID: 838555538}
   - component: {fileID: 838555539}
   m_Layer: 5
-  m_Name: GameObject
+  m_Name: Grid
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4008,6 +4013,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 263cdfec94dc1ac4ba6ab608f400fb96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  buttons:
+  - {fileID: 1359151471}
+  - {fileID: 61831225}
+  - {fileID: 881185841}
+  duration: 0.5
+  delay: 0.1
+  ease: 27
 --- !u!4 &1884973260
 Transform:
   m_ObjectHideFlags: 0
