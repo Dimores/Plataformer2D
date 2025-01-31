@@ -1525,7 +1525,7 @@ ScriptedImporter:
   sharedRigPSDLayers: []
   pSDLayerImportSetting: []
   importFileNodeState: 1
-  platformSettingsDirtyTick: 638739165744902906
+  platformSettingsDirtyTick: 638739409805195191
   spriteSizeExpandChanged: 0
   generateGOHierarchy: 0
   textureAssetName: SPR_Enemy_1 Texture
