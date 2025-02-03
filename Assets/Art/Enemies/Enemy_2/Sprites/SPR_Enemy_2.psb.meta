@@ -11,7 +11,7 @@ ScriptedImporter:
   textureImporterSettings:
     alphaSource: 1
     mipMapMode: 0
-    enableMipMap: 0
+    enableMipMap: 1
     fadeOut: 0
     borderMipMap: 0
     mipMapsPreserveCoverage: 0
@@ -32,7 +32,7 @@ ScriptedImporter:
     sRGBTexture: 1
     spriteMode: 2
     spriteExtrude: 1
-    spriteMeshType: 0
+    spriteMeshType: 1
     alignment: 0
     spritePivot: {x: 0.5, y: 0.5}
     spritePixelsToUnits: 100
@@ -50,7 +50,7 @@ ScriptedImporter:
     flipbookColumns: 0
     ignorePngGamma: 0
     cookieMode: 0
-    filterMode: 2
+    filterMode: 1
     aniso: 1
     mipBias: 0
     wrapU: 0
@@ -1438,43 +1438,7 @@ ScriptedImporter:
     characterGroups: []
     pivot: {x: 0, y: 0}
     boneReadOnly: 0
-  platformSettings:
-  - name: DefaultTexturePlatform
-    overridden: 0
-    ignorePlatformSupport: 0
-    maxTextureSize: 16384
-    resizeAlgorithm: 1
-    textureFormat: -1
-    textureCompression: 0
-    compressionQuality: 50
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    androidETC2FallbackOverride: 0
-  - name: Standalone
-    overridden: 0
-    ignorePlatformSupport: 0
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    androidETC2FallbackOverride: 0
-  - name: Server
-    overridden: 0
-    ignorePlatformSupport: 0
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    androidETC2FallbackOverride: 0
+  platformSettings: []
   mosaicLayers: 1
   characterMode: 1
   documentPivot: {x: 0, y: 0}
@@ -1499,7 +1463,7 @@ ScriptedImporter:
     spriteName: 
     isGroup: 1
     parentIndex: -1
-    spriteID: 03362c2db7a16ba4dae99a16ac379492
+    spriteID: 0bebb16f8d0c9374280e6c28071c2f30
     layerID: 20
     mosaicPosition: {x: 0, y: 0}
     flatten: 0
@@ -1509,7 +1473,7 @@ ScriptedImporter:
     spriteName: 
     isGroup: 1
     parentIndex: 0
-    spriteID: 5794af4bb4ae10e4380b122bbe281b00
+    spriteID: e42b9052897e85e4794f3d6da8a91c66
     layerID: 19
     mosaicPosition: {x: 0, y: 0}
     flatten: 0
@@ -1539,7 +1503,7 @@ ScriptedImporter:
     spriteName: 
     isGroup: 1
     parentIndex: 0
-    spriteID: 042701a921db4ad4cb50bddb902eb3d0
+    spriteID: 126a58e2b06ec734dafbae489b3466d2
     layerID: 15
     mosaicPosition: {x: 0, y: 0}
     flatten: 0
@@ -1569,7 +1533,7 @@ ScriptedImporter:
     spriteName: 
     isGroup: 1
     parentIndex: 0
-    spriteID: 7b23ec2d4a03f954eaf8c6ef4dc3098d
+    spriteID: ff377f2ebf548af40916004cb78a70c0
     layerID: 11
     mosaicPosition: {x: 0, y: 0}
     flatten: 0
@@ -1599,7 +1563,7 @@ ScriptedImporter:
     spriteName: 
     isGroup: 1
     parentIndex: 0
-    spriteID: eef665d762831c64cbed0818932d52a5
+    spriteID: e2ff5931e17927c44a3165fa218c3839
     layerID: 7
     mosaicPosition: {x: 0, y: 0}
     flatten: 0
@@ -1638,7 +1602,7 @@ ScriptedImporter:
   sharedRigPSDLayers: []
   pSDLayerImportSetting: []
   importFileNodeState: 1
-  platformSettingsDirtyTick: 638739166079954847
+  platformSettingsDirtyTick: 0
   spriteSizeExpandChanged: 0
   generateGOHierarchy: 0
   textureAssetName: SPR_Enemy_2 Texture

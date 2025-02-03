@@ -11,7 +11,7 @@ ScriptedImporter:
   textureImporterSettings:
     alphaSource: 1
     mipMapMode: 0
-    enableMipMap: 0
+    enableMipMap: 1
     fadeOut: 0
     borderMipMap: 0
     mipMapsPreserveCoverage: 0
@@ -32,7 +32,7 @@ ScriptedImporter:
     sRGBTexture: 1
     spriteMode: 2
     spriteExtrude: 1
-    spriteMeshType: 0
+    spriteMeshType: 1
     alignment: 0
     spritePivot: {x: 0.5, y: 0.5}
     spritePixelsToUnits: 100
@@ -50,7 +50,7 @@ ScriptedImporter:
     flipbookColumns: 0
     ignorePngGamma: 0
     cookieMode: 0
-    filterMode: 2
+    filterMode: 1
     aniso: 1
     mipBias: 0
     wrapU: 0
@@ -5825,10 +5825,10 @@ ScriptedImporter:
   - name: DefaultTexturePlatform
     overridden: 0
     ignorePlatformSupport: 0
-    maxTextureSize: 16384
-    resizeAlgorithm: 1
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
+    textureCompression: 1
     compressionQuality: 50
     forceMaximumCompressionQuality_BC6H_BC7: 0
     crunchedCompression: 0
@@ -5847,18 +5847,6 @@ ScriptedImporter:
     allowsAlphaSplitting: 0
     androidETC2FallbackOverride: 0
   - name: Android
-    overridden: 0
-    ignorePlatformSupport: 0
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    androidETC2FallbackOverride: 0
-  - name: Server
     overridden: 0
     ignorePlatformSupport: 0
     maxTextureSize: 2048
@@ -5924,7 +5912,7 @@ ScriptedImporter:
     spriteName: 
     isGroup: 1
     parentIndex: -1
-    spriteID: fe7e869130ccf7c46b7461e3e7bb1610
+    spriteID: 132f529db62053f4595c306c17103188
     layerID: 24
     mosaicPosition: {x: 0, y: 0}
     flatten: 0
@@ -5934,7 +5922,7 @@ ScriptedImporter:
     spriteName: 
     isGroup: 1
     parentIndex: 3
-    spriteID: 323d6941ab69ed7428fd7b7b19259a1d
+    spriteID: 4eff81b047abb82478907ee201ca0214
     layerID: 23
     mosaicPosition: {x: 0, y: 0}
     flatten: 0
@@ -5944,7 +5932,7 @@ ScriptedImporter:
     spriteName: 
     isGroup: 0
     parentIndex: 4
-    spriteID: f78ed542ef9b2ee458cb3df1270fed93
+    spriteID: 25a57efa40423c448b35b31cf6d14226
     layerID: 22
     mosaicPosition: {x: 0, y: 0}
     flatten: 0
@@ -5954,7 +5942,7 @@ ScriptedImporter:
     spriteName: 
     isGroup: 0
     parentIndex: 4
-    spriteID: b3e6772ba61d80b4f9954475e5d0c260
+    spriteID: b6f3583f23aef03499beb2f44d0a6071
     layerID: 21
     mosaicPosition: {x: 0, y: 0}
     flatten: 0
@@ -5964,7 +5952,7 @@ ScriptedImporter:
     spriteName: 
     isGroup: 0
     parentIndex: 3
-    spriteID: af4f1ed8e95b3eb4e9e0f8474c48d637
+    spriteID: 10715f26c223a2142bf31b7fa53303ea
     layerID: 19
     mosaicPosition: {x: 0, y: 0}
     flatten: 0
@@ -5974,7 +5962,7 @@ ScriptedImporter:
     spriteName: 
     isGroup: 0
     parentIndex: 3
-    spriteID: 2aadb430495a33440b538dc85dbbe4ca
+    spriteID: 8bdf934b5e146dc488cbe1415355f964
     layerID: 18
     mosaicPosition: {x: 0, y: 0}
     flatten: 0
@@ -5984,7 +5972,7 @@ ScriptedImporter:
     spriteName: 
     isGroup: 0
     parentIndex: 3
-    spriteID: 331e7a9046990ab40922562ec6095c9b
+    spriteID: ecab294be5453f047a497b7ccd8da81e
     layerID: 17
     mosaicPosition: {x: 0, y: 0}
     flatten: 0
@@ -5994,7 +5982,7 @@ ScriptedImporter:
     spriteName: 
     isGroup: 1
     parentIndex: 3
-    spriteID: 95ae97615e3ba0a4d8b450dad5ed98cd
+    spriteID: 6be278205950131438e4aed8e31b0b44
     layerID: 16
     mosaicPosition: {x: 0, y: 0}
     flatten: 0
@@ -6004,7 +5992,7 @@ ScriptedImporter:
     spriteName: 
     isGroup: 0
     parentIndex: 10
-    spriteID: 50eb6901e0543ef45aa295373d572150
+    spriteID: b2c24494882e9354f9f4e8b8e411577d
     layerID: 15
     mosaicPosition: {x: 0, y: 0}
     flatten: 0
@@ -6014,7 +6002,7 @@ ScriptedImporter:
     spriteName: 
     isGroup: 0
     parentIndex: 10
-    spriteID: 768ab934c5acb634cae9c7fbf519c965
+    spriteID: e615963629fd34c4fa33654a4248ae1a
     layerID: 14
     mosaicPosition: {x: 0, y: 0}
     flatten: 0
@@ -6024,7 +6012,7 @@ ScriptedImporter:
     spriteName: 
     isGroup: 0
     parentIndex: 10
-    spriteID: 6f8a67885c18a8944811c2c769e31d5c
+    spriteID: 9ac1181f6d830b64aaf8de7cd0c73892
     layerID: 13
     mosaicPosition: {x: 0, y: 0}
     flatten: 0
@@ -6034,7 +6022,7 @@ ScriptedImporter:
     spriteName: 
     isGroup: 0
     parentIndex: 10
-    spriteID: 4ef41c9e92eecd4439873731864e1508
+    spriteID: c3d91d583dc513f4c97b362822b54f6f
     layerID: 12
     mosaicPosition: {x: 0, y: 0}
     flatten: 0
@@ -6064,7 +6052,7 @@ ScriptedImporter:
     spriteName: 
     isGroup: 1
     parentIndex: -1
-    spriteID: 58bda915e4088634f8a77967d89e823e
+    spriteID: 61682a0ffca3add428b7613f5cf1fca6
     layerID: 8
     mosaicPosition: {x: 0, y: 0}
     flatten: 0
@@ -6163,7 +6151,7 @@ ScriptedImporter:
   sharedRigPSDLayers: []
   pSDLayerImportSetting: []
   importFileNodeState: 1
-  platformSettingsDirtyTick: 638739168223683149
+  platformSettingsDirtyTick: 0
   spriteSizeExpandChanged: 0
   generateGOHierarchy: 0
   textureAssetName: SPR_Astronaut Texture
