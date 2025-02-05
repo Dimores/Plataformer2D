@@ -1003,6 +1003,10 @@ MonoBehaviour:
   boolFalling: Falling
   animator: {fileID: 856888046}
   playerSwipeDuration: 0.1
+  moveRightKey: 275
+  moveLeftKey: 276
+  runKey: 306
+  jumpKey: 32
 --- !u!114 &786779776
 MonoBehaviour:
   m_ObjectHideFlags: 0

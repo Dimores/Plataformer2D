@@ -32,7 +32,7 @@ public class Player : MonoBehaviour
 
     [Header("Inputs Player")]
     public KeyCode moveRightKey = KeyCode.RightArrow;
-    public KeyCode moveLeftKey = KeyCode.RightArrow;
+    public KeyCode moveLeftKey = KeyCode.LeftArrow; 
     public KeyCode runKey = KeyCode.LeftControl;
     public KeyCode jumpKey = KeyCode.Space;
 
