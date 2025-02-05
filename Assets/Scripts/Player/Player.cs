@@ -14,7 +14,7 @@ public class Player : MonoBehaviour
     public LayerMask groundLayer;
     public float groundCheckRadius = 0.1f;
 
-    [Header("Animation setup")]
+    [Header("Animation Setup")]
     public float jumpScaleY = 1.3f;
     public float jumpScaleX = 0.2f;
     public float fallScaleY = 0.7f;
@@ -22,7 +22,7 @@ public class Player : MonoBehaviour
     public float animationDuration = 0.3f;
     public Ease ease = Ease.OutBack;
 
-    [Header("Animation player")]
+    [Header("Animation Player")]
     public string boolRun = "Run";
     public string boolSprint = "Sprint";
     public string triggerJump = "Jump";
@@ -30,7 +30,11 @@ public class Player : MonoBehaviour
     public Animator animator;
     public float playerSwipeDuration = .1f;
 
-
+    [Header("Inputs Player")]
+    public KeyCode moveRightKey = KeyCode.RightArrow;
+    public KeyCode moveLeftKey = KeyCode.RightArrow;
+    public KeyCode runKey = KeyCode.LeftControl;
+    public KeyCode jumpKey = KeyCode.Space;
 
     private Rigidbody2D _myRigidbody;
     private float _speedRun;
@@ -62,7 +66,7 @@ public class Player : MonoBehaviour
 
     private void HandleMovement()
     {
-        if (Input.GetKey(KeyCode.LeftControl))
+        if (Input.GetKey(runKey))
         {
             _currentSpeed = _speedRun;
             animator.SetBool(boolSprint, true);
@@ -73,7 +77,7 @@ public class Player : MonoBehaviour
             animator.SetBool(boolSprint, false);
         }
 
-        if (Input.GetKey(KeyCode.LeftArrow))
+        if (Input.GetKey(moveLeftKey))
         {
             _myRigidbody.velocity = new Vector2(-_currentSpeed, _myRigidbody.velocity.y);
 
@@ -85,7 +89,7 @@ public class Player : MonoBehaviour
 
             animator.SetBool(boolRun, true);
         }
-        else if (Input.GetKey(KeyCode.RightArrow))
+        else if (Input.GetKey(moveRightKey))
         {
             _myRigidbody.velocity = new Vector2(_currentSpeed, _myRigidbody.velocity.y);
 
@@ -170,10 +174,6 @@ public class Player : MonoBehaviour
             animator.SetBool(boolFalling, true);
         }
     }
-
-
-
-
 
     private void CheckGrounded()
     {
