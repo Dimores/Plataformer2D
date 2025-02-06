@@ -127,8 +127,6 @@ public class Player : MonoBehaviour
         {
             _myRigidbody.velocity = Vector2.up * jumpForce;
 
-            _currentScaleX = _myRigidbody.transform.localScale.x;
-
             DOTween.Kill(_myRigidbody.transform);
 
             animator.SetTrigger(triggerJump);
