@@ -174,5 +174,8 @@ public class Player : MonoBehaviour
     private void CheckGrounded()
     {
         _isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
+
+        Debug.DrawRay(groundCheck.position, Vector2.down * groundCheckRadius, _isGrounded ? Color.green : Color.red);
     }
+
 }
