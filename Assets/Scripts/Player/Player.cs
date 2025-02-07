@@ -137,13 +137,11 @@ public class Player : MonoBehaviour
 
     private void HandleScaleJump()
     {
+        DOTween.Kill(_myRigidbody.transform);
+
         _myRigidbody.transform.DOScaleY(jumpScaleY, animationDuration)
             .SetLoops(2, LoopType.Yoyo)
-            .SetEase(ease);
-
-        _myRigidbody.transform.DOScaleX(jumpScaleX * _currentScaleX, animationDuration) // Mantém a direção correta
-            .SetLoops(2, LoopType.Yoyo)
-            .SetEase(ease);
+            .SetEase(Ease.OutQuad);
     }
 
 
