@@ -6542,7 +6542,7 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_Events:
   - time: 0.8833333
-    functionName: KillPlayer
+    functionName: DestroyMe
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
