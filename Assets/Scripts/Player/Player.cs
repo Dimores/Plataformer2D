@@ -58,10 +58,13 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        HandleJump();
-        HandleMovement();
-        CheckGrounded();
-        HandleScaleFall();
+        if (gameObject.activeInHierarchy)
+        {
+            HandleJump();
+            HandleMovement();
+            CheckGrounded();
+            HandleScaleFall();
+        }
     }
 
     private void HandleMovement()
@@ -95,6 +98,7 @@ public class Player : MonoBehaviour
 
             if (_myRigidbody.transform.localScale.x != 1)
             {
+
                 _myRigidbody.transform.DOScaleX(1, playerSwipeDuration);
                 _currentScaleX = 1; 
             }
@@ -178,4 +182,8 @@ public class Player : MonoBehaviour
         Debug.DrawRay(groundCheck.position, Vector2.down * groundCheckRadius, _isGrounded ? Color.green : Color.red);
     }
 
+    private void OnDestroy()
+    {
+        DOTween.Kill(transform);
+    }
 }
