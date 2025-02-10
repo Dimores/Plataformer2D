@@ -21,23 +21,42 @@ public class FlashColor : MonoBehaviour
         }
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Q))
-            Flash();
-    }
-
     public void Flash()
     {
         if (_currentTween != null)
         {
             _currentTween.Kill();
+            _currentTween = null;
             spriteRenderers.ForEach(i => i.color = Color.white);
         }
 
+        _currentTween = DOTween.To(
+            () => Color.white,
+            x => ApplyColorSafely(x),
+            flashColor,
+            duration
+        ).SetLoops(2, LoopType.Yoyo)
+        .OnComplete(() => ApplyColorSafely(Color.white));
+    }
+
+
+    private void ApplyColorSafely(Color color)
+    {
+        if (this == null || gameObject == null) return; 
+
         foreach (var s in spriteRenderers)
         {
-            _currentTween = s.DOColor(flashColor, duration).SetLoops(2, LoopType.Yoyo);
+            if (s != null) s.color = color;
         }
     }
+
+    private void OnDestroy()
+    {
+        if (_currentTween != null)
+        {
+            _currentTween.Kill();
+            _currentTween = null;
+        }
+    }
+
 }

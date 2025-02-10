@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
@@ -5,6 +6,8 @@ using UnityEngine;
 
 public class HealthBase : MonoBehaviour
 {
+    public Action OnKill;
+
     public int startLife = 10;
 
     public bool destroyOnKill = false;
@@ -32,7 +35,9 @@ public class HealthBase : MonoBehaviour
         if (_isDead) return;
 
         _currentLife -= damage;
-        _flashColor.Flash();
+        
+        if (_flashColor != null)
+            _flashColor.Flash();
 
         if (_currentLife <= 0)
         {
@@ -48,5 +53,7 @@ public class HealthBase : MonoBehaviour
         {
             Destroy(gameObject, delayToKill);
         }
+
+        OnKill?.Invoke();
     }
 }

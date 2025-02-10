@@ -27,6 +27,7 @@ public class Player : MonoBehaviour
     public string boolSprint = "Sprint";
     public string triggerJump = "Jump";
     public string boolFalling = "Falling";
+    public string triggerDeath = "Death";
     public Animator animator;
     public float playerSwipeDuration = .1f;
 
@@ -42,7 +43,10 @@ public class Player : MonoBehaviour
     private float _currentScaleX;
     private Vector2 _friction = new Vector2(-0.1f, 0);
     private bool _isGrounded = false; 
-    private bool _wasFalling = false; 
+    private bool _wasFalling = false;
+    private bool _canControl = true;
+
+    private HealthBase _healthBase;
 
     private void Start()
     {
@@ -52,13 +56,22 @@ public class Player : MonoBehaviour
     private void Init()
     {
         _myRigidbody = GetComponent<Rigidbody2D>();
+        _healthBase = GetComponent<HealthBase>();
+        _healthBase.OnKill += OnPlayerKill;
         _speedRun = speed + (speed * 0.5f);
         _currentScaleX = transform.localScale.x;
     }
 
+    private void OnPlayerKill()
+    {
+        _healthBase.OnKill -= OnPlayerKill;
+        animator.SetTrigger(triggerDeath);
+        _canControl = false;
+    }
+
     void Update()
     {
-        if (gameObject.activeInHierarchy)
+        if (gameObject.activeInHierarchy && _canControl)
         {
             HandleJump();
             HandleMovement();
@@ -180,6 +193,11 @@ public class Player : MonoBehaviour
         _isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
 
         Debug.DrawRay(groundCheck.position, Vector2.down * groundCheckRadius, _isGrounded ? Color.green : Color.red);
+    }
+
+    public void DestroyMe()
+    {
+        Destroy(gameObject);
     }
 
     private void OnDestroy()
