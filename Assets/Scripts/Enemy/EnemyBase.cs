@@ -12,8 +12,12 @@ public class EnemyBase : MonoBehaviour
 
     public HealthBase healthBase;
 
+    private Collider2D _collider;
+
     private void Awake()
     {
+        _collider = GetComponent<Collider2D>();
+
         if (healthBase != null)
         {
             healthBase.OnKill += OnEnemyKill;
@@ -23,6 +27,10 @@ public class EnemyBase : MonoBehaviour
     private void OnEnemyKill()
     {
         healthBase.OnKill -= OnEnemyKill;
+
+        if (_collider != null ) 
+            _collider.enabled = false;
+
         PlayDeathAnimation();
     }
 
