@@ -15,11 +15,13 @@ public class Player : MonoBehaviour
     public float groundCheckRadius = 0.1f;
 
     [Header("Animation Setup")]
-    public float jumpScaleY = 1.3f;
-    public float jumpScaleX = 0.2f;
-    public float fallScaleY = 0.7f;
-    public float fallScaleX = 1.2f;
-    public float animationDuration = 0.3f;
+    public FloatData jumpScaleY;
+    public FloatData jumpScaleX;
+    public FloatData fallScaleY;
+    public FloatData fallScaleX;
+    public FloatData animationDuration;
+
+
     public Ease ease = Ease.OutBack;
 
     [Header("Animation Player")]
@@ -156,7 +158,7 @@ public class Player : MonoBehaviour
     {
         DOTween.Kill(_myRigidbody.transform);
 
-        _myRigidbody.transform.DOScaleY(jumpScaleY, animationDuration)
+        _myRigidbody.transform.DOScaleY(jumpScaleY.value, animationDuration.value)
             .SetLoops(2, LoopType.Yoyo)
             .SetEase(Ease.OutQuad);
     }
@@ -171,11 +173,13 @@ public class Player : MonoBehaviour
 
             DOTween.Kill(_myRigidbody.transform);
 
-            _myRigidbody.transform.DOScale(new Vector2(fallScaleX * _currentScaleX, fallScaleY), animationDuration / 2)
+            _myRigidbody.transform.DOScale(new Vector2(fallScaleX.value * _currentScaleX, 
+                fallScaleY.value), animationDuration.value / 2)
                 .SetEase(Ease.InOutQuad)
                 .OnComplete(() =>
                 {
-                    _myRigidbody.transform.DOScale(new Vector2(1 * _currentScaleX, 1), animationDuration / 2)
+                    _myRigidbody.transform.DOScale(new Vector2(1 * _currentScaleX, 1), 
+                        animationDuration.value / 2)
                         .SetEase(Ease.OutBack);
                 });
         }

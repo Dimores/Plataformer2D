@@ -2874,11 +2874,11 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   groundCheckRadius: 0.1
-  jumpScaleY: 1.1
-  jumpScaleX: 0.9
-  fallScaleY: 0.4
-  fallScaleX: 1.61
-  animationDuration: 0.35
+  jumpScaleY: {fileID: 11400000, guid: c489ac86af6a187429bc9c487f21c4ba, type: 2}
+  jumpScaleX: {fileID: 11400000, guid: ed9137417c56ae84db2551186042a4e3, type: 2}
+  fallScaleY: {fileID: 11400000, guid: d281ad8bb8a5d8741bd568e3752c35d4, type: 2}
+  fallScaleX: {fileID: 11400000, guid: 60149923c17afe243884e0e397333e02, type: 2}
+  animationDuration: {fileID: 11400000, guid: f341db5dbee6fcf44a71eb5ffe8eb1b7, type: 2}
   ease: 27
   boolRun: Run
   boolSprint: Sprint
