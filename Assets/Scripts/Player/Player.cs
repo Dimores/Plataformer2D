@@ -195,11 +195,6 @@ public class Player : MonoBehaviour
         Debug.DrawRay(groundCheck.position, Vector2.down * groundCheckRadius, _isGrounded ? Color.green : Color.red);
     }
 
-    public void DestroyMe()
-    {
-        Destroy(gameObject);
-    }
-
     private void OnDestroy()
     {
         DOTween.Kill(transform);
