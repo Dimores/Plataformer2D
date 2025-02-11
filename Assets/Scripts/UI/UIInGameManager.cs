@@ -8,8 +8,8 @@ public class UIInGameManager : Singleton<UIInGameManager>
 {
     public TextMeshProUGUI uiTextCoins;
 
-    public void UpdateTextCoins(string s)
+    public static void UpdateTextCoins(string s)
     {
-        uiTextCoins.text = s;
+        Instance.uiTextCoins.text = s;
     }
 }
