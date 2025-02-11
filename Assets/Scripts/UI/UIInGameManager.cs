@@ -1,18 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using Ebac.Core.Singleton;
 
-public class UIInGameManager : MonoBehaviour
+public class UIInGameManager : Singleton<UIInGameManager>
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public TextMeshProUGUI uiTextCoins;
 
-    // Update is called once per frame
-    void Update()
+    public void UpdateTextCoins(string s)
     {
-        
+        uiTextCoins.text = s;
     }
 }
