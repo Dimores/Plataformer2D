@@ -4,21 +4,21 @@ using UnityEngine;
 
 public class GunBase : MonoBehaviour
 {
+    public PlayerData playerData;
     public ProjectileBase prefabProjectile;
 
     public Transform positioToShoot;
-    public float timeBetweenShoot = .3f;
     public Transform playerSideReference;
 
     private Coroutine _currentCoroutine;
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.S))
+        if (Input.GetKeyDown(playerData.shootKey.value))
         {
             _currentCoroutine = StartCoroutine(StartShoot());
         }
-        else if (Input.GetKeyUp(KeyCode.S))
+        else if (Input.GetKeyUp(playerData.shootKey.value))
         {
             if (_currentCoroutine != null)
                 StopCoroutine(_currentCoroutine);
@@ -30,7 +30,7 @@ public class GunBase : MonoBehaviour
         while (true)
         {
             Shoot();
-            yield return new WaitForSeconds(timeBetweenShoot);
+            yield return new WaitForSeconds(playerData.timeBetweenShoot.value);
         }
     }
 

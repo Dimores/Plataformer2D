@@ -5,9 +5,8 @@ using DG.Tweening;
 
 public class Player : MonoBehaviour
 {
-    [Header("Speed and Jump setup")]
-    public float speed;
-    public float jumpForce = 5f;
+    [Header("Player Data")]
+    public PlayerData playerData;
 
     [Header("Ground Check")]
     public Transform groundCheck;
@@ -15,29 +14,10 @@ public class Player : MonoBehaviour
     public float groundCheckRadius = 0.1f;
 
     [Header("Animation Setup")]
-    public FloatData jumpScaleY;
-    public FloatData jumpScaleX;
-    public FloatData fallScaleY;
-    public FloatData fallScaleX;
-    public FloatData animationDuration;
-
-
     public Ease ease = Ease.OutBack;
 
     [Header("Animation Player")]
-    public string boolRun = "Run";
-    public string boolSprint = "Sprint";
-    public string triggerJump = "Jump";
-    public string boolFalling = "Falling";
-    public string triggerDeath = "Death";
     public Animator animator;
-    public float playerSwipeDuration = .1f;
-
-    [Header("Inputs Player")]
-    public KeyCode moveRightKey = KeyCode.RightArrow;
-    public KeyCode moveLeftKey = KeyCode.LeftArrow; 
-    public KeyCode runKey = KeyCode.LeftControl;
-    public KeyCode jumpKey = KeyCode.Space;
 
     private Rigidbody2D _myRigidbody;
     private float _speedRun;
@@ -60,14 +40,14 @@ public class Player : MonoBehaviour
         _myRigidbody = GetComponent<Rigidbody2D>();
         _healthBase = GetComponent<HealthBase>();
         _healthBase.OnKill += OnPlayerKill;
-        _speedRun = speed + (speed * 0.5f);
+        _speedRun = playerData.speed.value + (playerData.speed.value * 0.5f);
         _currentScaleX = transform.localScale.x;
     }
 
     private void OnPlayerKill()
     {
         _healthBase.OnKill -= OnPlayerKill;
-        animator.SetTrigger(triggerDeath);
+        animator.SetTrigger(playerData.triggerDeath.value);
         _canControl = false;
     }
 
@@ -84,46 +64,48 @@ public class Player : MonoBehaviour
 
     private void HandleMovement()
     {
-        if (Input.GetKey(runKey))
+        if (Input.GetKey(playerData.runKey.value))
         {
             _currentSpeed = _speedRun;
-            animator.SetBool(boolSprint, true);
+            animator.SetBool(playerData.boolSprint.value, true);
         }
         else
         {
-            _currentSpeed = speed;
-            animator.SetBool(boolSprint, false);
+            _currentSpeed = playerData.speed.value;
+            animator.SetBool(playerData.boolSprint.value, false);
         }
 
-        if (Input.GetKey(moveLeftKey))
+        if (Input.GetKey(playerData.moveLeftKey.value))
         {
             _myRigidbody.velocity = new Vector2(-_currentSpeed, _myRigidbody.velocity.y);
 
             if (_myRigidbody.transform.localScale.x != -1)
             {
-                _myRigidbody.transform.DOScaleX(-1, playerSwipeDuration);
+                _myRigidbody.transform.DOScaleX(-1,
+                    playerData.playerSwipeDuration.value);
                 _currentScaleX = -1; 
             }
 
-            animator.SetBool(boolRun, true);
+            animator.SetBool(playerData.boolRun.value, true);
         }
-        else if (Input.GetKey(moveRightKey))
+        else if (Input.GetKey(playerData.moveRightKey.value))
         {
             _myRigidbody.velocity = new Vector2(_currentSpeed, _myRigidbody.velocity.y);
 
             if (_myRigidbody.transform.localScale.x != 1)
             {
 
-                _myRigidbody.transform.DOScaleX(1, playerSwipeDuration);
+                _myRigidbody.transform.DOScaleX(1,
+                    playerData.playerSwipeDuration.value);
                 _currentScaleX = 1; 
             }
 
-            animator.SetBool(boolRun, true);
+            animator.SetBool(playerData.boolRun.value, true);
         }
         else
         {
             _myRigidbody.velocity = new Vector2(0, _myRigidbody.velocity.y);
-            animator.SetBool(boolRun, false);
+            animator.SetBool(playerData.boolRun.value, false);
         }
     }
 
@@ -144,11 +126,12 @@ public class Player : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space) && _isGrounded)
         {
-            _myRigidbody.velocity = Vector2.up * jumpForce;
+            _myRigidbody.velocity = Vector2.up * 
+                playerData.jumpForce.value;
 
             DOTween.Kill(_myRigidbody.transform);
 
-            animator.SetTrigger(triggerJump);
+            animator.SetTrigger(playerData.triggerJump.value);
             HandleScaleJump();
         }
     }
@@ -158,7 +141,8 @@ public class Player : MonoBehaviour
     {
         DOTween.Kill(_myRigidbody.transform);
 
-        _myRigidbody.transform.DOScaleY(jumpScaleY.value, animationDuration.value)
+        _myRigidbody.transform.DOScaleY(playerData.jumpScaleY.value,
+            playerData.animationDuration.value)
             .SetLoops(2, LoopType.Yoyo)
             .SetEase(Ease.OutQuad);
     }
@@ -169,26 +153,27 @@ public class Player : MonoBehaviour
         if (_wasFalling && _isGrounded)
         {
             _wasFalling = false;
-            animator.SetBool(boolFalling, false); // Reseta apenas ao tocar o chão
+            animator.SetBool(playerData.boolFalling.value, false); 
 
             DOTween.Kill(_myRigidbody.transform);
 
-            _myRigidbody.transform.DOScale(new Vector2(fallScaleX.value * _currentScaleX, 
-                fallScaleY.value), animationDuration.value / 2)
+            _myRigidbody.transform.DOScale(new Vector2(playerData.fallScaleX.value 
+                * _currentScaleX,
+                playerData.fallScaleY.value), 
+                playerData.animationDuration.value / 2)
                 .SetEase(Ease.InOutQuad)
                 .OnComplete(() =>
                 {
                     _myRigidbody.transform.DOScale(new Vector2(1 * _currentScaleX, 1), 
-                        animationDuration.value / 2)
+                        playerData.animationDuration.value / 2)
                         .SetEase(Ease.OutBack);
                 });
         }
 
-        // Se já está caindo, não ativa novamente
-        if (!_wasFalling && !_isGrounded && _myRigidbody.velocity.y < -0.1f) // Pequeno ajuste para evitar ativações falsas
+        if (!_wasFalling && !_isGrounded && _myRigidbody.velocity.y < -0.1f) 
         {
             _wasFalling = true;
-            animator.SetBool(boolFalling, true);
+            animator.SetBool(playerData.boolFalling.value, true);
         }
     }
 
