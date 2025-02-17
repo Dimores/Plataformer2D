@@ -52,7 +52,10 @@ public class Player : MonoBehaviour
         if (gameObject.activeInHierarchy && _canControl)
         {
             HandleJump();
-            HandleMovement();
+            if (playerData.moveLeft == null && playerData.moveRight == null)
+                HandleMovementPlayer2();
+            else
+                HandleMovement();
             CheckGrounded();
             HandleScaleFall();
         }
@@ -60,7 +63,7 @@ public class Player : MonoBehaviour
 
     private void HandleMovement()
     {
-        if (Input.GetKey(playerData.runKey.value))
+        if (Input.GetKey(playerData.run.value))
         {
             _currentSpeed = _speedRun;
             _currentPlayer.SetBool(playerData.boolSprint.value, true);
@@ -71,7 +74,7 @@ public class Player : MonoBehaviour
             _currentPlayer.SetBool(playerData.boolSprint.value, false);
         }
 
-        if (Input.GetKey(playerData.moveLeftKey.value))
+        if (Input.GetKey(playerData.moveLeft.value))
         {
             _myRigidbody.velocity = new Vector2(-_currentSpeed, _myRigidbody.velocity.y);
 
@@ -84,7 +87,7 @@ public class Player : MonoBehaviour
 
             _currentPlayer.SetBool(playerData.boolRun.value, true);
         }
-        else if (Input.GetKey(playerData.moveRightKey.value))
+        else if (Input.GetKey(playerData.moveRight.value))
         {
             _myRigidbody.velocity = new Vector2(_currentSpeed, _myRigidbody.velocity.y);
 
@@ -94,6 +97,55 @@ public class Player : MonoBehaviour
                 _myRigidbody.transform.DOScaleX(1,
                     playerData.playerSwipeDuration.value);
                 _currentScaleX = 1; 
+            }
+
+            _currentPlayer.SetBool(playerData.boolRun.value, true);
+        }
+        else
+        {
+            _myRigidbody.velocity = new Vector2(0, _myRigidbody.velocity.y);
+            _currentPlayer.SetBool(playerData.boolRun.value, false);
+        }
+    }
+
+    private void HandleMovementPlayer2()
+    {
+        float horizontal = Input.GetAxisRaw("Horizontal");
+
+        if (Input.GetKey(playerData.run.value))
+        {
+            _currentSpeed = _speedRun;
+            _currentPlayer.SetBool(playerData.boolSprint.value, true);
+        }
+        else
+        {
+            _currentSpeed = playerData.speed.value;
+            _currentPlayer.SetBool(playerData.boolSprint.value, false);
+        }
+
+        if (horizontal < 0)
+        {
+            _myRigidbody.velocity = new Vector2(-_currentSpeed, _myRigidbody.velocity.y);
+
+            if (_myRigidbody.transform.localScale.x != -1)
+            {
+                _myRigidbody.transform.DOScaleX(-1,
+                    playerData.playerSwipeDuration.value);
+                _currentScaleX = -1;
+            }
+
+            _currentPlayer.SetBool(playerData.boolRun.value, true);
+        }
+        else if (horizontal > 0)
+        {
+            _myRigidbody.velocity = new Vector2(_currentSpeed, _myRigidbody.velocity.y);
+
+            if (_myRigidbody.transform.localScale.x != 1)
+            {
+
+                _myRigidbody.transform.DOScaleX(1,
+                    playerData.playerSwipeDuration.value);
+                _currentScaleX = 1;
             }
 
             _currentPlayer.SetBool(playerData.boolRun.value, true);
@@ -120,7 +172,7 @@ public class Player : MonoBehaviour
 
     private void HandleJump()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && _isGrounded)
+        if (Input.GetKeyDown(playerData.jump.value) && _isGrounded)
         {
             _myRigidbody.velocity = Vector2.up * 
                 playerData.jumpForce.value;

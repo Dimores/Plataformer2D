@@ -19,11 +19,11 @@ public class GunBase : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(playerData.shootKey.value))
+        if (Input.GetKeyDown(playerData.shoot.value))
         {
             _currentCoroutine = StartCoroutine(StartShoot());
         }
-        else if (Input.GetKeyUp(playerData.shootKey.value))
+        else if (Input.GetKeyUp(playerData.shoot.value))
         {
             if (_currentCoroutine != null)
                 StopCoroutine(_currentCoroutine);

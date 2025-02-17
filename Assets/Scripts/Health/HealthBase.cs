@@ -17,9 +17,9 @@ public class HealthBase : MonoBehaviour
     private int _currentLife;
     private bool _isDead = false;
 
-    private FlashColor _flashColor;
+    public FlashColor _flashColor;
 
-    private void Awake()
+    private void Start()
     {
         Init();
     }
@@ -30,8 +30,10 @@ public class HealthBase : MonoBehaviour
         _currentLife = startLife;
 
         _flashColor = GetComponentInChildren<FlashColor>(true);
-    }
 
+        if (_flashColor == null)
+            Debug.LogError($"FlashColor não encontrado em {gameObject.name}");
+    }
 
     public void Damage(int damage)
     {

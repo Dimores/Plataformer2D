@@ -28,8 +28,8 @@ MonoBehaviour:
   boolFalling: {fileID: 11400000, guid: 9f844c3442c01b045bd5bb1e99181df8, type: 2}
   triggerDeath: {fileID: 11400000, guid: 14faa9e5a30e2f2408f5e48ffa46a06e, type: 2}
   playerSwipeDuration: {fileID: 11400000, guid: ffbba8583286d794982602b49a85804b, type: 2}
-  moveRightKey: {fileID: 11400000, guid: 659098953ff2a4d4ca1edfa94ada1d1c, type: 2}
-  moveLeftKey: {fileID: 11400000, guid: b490adcdc1a8ffa4d910aa9ba0752ef5, type: 2}
-  runKey: {fileID: 11400000, guid: 70b75b8e30d304f41996ddf7f2080750, type: 2}
-  jumpKey: {fileID: 11400000, guid: 7d14efa8a50689246a108671c01bb08e, type: 2}
-  shootKey: {fileID: 11400000, guid: 5749e0f84c5086c4cbf3ae2044c371cf, type: 2}
+  moveRight: {fileID: 11400000, guid: 659098953ff2a4d4ca1edfa94ada1d1c, type: 2}
+  moveLeft: {fileID: 11400000, guid: b490adcdc1a8ffa4d910aa9ba0752ef5, type: 2}
+  run: {fileID: 11400000, guid: 70b75b8e30d304f41996ddf7f2080750, type: 2}
+  jump: {fileID: 11400000, guid: 7d14efa8a50689246a108671c01bb08e, type: 2}
+  shoot: {fileID: 11400000, guid: 5749e0f84c5086c4cbf3ae2044c371cf, type: 2}

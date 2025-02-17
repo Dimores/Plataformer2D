@@ -8,9 +8,17 @@ public class FlashColor : MonoBehaviour
 {
     public List<SpriteRenderer> spriteRenderers;
     public Color flashColor = Color.red;
+
     public float duration = .3f;
 
     public Tween _currentTween;
+
+    private Color _initialColor;
+
+    private void Start()
+    {
+        _initialColor = GetComponentInChildren<SpriteRenderer>().color;
+    }
 
     private void OnValidate()
     {
@@ -27,16 +35,16 @@ public class FlashColor : MonoBehaviour
         {
             _currentTween.Kill();
             _currentTween = null;
-            spriteRenderers.ForEach(i => i.color = Color.white);
+            spriteRenderers.ForEach(i => i.color = _initialColor);
         }
 
         _currentTween = DOTween.To(
-            () => Color.white,
+            () => _initialColor,
             x => ApplyColorSafely(x),
             flashColor,
             duration
         ).SetLoops(2, LoopType.Yoyo)
-        .OnComplete(() => ApplyColorSafely(Color.white));
+        .OnComplete(() => ApplyColorSafely(_initialColor));
     }
 
 
@@ -58,7 +66,4 @@ public class FlashColor : MonoBehaviour
             _currentTween = null;
         }
     }
-
-
-
 }
