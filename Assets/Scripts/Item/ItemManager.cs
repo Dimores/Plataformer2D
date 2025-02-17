@@ -4,12 +4,16 @@ using UnityEngine;
 using Ebac.Core.Singleton;
 using TMPro;
 using UnityEngine.Events;
+using Unity.Collections;
 
 public class ItemManager : Singleton<ItemManager>
 {
     public IntData coins;
+    public IntData rocks;
     public AudioClip coinPickUpSound;
-    public UnityEvent onAdd;
+    public UnityEvent onReset;
+    public UnityEvent onAddCoin;
+    public UnityEvent onAddRock;
 
     private void Start()
     {
@@ -20,11 +24,19 @@ public class ItemManager : Singleton<ItemManager>
     private void Reset()
     {
         coins.value = 0;
+        rocks.value = 0;
+        onReset?.Invoke();
     }
 
     public void AddCoins(int amount = 1)
     {
         coins.value += amount;
-        onAdd?.Invoke();
+        onAddCoin?.Invoke();
+    }
+
+    public void AddRocks(int amount = 1)
+    {
+        rocks.value += amount;
+        onAddRock?.Invoke();
     }
 }

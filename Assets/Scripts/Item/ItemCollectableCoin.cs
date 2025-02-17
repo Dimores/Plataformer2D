@@ -5,7 +5,7 @@ using DG.Tweening; // Importa o DOTween
 
 public class ItemCollectableCoin : ItemCollectableBase
 {
-    [Header("Configurações da Animação")]
+    [Header("Animation Config")]
     public float rotationSpeed = 1f; 
     public float floatHeight = 0.2f; 
     public float floatDuration = 1f; 

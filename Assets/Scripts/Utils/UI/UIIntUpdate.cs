@@ -10,10 +10,10 @@ public class UIIntUpdate : MonoBehaviour
 
     void Start()
     {
-        UpdateCoinOnUi();
+        UpdateValueOnUi();
     }
 
-    public void UpdateCoinOnUi()
+    public void UpdateValueOnUi()
     {
         uiTextValue.text = intData.value.ToString();
     }

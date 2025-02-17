@@ -6,10 +6,8 @@ using Ebac.Core.Singleton;
 
 public class UIInGameManager : Singleton<UIInGameManager>
 {
-    public TextMeshProUGUI uiTextCoins;
-
-    public static void UpdateTextCoins(string s)
+    public static void UpdateTextOnUI(TextMeshProUGUI text, string value)
     {
-        Instance.uiTextCoins.text = s;
+        text.text = value;
     }
 }
