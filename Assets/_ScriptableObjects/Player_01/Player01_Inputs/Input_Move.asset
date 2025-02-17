@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4be06265a6a3b874dbe07bf4a2815814, type: 3}
-  m_Name: Input_MoveRight
+  m_Script: {fileID: 11500000, guid: 0e09a054d9ec90f46a8fc85bc6616966, type: 3}
+  m_Name: Input_Move
   m_EditorClassIdentifier: 
-  value: 275
+  value: HorizontalP1

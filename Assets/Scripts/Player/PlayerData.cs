@@ -30,10 +30,8 @@ public class PlayerData : ScriptableObject
     public FloatData playerSwipeDuration;
 
     [Header("Inputs")]
-    public InputData moveRight;
-    public InputData moveLeft;
     public InputData run;
     public InputData jump;
     public InputData shoot;
-    public AxisInputData moveAxis; // Gamepad
+    public AxisInputData moveAxis;
 }

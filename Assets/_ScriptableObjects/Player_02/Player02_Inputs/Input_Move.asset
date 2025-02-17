@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e09a054d9ec90f46a8fc85bc6616966, type: 3}
   m_Name: Input_Move
   m_EditorClassIdentifier: 
-  axisName: Horizontal
+  value: HorizontalP2

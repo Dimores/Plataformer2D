@@ -25,6 +25,8 @@ public class Player : MonoBehaviour
     private HealthBase _healthBase;
     private Animator _currentPlayer;
 
+    private float _horizontal;
+
     private void Awake()
     {
         Init();
@@ -52,10 +54,7 @@ public class Player : MonoBehaviour
         if (gameObject.activeInHierarchy && _canControl)
         {
             HandleJump();
-            if (playerData.moveLeft == null && playerData.moveRight == null)
-                HandleMovementPlayer2();
-            else
-                HandleMovement();
+            HandleMovement();
             CheckGrounded();
             HandleScaleFall();
         }
@@ -63,54 +62,7 @@ public class Player : MonoBehaviour
 
     private void HandleMovement()
     {
-        if (Input.GetKey(playerData.run.value))
-        {
-            _currentSpeed = _speedRun;
-            _currentPlayer.SetBool(playerData.boolSprint.value, true);
-        }
-        else
-        {
-            _currentSpeed = playerData.speed.value;
-            _currentPlayer.SetBool(playerData.boolSprint.value, false);
-        }
-
-        if (Input.GetKey(playerData.moveLeft.value))
-        {
-            _myRigidbody.velocity = new Vector2(-_currentSpeed, _myRigidbody.velocity.y);
-
-            if (_myRigidbody.transform.localScale.x != -1)
-            {
-                _myRigidbody.transform.DOScaleX(-1,
-                    playerData.playerSwipeDuration.value);
-                _currentScaleX = -1; 
-            }
-
-            _currentPlayer.SetBool(playerData.boolRun.value, true);
-        }
-        else if (Input.GetKey(playerData.moveRight.value))
-        {
-            _myRigidbody.velocity = new Vector2(_currentSpeed, _myRigidbody.velocity.y);
-
-            if (_myRigidbody.transform.localScale.x != 1)
-            {
-
-                _myRigidbody.transform.DOScaleX(1,
-                    playerData.playerSwipeDuration.value);
-                _currentScaleX = 1; 
-            }
-
-            _currentPlayer.SetBool(playerData.boolRun.value, true);
-        }
-        else
-        {
-            _myRigidbody.velocity = new Vector2(0, _myRigidbody.velocity.y);
-            _currentPlayer.SetBool(playerData.boolRun.value, false);
-        }
-    }
-
-    private void HandleMovementPlayer2()
-    {
-        float horizontal = Input.GetAxisRaw("Horizontal");
+        _horizontal = Input.GetAxisRaw(playerData.moveAxis.value);
 
         if (Input.GetKey(playerData.run.value))
         {
@@ -123,7 +75,7 @@ public class Player : MonoBehaviour
             _currentPlayer.SetBool(playerData.boolSprint.value, false);
         }
 
-        if (horizontal < 0)
+        if (_horizontal < 0)
         {
             _myRigidbody.velocity = new Vector2(-_currentSpeed, _myRigidbody.velocity.y);
 
@@ -136,7 +88,7 @@ public class Player : MonoBehaviour
 
             _currentPlayer.SetBool(playerData.boolRun.value, true);
         }
-        else if (horizontal > 0)
+        else if (_horizontal > 0)
         {
             _myRigidbody.velocity = new Vector2(_currentSpeed, _myRigidbody.velocity.y);
 
