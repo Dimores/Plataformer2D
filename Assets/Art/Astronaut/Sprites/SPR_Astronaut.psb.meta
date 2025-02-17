@@ -51,11 +51,11 @@ ScriptedImporter:
     ignorePngGamma: 0
     cookieMode: 0
     filterMode: 2
-    aniso: 1
+    aniso: 0
     mipBias: 0
-    wrapU: 0
-    wrapV: 0
-    wrapW: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
     normalMap: 0
     textureFormat: 0
     maxTextureSize: 0
@@ -11237,9 +11237,9 @@ ScriptedImporter:
   - name: DefaultTexturePlatform
     overridden: 0
     ignorePlatformSupport: 0
-    maxTextureSize: 16384
-    resizeAlgorithm: 0
-    textureFormat: -1
+    maxTextureSize: 8192
+    resizeAlgorithm: 1
+    textureFormat: 4
     textureCompression: 0
     compressionQuality: 50
     forceMaximumCompressionQuality_BC6H_BC7: 0
@@ -11724,7 +11724,7 @@ ScriptedImporter:
     isVisible: 0
   sharedRigPSDLayers: []
   importFileNodeState: 1
-  platformSettingsDirtyTick: 638744472863116070
+  platformSettingsDirtyTick: 638753858086285681
   spriteSizeExpandChanged: 0
   generateGOHierarchy: 0
   textureAssetName: SPR_Astronaut Texture

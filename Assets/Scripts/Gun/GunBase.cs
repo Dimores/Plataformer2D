@@ -12,6 +12,11 @@ public class GunBase : MonoBehaviour
 
     private Coroutine _currentCoroutine;
 
+    private void Awake()
+    {
+        playerSideReference = GetComponentInParent<Player>().gameObject.transform;
+    }
+
     private void Update()
     {
         if (Input.GetKeyDown(playerData.shootKey.value))

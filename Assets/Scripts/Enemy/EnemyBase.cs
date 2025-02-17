@@ -13,10 +13,12 @@ public class EnemyBase : MonoBehaviour
     public HealthBase healthBase;
 
     private Collider2D _collider;
+    private Rigidbody2D _rb;
 
     private void Awake()
     {
         _collider = GetComponent<Collider2D>();
+        _rb = GetComponent<Rigidbody2D>();
 
         if (healthBase != null)
         {
@@ -28,8 +30,11 @@ public class EnemyBase : MonoBehaviour
     {
         healthBase.OnKill -= OnEnemyKill;
 
-        if (_collider != null ) 
+        if (_collider != null)
+        {
+            _rb.constraints = RigidbodyConstraints2D.FreezePositionY;
             _collider.enabled = false;
+        }
 
         PlayDeathAnimation();
     }

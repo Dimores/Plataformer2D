@@ -13,12 +13,6 @@ public class Player : MonoBehaviour
     public LayerMask groundLayer;
     public float groundCheckRadius = 0.1f;
 
-    [Header("Animation Setup")]
-    public Ease ease = Ease.OutBack;
-
-    [Header("Animation Player")]
-    public Animator animator;
-
     private Rigidbody2D _myRigidbody;
     private float _speedRun;
     private float _currentSpeed;
@@ -29,14 +23,16 @@ public class Player : MonoBehaviour
     private bool _canControl = true;
 
     private HealthBase _healthBase;
+    private Animator _currentPlayer;
 
-    private void Start()
+    private void Awake()
     {
         Init();
     }
 
     private void Init()
     {
+        _currentPlayer = Instantiate(playerData.player, transform);
         _myRigidbody = GetComponent<Rigidbody2D>();
         _healthBase = GetComponent<HealthBase>();
         _healthBase.OnKill += OnPlayerKill;
@@ -47,7 +43,7 @@ public class Player : MonoBehaviour
     private void OnPlayerKill()
     {
         _healthBase.OnKill -= OnPlayerKill;
-        animator.SetTrigger(playerData.triggerDeath.value);
+        _currentPlayer.SetTrigger(playerData.triggerDeath.value);
         _canControl = false;
     }
 
@@ -67,12 +63,12 @@ public class Player : MonoBehaviour
         if (Input.GetKey(playerData.runKey.value))
         {
             _currentSpeed = _speedRun;
-            animator.SetBool(playerData.boolSprint.value, true);
+            _currentPlayer.SetBool(playerData.boolSprint.value, true);
         }
         else
         {
             _currentSpeed = playerData.speed.value;
-            animator.SetBool(playerData.boolSprint.value, false);
+            _currentPlayer.SetBool(playerData.boolSprint.value, false);
         }
 
         if (Input.GetKey(playerData.moveLeftKey.value))
@@ -86,7 +82,7 @@ public class Player : MonoBehaviour
                 _currentScaleX = -1; 
             }
 
-            animator.SetBool(playerData.boolRun.value, true);
+            _currentPlayer.SetBool(playerData.boolRun.value, true);
         }
         else if (Input.GetKey(playerData.moveRightKey.value))
         {
@@ -100,12 +96,12 @@ public class Player : MonoBehaviour
                 _currentScaleX = 1; 
             }
 
-            animator.SetBool(playerData.boolRun.value, true);
+            _currentPlayer.SetBool(playerData.boolRun.value, true);
         }
         else
         {
             _myRigidbody.velocity = new Vector2(0, _myRigidbody.velocity.y);
-            animator.SetBool(playerData.boolRun.value, false);
+            _currentPlayer.SetBool(playerData.boolRun.value, false);
         }
     }
 
@@ -131,7 +127,7 @@ public class Player : MonoBehaviour
 
             DOTween.Kill(_myRigidbody.transform);
 
-            animator.SetTrigger(playerData.triggerJump.value);
+            _currentPlayer.SetTrigger(playerData.triggerJump.value);
             HandleScaleJump();
         }
     }
@@ -153,7 +149,7 @@ public class Player : MonoBehaviour
         if (_wasFalling && _isGrounded)
         {
             _wasFalling = false;
-            animator.SetBool(playerData.boolFalling.value, false); 
+            _currentPlayer.SetBool(playerData.boolFalling.value, false); 
 
             DOTween.Kill(_myRigidbody.transform);
 
@@ -173,7 +169,7 @@ public class Player : MonoBehaviour
         if (!_wasFalling && !_isGrounded && _myRigidbody.velocity.y < -0.1f) 
         {
             _wasFalling = true;
-            animator.SetBool(playerData.boolFalling.value, true);
+            _currentPlayer.SetBool(playerData.boolFalling.value, true);
         }
     }
 

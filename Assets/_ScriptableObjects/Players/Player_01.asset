@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46b3d876a574e8c419dd7ee6ceb0e01c, type: 3}
   m_Name: Player_01
   m_EditorClassIdentifier: 
+  player: {fileID: 6413013834153556191, guid: 00afc9fb4087652419d090da0b825d97, type: 3}
   speed: {fileID: 11400000, guid: 3328d6b29ea617f40afd3187dcd7c4e7, type: 2}
   jumpForce: {fileID: 11400000, guid: e5ec2dd84c9a3674aab2e92a957cffd5, type: 2}
   timeBetweenShoot: {fileID: 11400000, guid: 5da2ac6de14eb0b42936ee47aa683cb3, type: 2}

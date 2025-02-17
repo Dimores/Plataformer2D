@@ -6,6 +6,8 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Player", menuName = "ScriptableObjects/Player")]
 public class PlayerData : ScriptableObject
 {
+    public Animator player;
+
     [Header("Speed Setup")]
     public FloatData speed;
     public FloatData jumpForce;
