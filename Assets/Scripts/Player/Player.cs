@@ -13,6 +13,10 @@ public class Player : MonoBehaviour
     public LayerMask groundLayer;
     public float groundCheckRadius = 0.1f;
 
+    [Header("VFX")]
+    public ParticleSystem walkVFX;
+    public ParticleSystem jumpVFX;
+
     private Rigidbody2D _myRigidbody;
     private float _speedRun;
     private float _currentSpeed;
@@ -56,7 +60,23 @@ public class Player : MonoBehaviour
             HandleJump();
             HandleMovement();
             CheckGrounded();
+            walkVFXControl();
             HandleScaleFall();
+        }
+    }
+
+    private void walkVFXControl()
+    {
+        if (walkVFX != null)
+        {
+            if (!_isGrounded)
+            {
+                walkVFX.Stop();
+            }
+            else if(!walkVFX.isPlaying)
+            {
+                walkVFX.Play();
+            }
         }
     }
 
@@ -122,6 +142,14 @@ public class Player : MonoBehaviour
         }
     }
 
+    private void PlayJumpVFX()
+    {
+        if (jumpVFX != null)
+        {
+            jumpVFX.Play();
+        }
+    }
+
     private void HandleJump()
     {
         if (Input.GetKeyDown(playerData.jump.value) && _isGrounded)
@@ -133,6 +161,7 @@ public class Player : MonoBehaviour
 
             _currentPlayer.SetTrigger(playerData.triggerJump.value);
             HandleScaleJump();
+            PlayJumpVFX();
         }
     }
 
@@ -180,8 +209,6 @@ public class Player : MonoBehaviour
     private void CheckGrounded()
     {
         _isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
-
-        Debug.DrawRay(groundCheck.position, Vector2.down * groundCheckRadius, _isGrounded ? Color.green : Color.red);
     }
 
     private void OnDestroy()
