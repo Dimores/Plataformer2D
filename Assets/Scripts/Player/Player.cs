@@ -14,7 +14,7 @@ public class Player : MonoBehaviour
     public float groundCheckRadius = 0.1f;
 
     [Header("VFX")]
-    public ParticleSystem walkVFX;
+    public Vector3 walkVFXOffset;
     public Vector3 jumpVFXOffset;
     public Vector3 fallVFXOffset;
 
@@ -30,7 +30,9 @@ public class Player : MonoBehaviour
     private HealthBase _healthBase;
     private Animator _currentPlayer;
 
-    private float _horizontal;
+    [SerializeField] private float _horizontal;
+
+    private ParticleSystem _walkVFX;
 
     private void Awake()
     {
@@ -45,6 +47,8 @@ public class Player : MonoBehaviour
         _healthBase.OnKill += OnPlayerKill;
         _speedRun = playerData.speed.value + (playerData.speed.value * 0.5f);
         _currentScaleX = transform.localScale.x;
+        _walkVFX = VFXManager.Instance.PlayPermanentVFXByType(VFXManager.VFXType.WALK,
+            this.transform.position, walkVFXOffset, this.transform);
     }
 
     private void OnPlayerKill()
@@ -68,15 +72,15 @@ public class Player : MonoBehaviour
 
     private void walkVFXControl()
     {
-        if (walkVFX != null)
+        if (_walkVFX != null)
         {
             if (!_isGrounded)
             {
-                walkVFX.Stop();
+                _walkVFX.Stop();
             }
-            else if(!walkVFX.isPlaying)
+            else if(!_walkVFX.isPlaying)
             {
-                walkVFX.Play();
+                _walkVFX.Play();
             }
         }
     }
@@ -88,7 +92,10 @@ public class Player : MonoBehaviour
         if (Input.GetKey(playerData.run.value))
         {
             _currentSpeed = _speedRun;
-            _currentPlayer.SetBool(playerData.boolSprint.value, true);
+            if (_horizontal == 0)
+                _currentPlayer.SetBool(playerData.boolSprint.value, false);
+            else
+                _currentPlayer.SetBool(playerData.boolSprint.value, true);
         }
         else
         {

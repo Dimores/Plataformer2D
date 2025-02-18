@@ -7,17 +7,6 @@ public class ItemCollectableBase : MonoBehaviour
     [Header("Collision tag")]
     public string compareTag = "Player";
 
-    [Header("Particle System")]
-    public ParticleSystem particles;
-
-    private void Awake()
-    {
-        if (particles != null)
-        {
-            particles.transform.SetParent(null);
-        }
-    }
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.transform.CompareTag(compareTag))
@@ -31,10 +20,5 @@ public class ItemCollectableBase : MonoBehaviour
         OnCollect();
     }
 
-    protected virtual void OnCollect() {
-        if (particles != null)
-        {
-            particles.Play();
-        }
-    }
+    protected virtual void OnCollect() { }
 }

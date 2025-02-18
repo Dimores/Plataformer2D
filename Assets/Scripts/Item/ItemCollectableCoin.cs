@@ -10,6 +10,9 @@ public class ItemCollectableCoin : ItemCollectableBase
     public float floatHeight = 0.2f; 
     public float floatDuration = 1f;
 
+    [Header("VFX Collider")]
+    public Transform vfxCollider;
+
     private Tween _rotationTween;
     private Tween _floatTween;
 
@@ -33,6 +36,8 @@ public class ItemCollectableCoin : ItemCollectableBase
     {
         base.OnCollect();
         ItemManager.Instance.AddCoins();
+        VFXManager.Instance.PlayVFXByTypeWithCollision(VFXManager.VFXType.COIN, this.transform.position, 
+            null, vfxCollider);
 
         Destroy(gameObject);
     }

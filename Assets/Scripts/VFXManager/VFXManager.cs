@@ -7,14 +7,65 @@ public class VFXManager : Singleton<VFXManager>
 {
     public enum VFXType
     {
+        WALK,
         JUMP,
-        FALL
+        FALL,
+        COIN
     }
 
     public List<VFXManagerSetup> vfxSetup;
 
-    public void PlayVFXByType(VFXType vfxType, Vector3 position, Vector3 offset = default, 
-        Transform parent = null)
+    #region PlayVFXByType
+    public void PlayVFXByType(VFXType vfxType, Vector3 position,
+        bool willDestroy = true)
+    {
+        foreach (var vfx in vfxSetup)
+        {
+            if (vfx.vfxType == vfxType)
+            {
+                var item = Instantiate(vfx.prefab, null);
+                item.transform.position = position;
+                if (willDestroy)
+                    Destroy(item.gameObject, 3f);
+                break;
+            }
+        }
+    }
+
+    public void PlayVFXByType(VFXType vfxType, Vector3 position, Vector3 offset,
+        bool willDestroy = true)
+    {
+        foreach (var vfx in vfxSetup)
+        {
+            if (vfx.vfxType == vfxType)
+            {
+                var item = Instantiate(vfx.prefab, null);
+                item.transform.position = position + offset;
+                if (willDestroy)
+                    Destroy(item.gameObject, 3f);
+                break;
+            }
+        }
+    }
+
+    public void PlayVFXByType(VFXType vfxType, Vector3 position, Transform parent,
+        bool willDestroy = true)
+    {
+        foreach (var vfx in vfxSetup)
+        {
+            if (vfx.vfxType == vfxType)
+            {
+                var item = Instantiate(vfx.prefab, null);
+                item.transform.position = position;
+                if (willDestroy)
+                    Destroy(item.gameObject, 3f);
+                break;
+            }
+        }
+    }
+
+    public void PlayVFXByType(VFXType vfxType, Vector3 position, Vector3 offset,
+        Transform parent, bool willDestroy = true)
     {
         foreach (var vfx in vfxSetup)
         {
@@ -22,11 +73,58 @@ public class VFXManager : Singleton<VFXManager>
             {
                 var item = Instantiate(vfx.prefab, parent);
                 item.transform.position = position + offset;
-                Destroy(item.gameObject, 3f);
+                if (willDestroy)
+                    Destroy(item.gameObject, 3f);
                 break;
             }
         }
     }
+    #endregion
+
+    #region PlayVFBByTypeWithCollision
+    public void PlayVFXByTypeWithCollision(VFXType vfxType, Vector3 position, Transform parent,
+        Transform planeTransform, bool willDestroy = true)
+    {
+        foreach (var vfx in vfxSetup)
+        {
+            if (vfx.vfxType == vfxType)
+            {
+                var item = Instantiate(vfx.prefab, null);
+                item.transform.position = position;
+
+                var particleSystem = item.GetComponent<ParticleSystem>();
+                if (particleSystem != null)
+                {
+                    var collisionModule = particleSystem.collision;
+                    collisionModule.SetPlane(0, planeTransform);
+                }
+
+                if (willDestroy)
+                    Destroy(item.gameObject, 3f);
+                break;
+            }
+        }
+    }
+    #endregion
+
+    #region PlayPermanentVFX
+    public ParticleSystem PlayPermanentVFXByType(VFXType vfxType, Vector3 position, Vector3 offset,
+        Transform parent)
+    {
+        foreach (var vfx in vfxSetup)
+        {
+            if (vfx.vfxType == vfxType)
+            {
+                var item = Instantiate(vfx.prefab, parent);
+                item.transform.position = position + offset;
+
+                var particleSystem = item.GetComponent<ParticleSystem>();
+                return particleSystem;
+            }
+        }
+        return null;
+    }
+    #endregion
 }
 
 [System.Serializable]
