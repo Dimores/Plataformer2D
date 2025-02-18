@@ -15,8 +15,8 @@ public class Player : MonoBehaviour
 
     [Header("VFX")]
     public ParticleSystem walkVFX;
-    public ParticleSystem jumpVFX;
-    public ParticleSystem fallVFX;
+    public Vector3 jumpVFXOffset;
+    public Vector3 fallVFXOffset;
 
     private Rigidbody2D _myRigidbody;
     private float _speedRun;
@@ -143,21 +143,14 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void PlayFallVFX()
-    {
-        if (fallVFX != null)
-        {
-            fallVFX.Play();
-        }
-    }
-
     private void PlayJumpVFX()
     {
-        if (jumpVFX != null)
-        {
-            //jumpVFX.Play();
-            VFXManager.Instance.PlayVFXByType(VFXManager.VFXType.JUMP, transform.position);
-        }
+        VFXManager.Instance.PlayVFXByType(VFXManager.VFXType.JUMP, transform.position, jumpVFXOffset);
+    }
+
+    private void PlayFallVFX()
+    {
+        VFXManager.Instance.PlayVFXByType(VFXManager.VFXType.FALL, transform.position, fallVFXOffset);
     }
 
     private void HandleJump()

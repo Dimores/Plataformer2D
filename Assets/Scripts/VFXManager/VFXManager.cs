@@ -13,19 +13,19 @@ public class VFXManager : Singleton<VFXManager>
 
     public List<VFXManagerSetup> vfxSetup;
 
-    public void PlayVFXByType(VFXType vfxType, Vector3 position)
+    public void PlayVFXByType(VFXType vfxType, Vector3 position, Vector3 offset = default, 
+        Transform parent = null)
     {
         foreach (var vfx in vfxSetup)
         {
             if (vfx.vfxType == vfxType)
             {
-                var item = Instantiate(vfx.prefab);
-                item.transform.position = position;
+                var item = Instantiate(vfx.prefab, parent);
+                item.transform.position = position + offset;
                 Destroy(item.gameObject, 3f);
                 break;
             }
         }
-
     }
 }
 
