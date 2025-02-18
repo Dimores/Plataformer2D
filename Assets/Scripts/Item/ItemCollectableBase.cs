@@ -4,7 +4,19 @@ using UnityEngine;
 
 public class ItemCollectableBase : MonoBehaviour
 {
+    [Header("Collision tag")]
     public string compareTag = "Player";
+
+    [Header("Particle System")]
+    public ParticleSystem particles;
+
+    private void Awake()
+    {
+        if (particles != null)
+        {
+            particles.transform.SetParent(null);
+        }
+    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -19,5 +31,10 @@ public class ItemCollectableBase : MonoBehaviour
         OnCollect();
     }
 
-    protected virtual void OnCollect() { }
+    protected virtual void OnCollect() {
+        if (particles != null)
+        {
+            particles.Play();
+        }
+    }
 }

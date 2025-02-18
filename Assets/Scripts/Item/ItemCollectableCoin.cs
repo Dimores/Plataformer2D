@@ -8,7 +8,7 @@ public class ItemCollectableCoin : ItemCollectableBase
     [Header("Animation Config")]
     public float rotationSpeed = 1f; 
     public float floatHeight = 0.2f; 
-    public float floatDuration = 1f; 
+    public float floatDuration = 1f;
 
     private Tween _rotationTween;
     private Tween _floatTween;
@@ -31,6 +31,7 @@ public class ItemCollectableCoin : ItemCollectableBase
 
     protected override void OnCollect()
     {
+        base.OnCollect();
         ItemManager.Instance.AddCoins();
 
         Destroy(gameObject);
