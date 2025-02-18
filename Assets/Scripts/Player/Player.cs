@@ -47,7 +47,7 @@ public class Player : MonoBehaviour
         _healthBase.OnKill += OnPlayerKill;
         _speedRun = playerData.speed.value + (playerData.speed.value * 0.5f);
         _currentScaleX = transform.localScale.x;
-        _walkVFX = VFXManager.Instance.PlayPermanentVFXByType(VFXManager.VFXType.WALK,
+        _walkVFX = VFXManager.Instance.PlayAndGetPermanentVFXByType(VFXManager.VFXType.WALK,
             this.transform.position, walkVFXOffset, this.transform);
     }
 

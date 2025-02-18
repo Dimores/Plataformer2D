@@ -10,7 +10,8 @@ public class VFXManager : Singleton<VFXManager>
         WALK,
         JUMP,
         FALL,
-        COIN
+        COIN,
+        EXPLOSION
     }
 
     public List<VFXManagerSetup> vfxSetup;
@@ -108,7 +109,7 @@ public class VFXManager : Singleton<VFXManager>
     #endregion
 
     #region PlayPermanentVFX
-    public ParticleSystem PlayPermanentVFXByType(VFXType vfxType, Vector3 position, Vector3 offset,
+    public ParticleSystem PlayAndGetPermanentVFXByType(VFXType vfxType, Vector3 position, Vector3 offset,
         Transform parent)
     {
         foreach (var vfx in vfxSetup)
@@ -117,12 +118,25 @@ public class VFXManager : Singleton<VFXManager>
             {
                 var item = Instantiate(vfx.prefab, parent);
                 item.transform.position = position + offset;
-
+              
                 var particleSystem = item.GetComponent<ParticleSystem>();
                 return particleSystem;
             }
         }
         return null;
+    }
+
+    public void PlayPermanentVFXByType(VFXType vfxType, Vector3 position, Vector3 offset,
+        Transform parent)
+    {
+        foreach (var vfx in vfxSetup)
+        {
+            if (vfx.vfxType == vfxType)
+            {
+                var item = Instantiate(vfx.prefab, parent);
+                item.transform.position = position + offset;
+            }
+        }
     }
     #endregion
 }

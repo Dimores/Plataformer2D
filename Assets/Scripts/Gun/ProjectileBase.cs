@@ -27,6 +27,8 @@ public class ProjectileBase : MonoBehaviour
         var enemy = collision.transform.GetComponent<EnemyBase>();
         if (enemy != null)
         {
+            VFXManager.Instance.PlayVFXByType(VFXManager.VFXType.EXPLOSION, this.transform.position,
+                null);
             enemy.Damage(damageAmount);
             Destroy(gameObject);
         }
