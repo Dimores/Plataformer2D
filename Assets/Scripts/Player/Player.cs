@@ -16,6 +16,7 @@ public class Player : MonoBehaviour
     [Header("VFX")]
     public ParticleSystem walkVFX;
     public ParticleSystem jumpVFX;
+    public ParticleSystem fallVFX;
 
     private Rigidbody2D _myRigidbody;
     private float _speedRun;
@@ -142,6 +143,14 @@ public class Player : MonoBehaviour
         }
     }
 
+    private void PlayFallVFX()
+    {
+        if (fallVFX != null)
+        {
+            fallVFX.Play();
+        }
+    }
+
     private void PlayJumpVFX()
     {
         if (jumpVFX != null)
@@ -158,6 +167,8 @@ public class Player : MonoBehaviour
                 playerData.jumpForce.value;
 
             DOTween.Kill(_myRigidbody.transform);
+
+            _myRigidbody.transform.localScale = new Vector3(_currentScaleX, 1, 1);
 
             _currentPlayer.SetTrigger(playerData.triggerJump.value);
             HandleScaleJump();
@@ -197,6 +208,7 @@ public class Player : MonoBehaviour
                         playerData.animationDuration.value / 2)
                         .SetEase(Ease.OutBack);
                 });
+            PlayFallVFX();
         }
 
         if (!_wasFalling && !_isGrounded && _myRigidbody.velocity.y < -0.1f) 
