@@ -62,7 +62,7 @@ public class EnemyBase : MonoBehaviour
                 player.Knock(knockTime); 
 
                 float direction = Mathf.Sign(transform.localScale.x); // Garante que a direção está correta
-                Vector2 knockbackDirection = new Vector2(-direction, 3); // Aumenta o valor Y
+                Vector2 knockbackDirection = new Vector2(-direction, 1.5f); // Aumenta o valor Y
                 playerRigidBody.AddForce(knockbackDirection * pushForce, ForceMode2D.Impulse);
             }
 

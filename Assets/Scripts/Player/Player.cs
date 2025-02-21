@@ -81,6 +81,7 @@ public class Player : MonoBehaviour
         }
     }
 
+
     // Function Called when take a hit from any enemy
     public void Knock(float time)
     {
@@ -96,7 +97,8 @@ public class Player : MonoBehaviour
 
     private void EnableControl()
     {
-        CanControl = true;
+        if (!_healthBase.IsDead)
+            CanControl = true;
         _takeHit = false;
     }
 
