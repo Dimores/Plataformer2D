@@ -5,6 +5,8 @@ using UnityEngine;
 public class EnemyBase : MonoBehaviour
 {
     public int damage = 10;
+    public float pushForce;
+    public float knockTime;
 
     public Animator anim;
     public string triggerAttack = "Attack";
@@ -46,10 +48,24 @@ public class EnemyBase : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         var health = collision.gameObject.GetComponent<HealthBase>();
+        Player player = collision.gameObject.GetComponent<Player>();
+        Rigidbody2D playerRigidBody = null;
+
+
+        if (player != null) playerRigidBody = player.GetComponent<Rigidbody2D>();
 
         if (health != null)
         {
             health.Damage(damage);
+            if (playerRigidBody != null)
+            {
+                player.Knock(knockTime); 
+
+                float direction = Mathf.Sign(transform.localScale.x); // Garante que a direção está correta
+                Vector2 knockbackDirection = new Vector2(-direction, 3); // Aumenta o valor Y
+                playerRigidBody.AddForce(knockbackDirection * pushForce, ForceMode2D.Impulse);
+            }
+
             PlayAttackAnimation();
         }
     }

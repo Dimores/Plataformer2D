@@ -18,6 +18,10 @@ public class Player : MonoBehaviour
     public Vector3 jumpVFXOffset;
     public Vector3 fallVFXOffset;
 
+    [Header("Layer")]
+    public LayerMask collisionLayer;
+
+
     private Rigidbody2D _myRigidbody;
     private float _speedRun;
     private float _currentSpeed;
@@ -26,6 +30,7 @@ public class Player : MonoBehaviour
     private bool _isGrounded = false; 
     private bool _wasFalling = false;
     private bool _canControl = true;
+    private bool _takeHit = false;
 
     private HealthBase _healthBase;
     private Animator _currentPlayer;
@@ -33,6 +38,8 @@ public class Player : MonoBehaviour
     [SerializeField] private float _horizontal;
 
     private ParticleSystem _walkVFX;
+
+    public bool CanControl { get => _canControl; set => _canControl = value; }
 
     private void Awake()
     {
@@ -55,19 +62,42 @@ public class Player : MonoBehaviour
     {
         _healthBase.OnKill -= OnPlayerKill;
         _currentPlayer.SetTrigger(playerData.triggerDeath.value);
-        _canControl = false;
+        CanControl = false;
     }
 
     void Update()
     {
-        if (gameObject.activeInHierarchy && _canControl)
+        CheckGrounded();
+        walkVFXControl();
+        if (gameObject.activeInHierarchy && CanControl)
         {
+            _currentPlayer.SetBool("Damage", false);
             HandleJump();
             HandleMovement();
-            CheckGrounded();
-            walkVFXControl();
             HandleScaleFall();
+        } else if(!CanControl && _takeHit)
+        {
+            _currentPlayer.SetBool("Damage", true);
         }
+    }
+
+    // Function Called when take a hit from any enemy
+    public void Knock(float time)
+    {
+        DisableControl();
+        Invoke(nameof(EnableControl), time);
+    }
+
+    private void DisableControl()
+    {
+        CanControl = false;
+        _takeHit = true;
+    }
+
+    private void EnableControl()
+    {
+        CanControl = true;
+        _takeHit = false;
     }
 
     private void walkVFXControl()

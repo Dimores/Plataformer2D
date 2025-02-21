@@ -19,6 +19,8 @@ public class HealthBase : MonoBehaviour
 
     public FlashColor _flashColor;
 
+    public bool IsDead { get => _isDead; set => _isDead = value; }
+
     private void Start()
     {
         Init();
@@ -26,7 +28,7 @@ public class HealthBase : MonoBehaviour
 
     private void Init()
     {
-        _isDead = false;
+        IsDead = false;
         _currentLife = startLife;
 
         _flashColor = GetComponentInChildren<FlashColor>(true);
@@ -37,7 +39,7 @@ public class HealthBase : MonoBehaviour
 
     public void Damage(int damage)
     {
-        if (_isDead) return;
+        if (IsDead) return;
 
         _currentLife -= damage;
 

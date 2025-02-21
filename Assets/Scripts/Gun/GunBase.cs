@@ -13,15 +13,17 @@ public class GunBase : MonoBehaviour
     public AudioRandomPlayAudioClips randomShootAudio;
 
     private Coroutine _currentCoroutine;
+    private Player player;
 
     private void Awake()
     {
         playerSideReference = GetComponentInParent<Player>().gameObject.transform;
+        player = GetComponentInParent<Player>();
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(playerData.shoot.value))
+        if (Input.GetKeyDown(playerData.shoot.value) && player.CanControl)
         {
             _currentCoroutine = StartCoroutine(StartShoot());
         }
