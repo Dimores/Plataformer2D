@@ -10,6 +10,8 @@ public class GunBase : MonoBehaviour
     public Transform positioToShoot;
     public Transform playerSideReference;
 
+    public AudioRandomPlayAudioClips randomShootAudio;
+
     private Coroutine _currentCoroutine;
 
     private void Awake()
@@ -41,6 +43,8 @@ public class GunBase : MonoBehaviour
 
     public void Shoot()
     {
+        if (randomShootAudio != null) randomShootAudio.PlayRandom();
+
         var projectile = Instantiate(prefabProjectile);
         projectile.transform.position = positioToShoot.position;
         projectile.side = playerSideReference.transform.localScale.x;

@@ -23,10 +23,6 @@ public class ItemCollectableCoin : ItemCollectableBase
 
     private void AnimateCoin()
     {
-        _rotationTween = transform.DORotate(new Vector3(0, 360, 0), rotationSpeed, RotateMode.FastBeyond360)
-            .SetLoops(-1, LoopType.Restart)
-            .SetEase(Ease.Linear); 
-
         _floatTween = transform.DOMoveY(transform.position.y + floatHeight, floatDuration)
             .SetLoops(-1, LoopType.Yoyo) 
             .SetEase(Ease.InOutSine); 
@@ -38,13 +34,10 @@ public class ItemCollectableCoin : ItemCollectableBase
         ItemManager.Instance.AddCoins();
         VFXManager.Instance.PlayVFXByTypeWithCollision(VFXManager.VFXType.COIN, this.transform.position, 
             null, vfxCollider);
-
-        Destroy(gameObject);
     }
 
     private void OnDestroy()
     {
-        _rotationTween?.Kill();
         _floatTween?.Kill();
     }
 }

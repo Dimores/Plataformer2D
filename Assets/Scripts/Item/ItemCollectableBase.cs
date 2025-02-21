@@ -4,8 +4,14 @@ using UnityEngine;
 
 public class ItemCollectableBase : MonoBehaviour
 {
+    [Header("Sprite")]
+    public GameObject sprite;
+
     [Header("Collision tag")]
     public string compareTag = "Player";
+
+    [Header("Sounds")]
+    public AudioSource audioSource;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -16,9 +22,22 @@ public class ItemCollectableBase : MonoBehaviour
     }
 
     protected virtual void Collect() {
-        gameObject.SetActive(false);
+        if (sprite != null) sprite.SetActive(false);
+        Collider2D collider = GetComponent<Collider2D>();
+        if (collider != null) collider.enabled = false;
+        Invoke("HideObject", 3);
         OnCollect();
     }
 
-    protected virtual void OnCollect() { }
+
+
+    private void HideObject()
+    {
+        gameObject.SetActive(false);
+    }
+
+    protected virtual void OnCollect() {
+        if (audioSource != null) audioSource.Play();
+        
+    }
 }

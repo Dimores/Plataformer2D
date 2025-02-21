@@ -12,6 +12,9 @@ public class EnemyBase : MonoBehaviour
 
     public HealthBase healthBase;
 
+    public float timeToDestroy;
+    public AudioSource audioSourceKill;
+
     private Collider2D _collider;
     private Rigidbody2D _rb;
 
@@ -36,6 +39,7 @@ public class EnemyBase : MonoBehaviour
             _collider.enabled = false;
         }
 
+        if (audioSourceKill != null) audioSourceKill.Play();
         PlayDeathAnimation();
     }
 

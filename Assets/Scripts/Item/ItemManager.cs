@@ -18,7 +18,6 @@ public class ItemManager : Singleton<ItemManager>
     private void Start()
     {
         Reset();
-        SoundManager.Instance.setSound(coinPickUpSound);
     }
 
     private void Reset()
