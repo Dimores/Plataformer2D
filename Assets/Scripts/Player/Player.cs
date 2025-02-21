@@ -18,11 +18,10 @@ public class Player : MonoBehaviour
     public Vector3 jumpVFXOffset;
     public Vector3 fallVFXOffset;
 
-    private Rigidbody2D _myRigidbody;
+    private Rigidbody2D _rb;
     private float _speedRun;
     private float _currentSpeed;
     private float _currentScaleX;
-    private Vector2 _friction = new Vector2(-0.1f, 0);
     private bool _isGrounded = false; 
     private bool _wasFalling = false;
     private bool _canControl = true;
@@ -32,7 +31,13 @@ public class Player : MonoBehaviour
 
     [SerializeField] private float _horizontal;
 
-    private ParticleSystem _walkVFX;
+    public float Horizontal { get => _horizontal; set => _horizontal = value; }
+    public bool IsGrounded { get => _isGrounded; set => _isGrounded = value; }
+    public bool WasFalling { get => _wasFalling; set => _wasFalling = value; }
+    public bool CanControl { get => _canControl; set => _canControl = value; }
+    public float CurrentSpeed { get => _currentSpeed; set => _currentSpeed = value; }
+    public float SpeedRun { get => _speedRun; set => _speedRun = value; }
+    public Rigidbody2D Rb { get => _rb; set => _rb = value; }
 
     private void Awake()
     {
@@ -41,14 +46,11 @@ public class Player : MonoBehaviour
 
     private void Init()
     {
-        _currentPlayer = Instantiate(playerData.player, transform);
-        _myRigidbody = GetComponent<Rigidbody2D>();
+        _rb = GetComponent<Rigidbody2D>();
         _healthBase = GetComponent<HealthBase>();
         _healthBase.OnKill += OnPlayerKill;
         _speedRun = playerData.speed.value + (playerData.speed.value * 0.5f);
         _currentScaleX = transform.localScale.x;
-        _walkVFX = VFXManager.Instance.PlayAndGetPermanentVFXByType(VFXManager.VFXType.WALK,
-            this.transform.position, walkVFXOffset, this.transform);
     }
 
     private void OnPlayerKill()
@@ -60,28 +62,12 @@ public class Player : MonoBehaviour
 
     void Update()
     {
+        CheckGrounded();
         if (gameObject.activeInHierarchy && _canControl)
         {
             HandleJump();
             HandleMovement();
-            CheckGrounded();
-            walkVFXControl();
             HandleScaleFall();
-        }
-    }
-
-    private void walkVFXControl()
-    {
-        if (_walkVFX != null)
-        {
-            if (!_isGrounded)
-            {
-                _walkVFX.Stop();
-            }
-            else if(!_walkVFX.isPlaying)
-            {
-                _walkVFX.Play();
-            }
         }
     }
 
@@ -92,62 +78,52 @@ public class Player : MonoBehaviour
         if (Input.GetKey(playerData.run.value))
         {
             _currentSpeed = _speedRun;
-            if (_horizontal == 0)
-                _currentPlayer.SetBool(playerData.boolSprint.value, false);
-            else
-                _currentPlayer.SetBool(playerData.boolSprint.value, true);
         }
         else
         {
             _currentSpeed = playerData.speed.value;
-            _currentPlayer.SetBool(playerData.boolSprint.value, false);
         }
 
-        if (_horizontal < 0)
+        if (Horizontal < 0)
         {
-            _myRigidbody.velocity = new Vector2(-_currentSpeed, _myRigidbody.velocity.y);
+            _rb.velocity = new Vector2(-CurrentSpeed, _rb.velocity.y);
 
-            if (_myRigidbody.transform.localScale.x != -1)
+            if (_rb.transform.localScale.x != -1)
             {
-                _myRigidbody.transform.DOScaleX(-1,
+                _rb.transform.DOScaleX(-1,
                     playerData.playerSwipeDuration.value);
                 _currentScaleX = -1;
             }
 
-            _currentPlayer.SetBool(playerData.boolRun.value, true);
         }
-        else if (_horizontal > 0)
+        else if (Horizontal > 0)
         {
-            _myRigidbody.velocity = new Vector2(_currentSpeed, _myRigidbody.velocity.y);
+            _rb.velocity = new Vector2(CurrentSpeed, _rb.velocity.y);
 
-            if (_myRigidbody.transform.localScale.x != 1)
+            if (_rb.transform.localScale.x != 1)
             {
 
-                _myRigidbody.transform.DOScaleX(1,
+                _rb.transform.DOScaleX(1,
                     playerData.playerSwipeDuration.value);
                 _currentScaleX = 1;
             }
 
-            _currentPlayer.SetBool(playerData.boolRun.value, true);
         }
         else
         {
-            _myRigidbody.velocity = new Vector2(0, _myRigidbody.velocity.y);
-            _currentPlayer.SetBool(playerData.boolRun.value, false);
+            _rb.velocity = new Vector2(0, Rb.velocity.y);
         }
     }
 
-
-    private void setFriction()
+    public void DisableControl(float duration)
     {
-        if (_myRigidbody.velocity.x > 0)
-        {
-            _myRigidbody.velocity += _friction;
-        }
-        else if (_myRigidbody.velocity.x < 0)
-        {
-            _myRigidbody.velocity -= _friction;
-        }
+        CanControl = false;
+        Invoke(nameof(EnableControl), duration);
+    }
+
+    private void EnableControl()
+    {
+        CanControl = true;
     }
 
     private void PlayJumpVFX()
@@ -164,14 +140,13 @@ public class Player : MonoBehaviour
     {
         if (Input.GetKeyDown(playerData.jump.value) && _isGrounded)
         {
-            _myRigidbody.velocity = Vector2.up * 
+            _rb.velocity = Vector2.up * 
                 playerData.jumpForce.value;
 
-            DOTween.Kill(_myRigidbody.transform);
+            DOTween.Kill(_rb.transform);
 
-            _myRigidbody.transform.localScale = new Vector3(_currentScaleX, 1, 1);
+            _rb.transform.localScale = new Vector3(_currentScaleX, 1, 1);
 
-            _currentPlayer.SetTrigger(playerData.triggerJump.value);
             HandleScaleJump();
             PlayJumpVFX();
         }
@@ -180,9 +155,9 @@ public class Player : MonoBehaviour
 
     private void HandleScaleJump()
     {
-        DOTween.Kill(_myRigidbody.transform);
+        DOTween.Kill(Rb.transform);
 
-        _myRigidbody.transform.DOScaleY(playerData.jumpScaleY.value,
+        _rb.transform.DOScaleY(playerData.jumpScaleY.value,
             playerData.animationDuration.value)
             .SetLoops(2, LoopType.Yoyo)
             .SetEase(Ease.OutQuad);
@@ -194,34 +169,32 @@ public class Player : MonoBehaviour
         if (_wasFalling && _isGrounded)
         {
             _wasFalling = false;
-            _currentPlayer.SetBool(playerData.boolFalling.value, false); 
 
-            DOTween.Kill(_myRigidbody.transform);
+            DOTween.Kill(Rb.transform);
 
-            _myRigidbody.transform.DOScale(new Vector2(playerData.fallScaleX.value 
+            _rb.transform.DOScale(new Vector2(playerData.fallScaleX.value 
                 * _currentScaleX,
                 playerData.fallScaleY.value), 
                 playerData.animationDuration.value / 2)
                 .SetEase(Ease.InOutQuad)
                 .OnComplete(() =>
                 {
-                    _myRigidbody.transform.DOScale(new Vector2(1 * _currentScaleX, 1), 
+                    _rb.transform.DOScale(new Vector2(1 * _currentScaleX, 1), 
                         playerData.animationDuration.value / 2)
                         .SetEase(Ease.OutBack);
                 });
             PlayFallVFX();
         }
 
-        if (!_wasFalling && !_isGrounded && _myRigidbody.velocity.y < -0.1f) 
+        if (!_wasFalling && !_isGrounded && _rb.velocity.y < -0.1f) 
         {
             _wasFalling = true;
-            _currentPlayer.SetBool(playerData.boolFalling.value, true);
         }
     }
 
     private void CheckGrounded()
     {
-        _isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
+        IsGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
     }
 
     private void OnDestroy()

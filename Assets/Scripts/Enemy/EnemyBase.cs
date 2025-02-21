@@ -13,6 +13,8 @@ public class EnemyBase : MonoBehaviour
     public HealthBase healthBase;
 
     public float timeToDestroy;
+
+    public float pushForce;
     public AudioSource audioSourceKill;
 
     private Collider2D _collider;
@@ -46,10 +48,25 @@ public class EnemyBase : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         var health = collision.gameObject.GetComponent<HealthBase>();
+        Player player = collision.gameObject.GetComponent<Player>();
+        Rigidbody2D playerRigidBody = null;
+
+
+        if (player != null) playerRigidBody = player.GetComponent<Rigidbody2D>();
 
         if (health != null)
         {
             health.Damage(damage);
+            if (playerRigidBody != null)
+            {
+                Debug.Log("Vo empurra");
+                player.DisableControl(1f); // Desativa controle por 0.2 segundos
+
+                float direction = Mathf.Sign(transform.localScale.x); // Garante que a direção está correta
+                Vector2 knockbackDirection = new Vector2(-direction, 3); // Aumenta o valor Y
+                playerRigidBody.AddForce(knockbackDirection * pushForce, ForceMode2D.Impulse);
+            }
+
             PlayAttackAnimation();
         }
     }
