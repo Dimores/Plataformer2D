@@ -69,6 +69,11 @@ namespace Orby.Player
             Rb.velocity = new Vector2(movementSpeed * direction, Rb.velocity.y);
         }
 
+        public void Jump(float jumpForce)
+        {
+            Rb.velocity = Vector2.up * playerData.jumpForce;
+        }
+
         #region AnimationTriggers
         private void AnimationTriggerEvent(AnimationTriggerType triggerType)
         {
