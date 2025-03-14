@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GunBase : MonoBehaviour
 {
-    public PlayerData playerData;
+    //public PlayerData playerData;
     public ProjectileBase prefabProjectile;
 
     public Transform positioToShoot;
@@ -13,25 +13,25 @@ public class GunBase : MonoBehaviour
     public AudioRandomPlayAudioClips randomShootAudio;
 
     private Coroutine _currentCoroutine;
-    private Player player;
+    //private Player player;
 
     private void Awake()
     {
-        playerSideReference = GetComponentInParent<Player>().gameObject.transform;
-        player = GetComponentInParent<Player>();
+        //playerSideReference = GetComponentInParent<Player>().gameObject.transform;
+        //player = GetComponentInParent<Player>();
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(playerData.shoot.value) && player.CanControl)
-        {
-            _currentCoroutine = StartCoroutine(StartShoot());
-        }
-        else if (Input.GetKeyUp(playerData.shoot.value))
-        {
-            if (_currentCoroutine != null)
-                StopCoroutine(_currentCoroutine);
-        }
+        //if (Input.GetKeyDown(playerData.shoot.value) && player.CanControl)
+        //{
+        //    _currentCoroutine = StartCoroutine(StartShoot());
+        //}
+        //else if (Input.GetKeyUp(playerData.shoot.value))
+        //{
+        //    if (_currentCoroutine != null)
+        //        StopCoroutine(_currentCoroutine);
+        //}
     }
 
     IEnumerator StartShoot()
@@ -39,7 +39,7 @@ public class GunBase : MonoBehaviour
         while (true)
         {
             Shoot();
-            yield return new WaitForSeconds(playerData.timeBetweenShoot.value);
+            //yield return new WaitForSeconds(playerData.timeBetweenShoot.value);
         }
     }
 

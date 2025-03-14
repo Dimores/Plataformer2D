@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Orby.Player;
 
 public class EnemyBase : MonoBehaviour
 {
@@ -59,7 +60,7 @@ public class EnemyBase : MonoBehaviour
             health.Damage(damage);
             if (playerRigidBody != null)
             {
-                player.Knock(knockTime); 
+                //player.Knock(knockTime); 
 
                 float direction = Mathf.Sign(transform.localScale.x); // Garante que a direção está correta
                 Vector2 knockbackDirection = new Vector2(-direction, 1.5f); // Aumenta o valor Y

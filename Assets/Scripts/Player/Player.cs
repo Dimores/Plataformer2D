@@ -1,263 +1,264 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 
-public class Player : MonoBehaviour
+namespace Orby.Player
 {
-    [Header("Player Data")]
-    public PlayerData playerData;
-
-    [Header("Ground Check")]
-    public Transform groundCheck;
-    public LayerMask groundLayer;
-    public float groundCheckRadius = 0.1f;
-
-    [Header("VFX")]
-    public Vector3 walkVFXOffset;
-    public Vector3 jumpVFXOffset;
-    public Vector3 fallVFXOffset;
-
-    [Header("Layer")]
-    public LayerMask collisionLayer;
-
-
-    private Rigidbody2D _myRigidbody;
-    private float _speedRun;
-    private float _currentSpeed;
-    private float _currentScaleX;
-    private Vector2 _friction = new Vector2(-0.1f, 0);
-    private bool _isGrounded = false; 
-    private bool _wasFalling = false;
-    private bool _canControl = true;
-    private bool _takeHit = false;
-
-    private HealthBase _healthBase;
-    private Animator _currentPlayer;
-
-    [SerializeField] private float _horizontal;
-
-    private ParticleSystem _walkVFX;
-
-    public bool CanControl { get => _canControl; set => _canControl = value; }
-
-    private void Awake()
+    public class Player : MonoBehaviour
     {
-        Init();
-    }
+        //[Header("Player Data")]
+        //public PlayerData playerData;
 
-    private void Init()
-    {
-        _currentPlayer = Instantiate(playerData.player, transform);
-        _myRigidbody = GetComponent<Rigidbody2D>();
-        _healthBase = GetComponent<HealthBase>();
-        _healthBase.OnKill += OnPlayerKill;
-        _speedRun = playerData.speed.value + (playerData.speed.value * 0.5f);
-        _currentScaleX = transform.localScale.x;
-        _walkVFX = VFXManager.Instance.PlayAndGetPermanentVFXByType(VFXManager.VFXType.WALK,
-            this.transform.position, walkVFXOffset, this.transform);
-    }
+        //[Header("Ground Check")]
+        //public Transform groundCheck;
+        //public LayerMask groundLayer;
+        //public float groundCheckRadius = 0.1f;
 
-    private void OnPlayerKill()
-    {
-        _healthBase.OnKill -= OnPlayerKill;
-        _currentPlayer.SetTrigger(playerData.triggerDeath.value);
-        CanControl = false;
-    }
+        //[Header("VFX")]
+        //public Vector3 walkVFXOffset;
+        //public Vector3 jumpVFXOffset;
+        //public Vector3 fallVFXOffset;
 
-    void Update()
-    {
-        CheckGrounded();
-        walkVFXControl();
-        if (gameObject.activeInHierarchy && CanControl)
-        {
-            _currentPlayer.SetBool("Damage", false);
-            HandleJump();
-            HandleMovement();
-            HandleScaleFall();
-        } else if(!CanControl && _takeHit)
-        {
-            _currentPlayer.SetBool("Damage", true);
-        }
-    }
+        //[Header("Layer")]
+        //public LayerMask collisionLayer;
 
 
-    // Function Called when take a hit from any enemy
-    public void Knock(float time)
-    {
-        DisableControl();
-        Invoke(nameof(EnableControl), time);
-    }
+        //private Rigidbody2D _myRigidbody;
+        //private float _speedRun;
+        //private float _currentSpeed;
+        //private float _currentScaleX;
+        //private Vector2 _friction = new Vector2(-0.1f, 0);
+        //private bool _isGrounded = false; 
+        //private bool _wasFalling = false;
+        //private bool _canControl = true;
+        //private bool _takeHit = false;
 
-    private void DisableControl()
-    {
-        CanControl = false;
-        _takeHit = true;
-    }
+        //private HealthBase _healthBase;
+        //private Animator _currentPlayer;
 
-    private void EnableControl()
-    {
-        if (!_healthBase.IsDead)
-            CanControl = true;
-        _takeHit = false;
-    }
+        //[SerializeField] private float _horizontal;
 
-    private void walkVFXControl()
-    {
-        if (_walkVFX != null)
-        {
-            if (!_isGrounded)
-            {
-                _walkVFX.Stop();
-            }
-            else if(!_walkVFX.isPlaying)
-            {
-                _walkVFX.Play();
-            }
-        }
-    }
+        //private ParticleSystem _walkVFX;
 
-    private void HandleMovement()
-    {
-        _horizontal = Input.GetAxisRaw(playerData.moveAxis.value);
+        //public bool CanControl { get => _canControl; set => _canControl = value; }
 
-        if (Input.GetKey(playerData.run.value))
-        {
-            _currentSpeed = _speedRun;
-            if (_horizontal == 0)
-                _currentPlayer.SetBool(playerData.boolSprint.value, false);
-            else
-                _currentPlayer.SetBool(playerData.boolSprint.value, true);
-        }
-        else
-        {
-            _currentSpeed = playerData.speed.value;
-            _currentPlayer.SetBool(playerData.boolSprint.value, false);
-        }
+        //private void Awake()
+        //{
+        //    Init();
+        //}
 
-        if (_horizontal < 0)
-        {
-            _myRigidbody.velocity = new Vector2(-_currentSpeed, _myRigidbody.velocity.y);
+        //private void Init()
+        //{
+        //    _currentPlayer = Instantiate(playerData.player, transform);
+        //    _myRigidbody = GetComponent<Rigidbody2D>();
+        //    _healthBase = GetComponent<HealthBase>();
+        //    _healthBase.OnKill += OnPlayerKill;
+        //    _speedRun = playerData.speed.value + (playerData.speed.value * 0.5f);
+        //    _currentScaleX = transform.localScale.x;
+        //    _walkVFX = VFXManager.Instance.PlayAndGetPermanentVFXByType(VFXManager.VFXType.WALK,
+        //        this.transform.position, walkVFXOffset, this.transform);
+        //}
 
-            if (_myRigidbody.transform.localScale.x != -1)
-            {
-                _myRigidbody.transform.DOScaleX(-1,
-                    playerData.playerSwipeDuration.value);
-                _currentScaleX = -1;
-            }
+        //private void OnPlayerKill()
+        //{
+        //    _healthBase.OnKill -= OnPlayerKill;
+        //    _currentPlayer.SetTrigger(playerData.triggerDeath.value);
+        //    CanControl = false;
+        //}
 
-            _currentPlayer.SetBool(playerData.boolRun.value, true);
-        }
-        else if (_horizontal > 0)
-        {
-            _myRigidbody.velocity = new Vector2(_currentSpeed, _myRigidbody.velocity.y);
-
-            if (_myRigidbody.transform.localScale.x != 1)
-            {
-
-                _myRigidbody.transform.DOScaleX(1,
-                    playerData.playerSwipeDuration.value);
-                _currentScaleX = 1;
-            }
-
-            _currentPlayer.SetBool(playerData.boolRun.value, true);
-        }
-        else
-        {
-            _myRigidbody.velocity = new Vector2(0, _myRigidbody.velocity.y);
-            _currentPlayer.SetBool(playerData.boolRun.value, false);
-        }
-    }
+        //void Update()
+        //{
+        //    CheckGrounded();
+        //    walkVFXControl();
+        //    if (gameObject.activeInHierarchy && CanControl)
+        //    {
+        //        _currentPlayer.SetBool("Damage", false);
+        //        HandleJump();
+        //        HandleMovement();
+        //        HandleScaleFall();
+        //    } else if(!CanControl && _takeHit)
+        //    {
+        //        _currentPlayer.SetBool("Damage", true);
+        //    }
+        //}
 
 
-    private void setFriction()
-    {
-        if (_myRigidbody.velocity.x > 0)
-        {
-            _myRigidbody.velocity += _friction;
-        }
-        else if (_myRigidbody.velocity.x < 0)
-        {
-            _myRigidbody.velocity -= _friction;
-        }
-    }
+        //// Function Called when take a hit from any enemy
+        //public void Knock(float time)
+        //{
+        //    DisableControl();
+        //    Invoke(nameof(EnableControl), time);
+        //}
 
-    private void PlayJumpVFX()
-    {
-        VFXManager.Instance.PlayVFXByType(VFXManager.VFXType.JUMP, transform.position, jumpVFXOffset);
-    }
+        //private void DisableControl()
+        //{
+        //    CanControl = false;
+        //    _takeHit = true;
+        //}
 
-    private void PlayFallVFX()
-    {
-        VFXManager.Instance.PlayVFXByType(VFXManager.VFXType.FALL, transform.position, fallVFXOffset);
-    }
+        //private void EnableControl()
+        //{
+        //    if (!_healthBase.IsDead)
+        //        CanControl = true;
+        //    _takeHit = false;
+        //}
 
-    private void HandleJump()
-    {
-        if (Input.GetKeyDown(playerData.jump.value) && _isGrounded)
-        {
-            _myRigidbody.velocity = Vector2.up * 
-                playerData.jumpForce.value;
+        //private void walkVFXControl()
+        //{
+        //    if (_walkVFX != null)
+        //    {
+        //        if (!_isGrounded)
+        //        {
+        //            _walkVFX.Stop();
+        //        }
+        //        else if(!_walkVFX.isPlaying)
+        //        {
+        //            _walkVFX.Play();
+        //        }
+        //    }
+        //}
 
-            DOTween.Kill(_myRigidbody.transform);
+        //private void HandleMovement()
+        //{
+        //    _horizontal = Input.GetAxisRaw(playerData.moveAxis.value);
 
-            _myRigidbody.transform.localScale = new Vector3(_currentScaleX, 1, 1);
+        //    if (Input.GetKey(playerData.run.value))
+        //    {
+        //        _currentSpeed = _speedRun;
+        //        if (_horizontal == 0)
+        //            _currentPlayer.SetBool(playerData.boolSprint.value, false);
+        //        else
+        //            _currentPlayer.SetBool(playerData.boolSprint.value, true);
+        //    }
+        //    else
+        //    {
+        //        _currentSpeed = playerData.speed.value;
+        //        _currentPlayer.SetBool(playerData.boolSprint.value, false);
+        //    }
 
-            _currentPlayer.SetTrigger(playerData.triggerJump.value);
-            HandleScaleJump();
-            PlayJumpVFX();
-        }
-    }
+        //    if (_horizontal < 0)
+        //    {
+        //        _myRigidbody.velocity = new Vector2(-_currentSpeed, _myRigidbody.velocity.y);
+
+        //        if (_myRigidbody.transform.localScale.x != -1)
+        //        {
+        //            _myRigidbody.transform.DOScaleX(-1,
+        //                playerData.playerSwipeDuration.value);
+        //            _currentScaleX = -1;
+        //        }
+
+        //        _currentPlayer.SetBool(playerData.boolRun.value, true);
+        //    }
+        //    else if (_horizontal > 0)
+        //    {
+        //        _myRigidbody.velocity = new Vector2(_currentSpeed, _myRigidbody.velocity.y);
+
+        //        if (_myRigidbody.transform.localScale.x != 1)
+        //        {
+
+        //            _myRigidbody.transform.DOScaleX(1,
+        //                playerData.playerSwipeDuration.value);
+        //            _currentScaleX = 1;
+        //        }
+
+        //        _currentPlayer.SetBool(playerData.boolRun.value, true);
+        //    }
+        //    else
+        //    {
+        //        _myRigidbody.velocity = new Vector2(0, _myRigidbody.velocity.y);
+        //        _currentPlayer.SetBool(playerData.boolRun.value, false);
+        //    }
+        //}
 
 
-    private void HandleScaleJump()
-    {
-        DOTween.Kill(_myRigidbody.transform);
+        //private void setFriction()
+        //{
+        //    if (_myRigidbody.velocity.x > 0)
+        //    {
+        //        _myRigidbody.velocity += _friction;
+        //    }
+        //    else if (_myRigidbody.velocity.x < 0)
+        //    {
+        //        _myRigidbody.velocity -= _friction;
+        //    }
+        //}
 
-        _myRigidbody.transform.DOScaleY(playerData.jumpScaleY.value,
-            playerData.animationDuration.value)
-            .SetLoops(2, LoopType.Yoyo)
-            .SetEase(Ease.OutQuad);
-    }
+        //private void PlayJumpVFX()
+        //{
+        //    VFXManager.Instance.PlayVFXByType(VFXManager.VFXType.JUMP, transform.position, jumpVFXOffset);
+        //}
+
+        //private void PlayFallVFX()
+        //{
+        //    VFXManager.Instance.PlayVFXByType(VFXManager.VFXType.FALL, transform.position, fallVFXOffset);
+        //}
+
+        //private void HandleJump()
+        //{
+        //    if (Input.GetKeyDown(playerData.jump.value) && _isGrounded)
+        //    {
+        //        _myRigidbody.velocity = Vector2.up * 
+        //            playerData.jumpForce.value;
+
+        //        DOTween.Kill(_myRigidbody.transform);
+
+        //        _myRigidbody.transform.localScale = new Vector3(_currentScaleX, 1, 1);
+
+        //        _currentPlayer.SetTrigger(playerData.triggerJump.value);
+        //        HandleScaleJump();
+        //        PlayJumpVFX();
+        //    }
+        //}
 
 
-    private void HandleScaleFall()
-    {
-        if (_wasFalling && _isGrounded)
-        {
-            _wasFalling = false;
-            _currentPlayer.SetBool(playerData.boolFalling.value, false); 
+        //private void HandleScaleJump()
+        //{
+        //    DOTween.Kill(_myRigidbody.transform);
 
-            DOTween.Kill(_myRigidbody.transform);
+        //    _myRigidbody.transform.DOScaleY(playerData.jumpScaleY.value,
+        //        playerData.animationDuration.value)
+        //        .SetLoops(2, LoopType.Yoyo)
+        //        .SetEase(Ease.OutQuad);
+        //}
 
-            _myRigidbody.transform.DOScale(new Vector2(playerData.fallScaleX.value 
-                * _currentScaleX,
-                playerData.fallScaleY.value), 
-                playerData.animationDuration.value / 2)
-                .SetEase(Ease.InOutQuad)
-                .OnComplete(() =>
-                {
-                    _myRigidbody.transform.DOScale(new Vector2(1 * _currentScaleX, 1), 
-                        playerData.animationDuration.value / 2)
-                        .SetEase(Ease.OutBack);
-                });
-            PlayFallVFX();
-        }
 
-        if (!_wasFalling && !_isGrounded && _myRigidbody.velocity.y < -0.1f) 
-        {
-            _wasFalling = true;
-            _currentPlayer.SetBool(playerData.boolFalling.value, true);
-        }
-    }
+        //private void HandleScaleFall()
+        //{
+        //    if (_wasFalling && _isGrounded)
+        //    {
+        //        _wasFalling = false;
+        //        _currentPlayer.SetBool(playerData.boolFalling.value, false); 
 
-    private void CheckGrounded()
-    {
-        _isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
-    }
+        //        DOTween.Kill(_myRigidbody.transform);
 
-    private void OnDestroy()
-    {
-        DOTween.Kill(transform);
+        //        _myRigidbody.transform.DOScale(new Vector2(playerData.fallScaleX.value 
+        //            * _currentScaleX,
+        //            playerData.fallScaleY.value), 
+        //            playerData.animationDuration.value / 2)
+        //            .SetEase(Ease.InOutQuad)
+        //            .OnComplete(() =>
+        //            {
+        //                _myRigidbody.transform.DOScale(new Vector2(1 * _currentScaleX, 1), 
+        //                    playerData.animationDuration.value / 2)
+        //                    .SetEase(Ease.OutBack);
+        //            });
+        //        PlayFallVFX();
+        //    }
+
+        //    if (!_wasFalling && !_isGrounded && _myRigidbody.velocity.y < -0.1f) 
+        //    {
+        //        _wasFalling = true;
+        //        _currentPlayer.SetBool(playerData.boolFalling.value, true);
+        //    }
+        //}
+
+        //private void CheckGrounded()
+        //{
+        //    _isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
+        //}
+
+        //private void OnDestroy()
+        //{
+        //    DOTween.Kill(transform);
+        //} 
     }
 }
