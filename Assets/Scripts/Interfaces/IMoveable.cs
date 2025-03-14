@@ -6,6 +6,6 @@ namespace Orby.Interfaces
     {
         public Rigidbody2D rb { get; set; }
 
-        public void Move(float movementSpeed);
+        public void Move(float movementSpeed, float direction);
     }
 }

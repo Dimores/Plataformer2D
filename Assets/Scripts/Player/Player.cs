@@ -1,10 +1,59 @@
 using UnityEngine;
 using DG.Tweening;
+using Orby.Interfaces;
+using Unity.VisualScripting;
 
 namespace Orby.Player
 {
-    public class Player : MonoBehaviour
+    public class Player : MonoBehaviour, IDamageable, IMoveable, IKillable
     {
+        public PlayerData playerData;
+
+        public int MaxHealth { get; set; }
+        public int CurrentHealth { get; set; }
+        public Rigidbody2D rb { get; set; }
+
+        private void Awake()
+        {
+            rb = GetComponent<Rigidbody2D>();
+
+            MaxHealth = playerData.life;
+            CurrentHealth = MaxHealth;
+        }
+
+
+        public void Damage(int damageAmount)
+        {
+            CurrentHealth -= damageAmount;
+
+            if (CurrentHealth <= 0)
+                Kill();
+        }
+
+        public void Kill()
+        {
+            Destroy(gameObject);
+        }
+
+        public void Move(float movementSpeed, float direction)
+        {
+            rb.velocity = new Vector2(movementSpeed * direction, rb.velocity.y);
+        }
+
+        #region AnimationTriggers
+        private void AnimationTriggerEvent(AnimationTriggerType triggerType)
+        {
+
+        }
+
+        public enum AnimationTriggerType {
+            PlayerRun,
+            PlayerJump
+        }
+
+        #endregion
+
+        #region OLD
         //[Header("Player Data")]
         //public PlayerData playerData;
 
@@ -260,5 +309,6 @@ namespace Orby.Player
         //{
         //    DOTween.Kill(transform);
         //} 
+        #endregion
     }
 }
