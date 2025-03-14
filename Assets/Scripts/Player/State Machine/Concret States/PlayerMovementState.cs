@@ -33,6 +33,7 @@ namespace Orby.Player.StateMachine.ConcretStates
 
             // State Transition Check
             CheckIfJumpState();
+            CheckIfIdleState();
 
             HandleMovement();
         }
@@ -43,7 +44,11 @@ namespace Orby.Player.StateMachine.ConcretStates
 
             if (horizontal != 0)
                 player.Move(player.playerData.movementSpeed, horizontal);
-            else
+        }
+
+        private void CheckIfIdleState()
+        {
+            if (horizontal == 0)
                 player.StateMachine.ChangeState(player.IdleState);
         }
 

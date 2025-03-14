@@ -31,15 +31,24 @@ namespace Orby.Player.StateMachine.ConcretStates
         public override void FrameUpdate()
         {
             base.FrameUpdate();
-            // Check Dash State <--
-            AirMovement();
 
+            // State Transition Check
+            // Check Dash State <--
+            CheckIfFallingState();
+
+            AirJumpMovement();
         }
 
-        private void AirMovement()
+        private void AirJumpMovement()
         {
             horizontal = Input.GetAxisRaw(player.playerData.movementAxisName);
             player.Move(player.playerData.movementSpeed, horizontal);
+        }
+
+        private void CheckIfFallingState()
+        {
+            if (player.Rb.velocity.y <= 0.1f)
+                player.StateMachine.ChangeState(player.FallingState);
         }
     }
 }

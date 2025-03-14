@@ -7,7 +7,7 @@ using Orby.Player.StateMachine.ConcretStates;
 
 namespace Orby.Player
 {
-    public class Player : MonoBehaviour, IDamageable, IMoveable, IKillable
+    public class Player : MonoBehaviour, IDamageable, IMoveable, IKillable, IKnockbackable
     {
         public PlayerData playerData;
 
@@ -48,6 +48,8 @@ namespace Orby.Player
         private void Update()
         {
             StateMachine.CurrentPlayerState.FrameUpdate();
+
+            //CheckGrounded();
         }
 
 
@@ -72,6 +74,35 @@ namespace Orby.Player
         public void Jump(float jumpForce)
         {
             Rb.velocity = Vector2.up * playerData.jumpForce;
+        }
+
+        public void Knockback(float knockbackForce)
+        {
+            // Knockback logic
+        }
+
+        public bool CheckGrounded()
+        {
+            if (Physics2D.Raycast(transform.position + playerData.leftRaycastOffset,
+                    Vector2.down, playerData.raycastDetectionDistance, playerData.groundLayer) 
+                ||
+                Physics2D.Raycast(transform.position + playerData.middleRaycastOffset,
+                    Vector2.down, playerData.raycastDetectionDistance, playerData.groundLayer)
+                ||
+                Physics2D.Raycast(transform.position + playerData.rightRaycastOffset,
+                    Vector2.down, playerData.raycastDetectionDistance, playerData.groundLayer))
+                return true;
+
+            //Debug.DrawRay(transform.position + playerData.leftRaycastOffset, Vector2.down, 
+            //    Color.red);
+
+            //Debug.DrawRay(transform.position + playerData.middleRaycastOffset, Vector2.down,
+            //    Color.red);
+
+            //Debug.DrawRay(transform.position + playerData.rightRaycastOffset, Vector2.down,
+            //    Color.red);
+
+            return false;
         }
 
         #region AnimationTriggers

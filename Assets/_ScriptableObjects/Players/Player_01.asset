@@ -24,6 +24,13 @@ MonoBehaviour:
   movementSpeed: 10
   jumpForce: 35
   dashForce: 0
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 8
+  raycastDetectionDistance: 0.33
+  leftRaycastOffset: {x: -0.5, y: 0, z: 0}
+  middleRaycastOffset: {x: 0.81, y: 0, z: 0}
+  rightRaycastOffset: {x: 2.09, y: 0, z: 0}
   movementAxisName: HorizontalP1
   jumpKey: 32
   attackKey: 0

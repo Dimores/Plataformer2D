@@ -18,6 +18,7 @@ namespace Orby.Player.StateMachine.ConcretStates
         public override void EnterState()
         {
             base.EnterState();
+            Debug.Log("Idle");
         }
 
         public override void ExitState()

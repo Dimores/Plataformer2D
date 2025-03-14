@@ -24,6 +24,13 @@ namespace Orby.Player
         public float dashForce;
         // Maybe time to crouch and raise right here <--
 
+        [Header("Player Data - Ground Check Setup")]
+        public LayerMask groundLayer;
+        public float raycastDetectionDistance = 0.4f;
+        public Vector3 leftRaycastOffset;
+        public Vector3 middleRaycastOffset;
+        public Vector3 rightRaycastOffset;
+
         [Header("Player Data - Input Setup")]
         public string movementAxisName;
         public KeyCode jumpKey;
