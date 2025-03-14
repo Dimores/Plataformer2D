@@ -2,6 +2,8 @@ using UnityEngine;
 using DG.Tweening;
 using Orby.Interfaces;
 using Unity.VisualScripting;
+using Orby.Player.StateMachine;
+using Orby.Player.StateMachine.ConcretStates;
 
 namespace Orby.Player
 {
@@ -11,14 +13,41 @@ namespace Orby.Player
 
         public int MaxHealth { get; set; }
         public int CurrentHealth { get; set; }
-        public Rigidbody2D rb { get; set; }
+        public Rigidbody2D Rb { get; set; }
+
+        #region State Machine Variables
+        public PlayerStateMachine StateMachine { get; set; }
+        public PlayerIdleState IdleState { get; set; }
+        public PlayerMovementState MovementState { get; set; }
+        public PlayerJumpState JumpState { get; set; }
+        public PlayerFallingState FallingState { get; set; }
+        public PlayerDashState DashState { get; set; }
+        #endregion
 
         private void Awake()
         {
-            rb = GetComponent<Rigidbody2D>();
+            StateMachine = new PlayerStateMachine();
+
+            IdleState = new PlayerIdleState(this, StateMachine);
+            MovementState = new PlayerMovementState(this, StateMachine);
+            JumpState = new PlayerJumpState(this, StateMachine);
+            FallingState = new PlayerFallingState(this, StateMachine);
+            DashState = new PlayerDashState(this, StateMachine);
+        }
+
+        private void Start()
+        {
+            Rb = GetComponent<Rigidbody2D>();
 
             MaxHealth = playerData.life;
             CurrentHealth = MaxHealth;
+
+            StateMachine.Initialize(IdleState);
+        }
+
+        private void Update()
+        {
+            StateMachine.CurrentPlayerState.FrameUpdate();
         }
 
 
@@ -37,20 +66,19 @@ namespace Orby.Player
 
         public void Move(float movementSpeed, float direction)
         {
-            rb.velocity = new Vector2(movementSpeed * direction, rb.velocity.y);
+            Rb.velocity = new Vector2(movementSpeed * direction, Rb.velocity.y);
         }
 
         #region AnimationTriggers
         private void AnimationTriggerEvent(AnimationTriggerType triggerType)
         {
-
+            StateMachine.CurrentPlayerState.AnimationTriggerEvent(triggerType);
         }
 
         public enum AnimationTriggerType {
             PlayerRun,
             PlayerJump
         }
-
         #endregion
 
         #region OLD

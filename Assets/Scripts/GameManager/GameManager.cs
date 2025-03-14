@@ -13,8 +13,8 @@ public class GameManager : Singleton<GameManager>
 
     #region REFERENCES
     [Header("Player")]
-    [SerializeField] private PlayerData playerData;
-    [SerializeField] private Player playerPrefab;
+    [SerializeField] private GameObject playerPrefab;
+    private GameObject player;
 
     [Space(5)]
     [SerializeField] private Transform playerSpawnPosition;
@@ -29,13 +29,13 @@ public class GameManager : Singleton<GameManager>
         if (playerPrefab != null)
         {
             SpawnPlayer();
-            SetCameraTarget(playerPrefab.GetComponent<Transform>());
+            SetCameraTarget(player.GetComponent<Transform>());
         }
     }
 
     private void SpawnPlayer()
     {
-        Instantiate(playerPrefab, GetPlayerSpawnVector(), Quaternion.identity, null);
+        player = Instantiate(playerPrefab, GetPlayerSpawnVector(), Quaternion.identity, null);
     }
 
 

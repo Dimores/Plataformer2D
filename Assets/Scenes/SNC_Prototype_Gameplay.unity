@@ -930,7 +930,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f3cd7c52a8aa2941b43ba69081c5069, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  intData: {fileID: 11400000, guid: f0bb1064a67ce4e408c16e36ae992272, type: 2}
   uiTextValue: {fileID: 212013041}
 --- !u!1 &219122611
 GameObject:
@@ -1593,8 +1592,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42f11d245c4744240bd82ce70ab54994, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerPrefab: {fileID: 7624536204262328331, guid: d69e4b9f4bfedb842931a7936378f9d0, type: 3}
-  playerData: {fileID: 11400000, guid: c7e84c6d762bfe94d977ff17601c7046, type: 2}
+  playerPrefab: {fileID: 1827687851353047006, guid: d69e4b9f4bfedb842931a7936378f9d0, type: 3}
   playerSpawnPosition: {fileID: 1244697496}
   virtualCamera: {fileID: 896847928}
 --- !u!1 &299807653
@@ -1897,7 +1895,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f3cd7c52a8aa2941b43ba69081c5069, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  intData: {fileID: 11400000, guid: b32198e772edee143a714aed5da91dd6, type: 2}
   uiTextValue: {fileID: 326113197}
 --- !u!114 &326113197
 MonoBehaviour:
@@ -4590,8 +4587,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67924d0f16e84f1488207e6e1cde0583, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coins: {fileID: 11400000, guid: f0bb1064a67ce4e408c16e36ae992272, type: 2}
-  rocks: {fileID: 11400000, guid: b32198e772edee143a714aed5da91dd6, type: 2}
   coinPickUpSound: {fileID: 8300000, guid: a56921a00688e91459cfa009d1a1c419, type: 3}
   onReset:
     m_PersistentCalls:

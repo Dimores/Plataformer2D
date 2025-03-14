@@ -18,6 +18,7 @@ namespace Orby.Player.StateMachine.ConcretStates
         public override void EnterState()
         {
             base.EnterState();
+            Debug.Log("Idle");
         }
 
         public override void ExitState()
@@ -27,7 +28,16 @@ namespace Orby.Player.StateMachine.ConcretStates
 
         public override void FrameUpdate()
         {
-            base.FrameUpdate();
+            CheckIfMoveState();
+            player.Rb.velocity = new Vector2(0, player.Rb.velocity.y);
+        }
+
+        private void CheckIfMoveState()
+        {
+            if (Input.GetAxisRaw(player.playerData.movementAxisName) != 0)
+            {
+                player.StateMachine.ChangeState(player.MovementState);
+            }
         }
     }
 }
