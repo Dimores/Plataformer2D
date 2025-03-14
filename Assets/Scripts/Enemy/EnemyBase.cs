@@ -1,93 +1,94 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Orby.Player;
 
-public class EnemyBase : MonoBehaviour
+namespace Orby.Enemy
 {
-    public int damage = 10;
-    public float pushForce;
-    public float knockTime;
-
-    public Animator anim;
-    public string triggerAttack = "Attack";
-    public string triggerDeath = "Death";
-
-    public HealthBase healthBase;
-
-    public float timeToDestroy;
-    public AudioSource audioSourceKill;
-
-    private Collider2D _collider;
-    private Rigidbody2D _rb;
-
-    private void Awake()
+    public class EnemyBase : MonoBehaviour
     {
-        _collider = GetComponent<Collider2D>();
-        _rb = GetComponent<Rigidbody2D>();
+        public int damage = 10;
+        public float pushForce;
+        public float knockTime;
 
-        if (healthBase != null)
+        public Animator anim;
+        public string triggerAttack = "Attack";
+        public string triggerDeath = "Death";
+
+        public HealthBase healthBase;
+
+        public float timeToDestroy;
+        public AudioSource audioSourceKill;
+
+        private Collider2D _collider;
+        private Rigidbody2D _rb;
+
+        private void Awake()
         {
-            healthBase.OnKill += OnEnemyKill;
-        }
-    }
+            _collider = GetComponent<Collider2D>();
+            _rb = GetComponent<Rigidbody2D>();
 
-    private void OnEnemyKill()
-    {
-        healthBase.OnKill -= OnEnemyKill;
-
-        if (_collider != null)
-        {
-            _rb.constraints = RigidbodyConstraints2D.FreezePositionY;
-            _collider.enabled = false;
-        }
-
-        if (audioSourceKill != null) audioSourceKill.Play();
-        PlayDeathAnimation();
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        var health = collision.gameObject.GetComponent<HealthBase>();
-        Player player = collision.gameObject.GetComponent<Player>();
-        Rigidbody2D playerRigidBody = null;
-
-
-        if (player != null) playerRigidBody = player.GetComponent<Rigidbody2D>();
-
-        if (health != null)
-        {
-            health.Damage(damage);
-            if (playerRigidBody != null)
+            if (healthBase != null)
             {
-                //player.Knock(knockTime); 
+                healthBase.OnKill += OnEnemyKill;
+            }
+        }
 
-                float direction = Mathf.Sign(transform.localScale.x); // Garante que a direção está correta
-                Vector2 knockbackDirection = new Vector2(-direction, 1.5f); // Aumenta o valor Y
-                playerRigidBody.AddForce(knockbackDirection * pushForce, ForceMode2D.Impulse);
+        private void OnEnemyKill()
+        {
+            healthBase.OnKill -= OnEnemyKill;
+
+            if (_collider != null)
+            {
+                _rb.constraints = RigidbodyConstraints2D.FreezePositionY;
+                _collider.enabled = false;
             }
 
-            PlayAttackAnimation();
+            if (audioSourceKill != null) audioSourceKill.Play();
+            PlayDeathAnimation();
         }
-    }
 
-    private void PlayAttackAnimation()
-    {
-        anim.SetTrigger(triggerAttack);
-    }
+        private void OnCollisionEnter2D(Collision2D collision)
+        {
+            var health = collision.gameObject.GetComponent<HealthBase>();
+            //Player player = collision.gameObject.GetComponent<Player>();
+            Rigidbody2D playerRigidBody = null;
 
-    private void PlayDeathAnimation()
-    {
-        anim.SetTrigger(triggerDeath);
-    }
 
-    public void Damage(int amount)
-    {
-        healthBase.Damage(amount);
-    }
+            //if (player != null) playerRigidBody = player.GetComponent<Rigidbody2D>();
 
-    public void DestroyMe()
-    {
-        Destroy(gameObject);
+            if (health != null)
+            {
+                health.Damage(damage);
+                if (playerRigidBody != null)
+                {
+                    //player.Knock(knockTime); 
+
+                    float direction = Mathf.Sign(transform.localScale.x); // Garante que a direção está correta
+                    Vector2 knockbackDirection = new Vector2(-direction, 1.5f); // Aumenta o valor Y
+                    playerRigidBody.AddForce(knockbackDirection * pushForce, ForceMode2D.Impulse);
+                }
+
+                PlayAttackAnimation();
+            }
+        }
+
+        private void PlayAttackAnimation()
+        {
+            anim.SetTrigger(triggerAttack);
+        }
+
+        private void PlayDeathAnimation()
+        {
+            anim.SetTrigger(triggerDeath);
+        }
+
+        public void Damage(int amount)
+        {
+            healthBase.Damage(amount);
+        }
+
+        public void DestroyMe()
+        {
+            Destroy(gameObject);
+        }
     }
 }

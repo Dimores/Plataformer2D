@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class UIIntUpdate : MonoBehaviour
 {
-    public IntData intData;
+    //public IntData intData;
     public TextMeshProUGUI uiTextValue;
 
     void Start()
@@ -15,6 +15,6 @@ public class UIIntUpdate : MonoBehaviour
 
     public void UpdateValueOnUi()
     {
-        uiTextValue.text = intData.value.ToString();
+        //uiTextValue.text = intData.value.ToString();
     }
 }

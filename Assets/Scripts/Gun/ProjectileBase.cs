@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Orby.Enemy;
 using UnityEngine;
 
 public class ProjectileBase : MonoBehaviour

@@ -1,40 +1,39 @@
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
+using Orby.Character;
 using UnityEngine;
+using UnityEngine.Animations;
 
 namespace Orby.Player
 {
     [CreateAssetMenu(fileName = "Player", menuName = "ScriptableObjects/Player")]
-    public class PlayerData : ScriptableObject
+    public class PlayerData : CharacterData
     {
-        public Animator player;
+        [Header("Player Data - Combat Setup")]
+        public float criticalChance;
+        public float criticalDamage;
+        public float attackSpeed;
+        // Invencibility time here later <--
+        public int projectilePerAttack;
+        public int lifeStealWhenKill;
 
-        [Header("Speed Setup")]
-        public FloatData speed;
-        public FloatData jumpForce;
-        public FloatData timeBetweenShoot;
+        [Header("Player Data - Movement Setup")]
+        public float movementSpeed;
+        public float jumpForce;
+        public float dashForce;
+        // Maybe time to crouch and raise right here <--
 
-        [Header("Animation")]
-        public FloatData jumpScaleY;
-        public FloatData jumpScaleX;
-        public FloatData fallScaleY;
-        public FloatData fallScaleX;
-        public FloatData animationDuration;
-        public Ease ease = Ease.OutBack;
+        [Header("Player Data - Input Setup")]
+        public string movementAxisName;
+        public KeyCode jumpKey;
+        public KeyCode attackKey;
 
-        [Header("Animation Control")]
-        public StringData boolRun;
-        public StringData boolSprint;
-        public StringData triggerJump;
-        public StringData boolFalling;
-        public StringData triggerDeath;
-        public FloatData playerSwipeDuration;
-
-        [Header("Inputs")]
-        public InputData run;
-        public InputData jump;
-        public InputData shoot;
-        public AxisInputData moveAxis;
+        [Header("Player Data - Animation Setup")]
+        public string boolRun;
+        public string triggerJump;
+        public string boolFalling;
+        public string triggerDeath;
+        public float playerSwipeDuration;
     }
 }
