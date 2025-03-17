@@ -23,19 +23,24 @@ MonoBehaviour:
   lifeStealWhenKill: 0
   movementSpeed: 10
   jumpForce: 35
-  dashForce: 0
+  dashForce: 20
+  dashDuration: 0.25
   groundLayer:
     serializedVersion: 2
     m_Bits: 8
-  raycastDetectionDistance: 0.33
-  leftRaycastOffset: {x: -0.5, y: 0, z: 0}
-  middleRaycastOffset: {x: 0.81, y: 0, z: 0}
-  rightRaycastOffset: {x: 2.09, y: 0, z: 0}
+  raycastDetectionDistance: 0.23
+  leftRaycastOffset: {x: -0.5, y: 0.07, z: 0}
+  middleRaycastOffset: {x: 0.81, y: 0.07, z: 0}
+  rightRaycastOffset: {x: 2.09, y: 0.07, z: 0}
   movementAxisName: HorizontalP1
   jumpKey: 32
   attackKey: 0
-  boolRun: 
-  triggerJump: 
-  boolFalling: 
-  triggerDeath: 
-  playerSwipeDuration: 0
+  dashKey: 304
+  triggerIdle: Idle
+  triggerMovement: Movement
+  triggerJump: Jump
+  triggerFalling: Falling
+  triggerDash: Dash
+  triggerDeath: Death
+  playerSwipeDuration: 0.1
+  dashVFXOffset: {x: 0, y: 2, z: 0}

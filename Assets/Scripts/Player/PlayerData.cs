@@ -22,6 +22,7 @@ namespace Orby.Player
         public float movementSpeed;
         public float jumpForce;
         public float dashForce;
+        public float dashDuration;
         // Maybe time to crouch and raise right here <--
 
         [Header("Player Data - Ground Check Setup")]
@@ -35,12 +36,18 @@ namespace Orby.Player
         public string movementAxisName;
         public KeyCode jumpKey;
         public KeyCode attackKey;
+        public KeyCode dashKey;
 
         [Header("Player Data - Animation Setup")]
-        public string boolRun;
+        public string triggerIdle;
+        public string triggerMovement;
         public string triggerJump;
-        public string boolFalling;
+        public string triggerFalling;
+        public string triggerDash;
         public string triggerDeath;
         public float playerSwipeDuration;
+
+        [Header("Player Data - VFX Setup")]
+        public Vector3 dashVFXOffset;
     }
 }

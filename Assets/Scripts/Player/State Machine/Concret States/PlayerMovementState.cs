@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 
 namespace Orby.Player.StateMachine.ConcretStates
@@ -12,7 +13,7 @@ namespace Orby.Player.StateMachine.ConcretStates
         {
         }
 
-        public override void AnimationTriggerEvent(Player.AnimationTriggerType triggerType)
+        public override void AnimationTriggerEvent(string triggerType)
         {
             base.AnimationTriggerEvent(triggerType);
         }
@@ -20,6 +21,7 @@ namespace Orby.Player.StateMachine.ConcretStates
         public override void EnterState()
         {
             base.EnterState();
+            AnimationTriggerEvent(player.playerData.triggerMovement);
         }
 
         public override void ExitState()
@@ -30,12 +32,14 @@ namespace Orby.Player.StateMachine.ConcretStates
         public override void FrameUpdate()
         {
             base.FrameUpdate();
+            HandleMovement();
+            HandleScaleX();
 
             // State Transition Check
             CheckIfJumpState();
             CheckIfIdleState();
+            CheckIfDashState();
 
-            HandleMovement();
         }
 
         private void HandleMovement()
@@ -44,6 +48,12 @@ namespace Orby.Player.StateMachine.ConcretStates
 
             if (horizontal != 0)
                 player.Move(player.playerData.movementSpeed, horizontal);
+        }
+
+        private void HandleScaleX()
+        {
+            if (horizontal != 0)
+                player.Rb.transform.DOScaleX(horizontal, player.playerData.playerSwipeDuration);
         }
 
         private void CheckIfIdleState()
@@ -56,6 +66,12 @@ namespace Orby.Player.StateMachine.ConcretStates
         {
             if (Input.GetKeyDown(player.playerData.jumpKey))
                 player.StateMachine.ChangeState(player.JumpState);
+        }
+
+        private void CheckIfDashState()
+        {
+            if (Input.GetKeyDown(player.playerData.dashKey))
+                player.StateMachine.ChangeState(player.DashState);
         }
     }
 }

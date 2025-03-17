@@ -10,7 +10,7 @@ namespace Orby.Player.StateMachine.ConcretStates
         {
         }
 
-        public override void AnimationTriggerEvent(Player.AnimationTriggerType triggerType)
+        public override void AnimationTriggerEvent(string triggerType)
         {
             base.AnimationTriggerEvent(triggerType);
         }
@@ -18,7 +18,7 @@ namespace Orby.Player.StateMachine.ConcretStates
         public override void EnterState()
         {
             base.EnterState();
-            Debug.Log("Idle");
+            AnimationTriggerEvent(player.playerData.triggerIdle);
         }
 
         public override void ExitState()
@@ -30,11 +30,14 @@ namespace Orby.Player.StateMachine.ConcretStates
         {
             base.FrameUpdate();
 
+
             // State Transition Check
             CheckIfMoveState();
             CheckIfJumpState();
-
             player.Rb.velocity = new Vector2(0, player.Rb.velocity.y);
+
+            CheckIfDashState();
+
         }
 
         private void CheckIfMoveState()
@@ -47,6 +50,12 @@ namespace Orby.Player.StateMachine.ConcretStates
         {
             if (Input.GetKeyDown(player.playerData.jumpKey))
                 player.StateMachine.ChangeState(player.JumpState);
+        }
+
+        private void CheckIfDashState()
+        {
+            if (Input.GetKeyDown(player.playerData.dashKey))
+                player.StateMachine.ChangeState(player.DashState);
         }
     }
 }

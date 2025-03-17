@@ -11,7 +11,8 @@ public class VFXManager : Singleton<VFXManager>
         JUMP,
         FALL,
         COIN,
-        EXPLOSION
+        EXPLOSION,
+        DASH
     }
 
     public List<VFXManagerSetup> vfxSetup;

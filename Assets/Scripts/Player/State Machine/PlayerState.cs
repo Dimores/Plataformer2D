@@ -18,6 +18,8 @@ namespace Orby.Player.StateMachine
         public virtual void EnterState() { }
         public virtual void ExitState() { }
         public virtual void FrameUpdate() { }
-        public virtual void AnimationTriggerEvent(Player.AnimationTriggerType triggerType) { }
+        public virtual void AnimationTriggerEvent(string triggerName) {
+            player.playerAnimator.SetTrigger(triggerName);
+        }
     }
 }

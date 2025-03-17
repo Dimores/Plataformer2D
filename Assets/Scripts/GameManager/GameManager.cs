@@ -38,7 +38,6 @@ public class GameManager : Singleton<GameManager>
         player = Instantiate(playerPrefab, GetPlayerSpawnVector(), Quaternion.identity, null);
     }
 
-
     private Vector3 GetPlayerSpawnVector()
     {
         if (playerSpawnPosition != null)

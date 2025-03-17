@@ -10,6 +10,8 @@ namespace Orby.Player
     public class Player : MonoBehaviour, IDamageable, IMoveable, IKillable, IKnockbackable
     {
         public PlayerData playerData;
+        public Animator playerAnimator;
+        public bool HasDashedOnAir { get; set; } = false;
 
         public int MaxHealth { get; set; }
         public int CurrentHealth { get; set; }
@@ -38,6 +40,7 @@ namespace Orby.Player
         private void Start()
         {
             Rb = GetComponent<Rigidbody2D>();
+            playerAnimator = GetComponent<Animator>();
 
             MaxHealth = playerData.life;
             CurrentHealth = MaxHealth;
@@ -48,9 +51,15 @@ namespace Orby.Player
         private void Update()
         {
             StateMachine.CurrentPlayerState.FrameUpdate();
-
-            //CheckGrounded();
         }
+
+        // Raycast Debug
+        //private void LateUpdate()
+        //{
+        //    Debug.DrawRay(transform.position + playerData.leftRaycastOffset, Vector2.down * playerData.raycastDetectionDistance, Color.red);
+        //    Debug.DrawRay(transform.position + playerData.middleRaycastOffset, Vector2.down * playerData.raycastDetectionDistance, Color.red);
+        //    Debug.DrawRay(transform.position + playerData.rightRaycastOffset, Vector2.down * playerData.raycastDetectionDistance, Color.red);
+        //}
 
 
         public void Damage(int damageAmount)
@@ -73,7 +82,13 @@ namespace Orby.Player
 
         public void Jump(float jumpForce)
         {
-            Rb.velocity = Vector2.up * playerData.jumpForce;
+            Rb.velocity = Vector2.up * jumpForce;
+        }
+
+        public void Dash(float dashForce, float direction)
+        {
+            Rb.velocity = new Vector2(Rb.velocity.x, 0);
+            Rb.AddForce(new Vector2(dashForce * direction, 0), ForceMode2D.Impulse);
         }
 
         public void Knockback(float knockbackForce)
@@ -84,37 +99,24 @@ namespace Orby.Player
         public bool CheckGrounded()
         {
             if (Physics2D.Raycast(transform.position + playerData.leftRaycastOffset,
-                    Vector2.down, playerData.raycastDetectionDistance, playerData.groundLayer) 
-                ||
-                Physics2D.Raycast(transform.position + playerData.middleRaycastOffset,
                     Vector2.down, playerData.raycastDetectionDistance, playerData.groundLayer)
                 ||
-                Physics2D.Raycast(transform.position + playerData.rightRaycastOffset,
+                    Physics2D.Raycast(transform.position + playerData.middleRaycastOffset,
+                    Vector2.down, playerData.raycastDetectionDistance, playerData.groundLayer)
+                ||
+                    Physics2D.Raycast(transform.position + playerData.rightRaycastOffset,
                     Vector2.down, playerData.raycastDetectionDistance, playerData.groundLayer))
                 return true;
-
-            //Debug.DrawRay(transform.position + playerData.leftRaycastOffset, Vector2.down, 
-            //    Color.red);
-
-            //Debug.DrawRay(transform.position + playerData.middleRaycastOffset, Vector2.down,
-            //    Color.red);
-
-            //Debug.DrawRay(transform.position + playerData.rightRaycastOffset, Vector2.down,
-            //    Color.red);
 
             return false;
         }
 
         #region AnimationTriggers
-        private void AnimationTriggerEvent(AnimationTriggerType triggerType)
+        private void AnimationTriggerEvent(string trigger)
         {
-            StateMachine.CurrentPlayerState.AnimationTriggerEvent(triggerType);
+            StateMachine.CurrentPlayerState.AnimationTriggerEvent(trigger);
         }
 
-        public enum AnimationTriggerType {
-            PlayerRun,
-            PlayerJump
-        }
         #endregion
 
         #region OLD

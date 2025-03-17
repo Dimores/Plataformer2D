@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 
 namespace Orby.Player.StateMachine.ConcretStates
@@ -12,7 +13,7 @@ namespace Orby.Player.StateMachine.ConcretStates
         {
         }
 
-        public override void AnimationTriggerEvent(Player.AnimationTriggerType triggerType)
+        public override void AnimationTriggerEvent(string triggerType)
         {
             base.AnimationTriggerEvent(triggerType);
         }
@@ -21,6 +22,7 @@ namespace Orby.Player.StateMachine.ConcretStates
         {
             base.EnterState();
             player.Jump(player.playerData.jumpForce);
+            AnimationTriggerEvent(player.playerData.triggerJump);
         }
 
         public override void ExitState()
@@ -34,9 +36,11 @@ namespace Orby.Player.StateMachine.ConcretStates
 
             // State Transition Check
             // Check Dash State <--
-            CheckIfFallingState();
-
             AirJumpMovement();
+            HandleScaleX();
+
+            CheckIfFallingState();
+            CheckIfDashState();
         }
 
         private void AirJumpMovement()
@@ -45,10 +49,22 @@ namespace Orby.Player.StateMachine.ConcretStates
             player.Move(player.playerData.movementSpeed, horizontal);
         }
 
+        private void HandleScaleX()
+        {
+            if (horizontal != 0)
+                player.Rb.transform.DOScaleX(horizontal, player.playerData.playerSwipeDuration);
+        }
+
         private void CheckIfFallingState()
         {
             if (player.Rb.velocity.y <= 0.1f)
                 player.StateMachine.ChangeState(player.FallingState);
+        }
+
+        private void CheckIfDashState()
+        {
+            if (Input.GetKeyDown(player.playerData.dashKey))
+                player.StateMachine.ChangeState(player.DashState);
         }
     }
 }
