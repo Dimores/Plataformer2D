@@ -4,6 +4,8 @@ using Orby.Interfaces;
 using Unity.VisualScripting;
 using Orby.Player.StateMachine;
 using Orby.Player.StateMachine.ConcretStates;
+using System.Collections;
+using UnityEngine.VFX;
 
 namespace Orby.Player
 {
@@ -11,7 +13,10 @@ namespace Orby.Player
     {
         public PlayerData playerData;
         public Animator playerAnimator;
+        public VisualEffect smokeVisualEffect;
         public bool HasDashedOnAir { get; set; } = false;
+        public bool IsDashOnCooldown { get; private set; }
+
 
         public int MaxHealth { get; set; }
         public int CurrentHealth { get; set; }
@@ -90,6 +95,37 @@ namespace Orby.Player
             Rb.velocity = new Vector2(Rb.velocity.x, 0);
             Rb.AddForce(new Vector2(dashForce * direction, 0), ForceMode2D.Impulse);
         }
+
+        public void StartDashCooldown(float cooldownTime)
+        {
+            IsDashOnCooldown = true;
+            StartCoroutine(DashCooldownCoroutine(cooldownTime));
+        }
+
+        private IEnumerator DashCooldownCoroutine(float cooldownTime)
+        {
+            yield return new WaitForSeconds(cooldownTime);
+            IsDashOnCooldown = false;
+        }
+
+        public void PlaySmokeVFX(Vector3 position, Vector3 offset,
+            bool willDestroy = true)
+        {
+            var item = Instantiate(smokeVisualEffect, null);
+            var vfx = item.GetComponent<VisualEffect>();
+
+            var scaleX = Mathf.Round(transform.localScale.x);
+            var direction = Mathf.Approximately(transform.localScale.x, 1f) ? -17 : 17;
+            float offsetX = Mathf.Approximately(transform.localScale.x, 1f) ? 2.5f : -2.5f;
+
+            item.transform.position = position + new Vector3(offsetX, offset.y, offset.z);
+            vfx.SetVector3("Direction", new Vector3(direction, 0, 0));
+
+
+            if (willDestroy)
+                Destroy(item.gameObject, 3f);
+        }
+
 
         public void Knockback(float knockbackForce)
         {

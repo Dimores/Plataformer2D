@@ -54,7 +54,7 @@ namespace Orby.Player.StateMachine.ConcretStates
 
         private void CheckIfDashState()
         {
-            if (Input.GetKeyDown(player.playerData.dashKey))
+            if (Input.GetKeyDown(player.playerData.dashKey) && !player.IsDashOnCooldown)
                 player.StateMachine.ChangeState(player.DashState);
         }
     }

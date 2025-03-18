@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static VFXManager;
 
 namespace Orby.Player.StateMachine.ConcretStates
 {
@@ -22,14 +23,17 @@ namespace Orby.Player.StateMachine.ConcretStates
         {
             base.EnterState();
 
+            player.StartDashCooldown(player.playerData.dashCooldown); 
+
             playerInitialGravityScale = player.Rb.gravityScale;
+            player.Rb.gravityScale = 0f;
 
             if (currentDashCoroutine == null)
             {
-                player.Rb.gravityScale = 0f;
                 currentDashCoroutine = player.StartCoroutine(Dash());
             }
         }
+
 
         public override void ExitState()
         {
@@ -45,13 +49,13 @@ namespace Orby.Player.StateMachine.ConcretStates
         IEnumerator Dash()
         {
             player.Dash(player.playerData.dashForce, player.transform.localScale.x);
-            VFXManager.Instance.PlayVFXByType(VFXManager.VFXType.DASH, player.transform.position,
-                player.playerData.dashVFXOffset, true);
             AnimationTriggerEvent(player.playerData.triggerDash);
+            player.PlaySmokeVFX(player.transform.position,
+                player.playerData.dashVFXOffset, true);
             yield return new WaitForSeconds(player.playerData.dashDuration);
-            currentDashCoroutine = null;
             CheckIfFallingState();
             CheckIfIdleState();
+            currentDashCoroutine = null;
         }
 
         // Dash on air
@@ -77,5 +81,7 @@ namespace Orby.Player.StateMachine.ConcretStates
         {
 
         }
+
+
     }
 }

@@ -23,6 +23,7 @@ namespace Orby.Player
         public float jumpForce;
         public float dashForce;
         public float dashDuration;
+        public float dashCooldown;
         // Maybe time to crouch and raise right here <--
 
         [Header("Player Data - Ground Check Setup")]

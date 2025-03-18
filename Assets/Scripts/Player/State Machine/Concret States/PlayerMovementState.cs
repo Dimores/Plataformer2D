@@ -53,7 +53,9 @@ namespace Orby.Player.StateMachine.ConcretStates
         private void HandleScaleX()
         {
             if (horizontal != 0)
+            {
                 player.Rb.transform.DOScaleX(horizontal, player.playerData.playerSwipeDuration);
+            }
         }
 
         private void CheckIfIdleState()
@@ -70,7 +72,7 @@ namespace Orby.Player.StateMachine.ConcretStates
 
         private void CheckIfDashState()
         {
-            if (Input.GetKeyDown(player.playerData.dashKey))
+            if (Input.GetKeyDown(player.playerData.dashKey) && !player.IsDashOnCooldown)
                 player.StateMachine.ChangeState(player.DashState);
         }
     }

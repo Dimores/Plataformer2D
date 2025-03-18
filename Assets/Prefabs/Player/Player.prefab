@@ -1086,7 +1086,7 @@ Rigidbody2D:
   m_Interpolate: 1
   m_SleepingMode: 1
   m_CollisionDetection: 1
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!95 &5427659795183392607
 Animator:
   serializedVersion: 7
@@ -1123,6 +1123,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerData: {fileID: 11400000, guid: c7e84c6d762bfe94d977ff17601c7046, type: 2}
   playerAnimator: {fileID: 0}
+  smokeVisualEffect: {fileID: 7668831316902137974, guid: 5ede2fdc0bdb85d4bb5ced36d3558160, type: 3}
 --- !u!1 &2278125767530972467
 GameObject:
   m_ObjectHideFlags: 0
