@@ -43,5 +43,5 @@ MonoBehaviour:
   triggerFalling: Falling
   triggerDash: Dash
   triggerDeath: Death
-  playerSwipeDuration: 0.05
+  playerSwipeDuration: 0.01
   dashVFXOffset: {x: 0, y: 2, z: 0}
