@@ -22,6 +22,7 @@ namespace Orby.Player.StateMachine.ConcretStates
         {
             base.EnterState();
             player.Jump(player.playerData.jumpForce);
+            player.PlaySmokeJumpVFX(player.transform.position, player.playerData.jumpVFXOffset);
             AnimationTriggerEvent(player.playerData.triggerJump);
         }
 

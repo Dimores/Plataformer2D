@@ -8,6 +8,8 @@ namespace Orby.Player.StateMachine
     {
         public PlayerState CurrentPlayerState { get; set; }
 
+        public PlayerStateSwitchChecker PlayerStateSwitchChecker { get; set; }
+
         public void Initialize(PlayerState startingState)
         {
             CurrentPlayerState = startingState;

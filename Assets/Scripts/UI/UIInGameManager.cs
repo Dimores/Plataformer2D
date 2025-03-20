@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using Ebac.Core.Singleton;
+using Orby.Core.Singleton;
 
 public class UIInGameManager : Singleton<UIInGameManager>
 {

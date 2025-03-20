@@ -50,5 +50,6 @@ namespace Orby.Player
 
         [Header("Player Data - VFX Setup")]
         public Vector3 dashVFXOffset;
+        public Vector3 jumpVFXOffset;
     }
 }

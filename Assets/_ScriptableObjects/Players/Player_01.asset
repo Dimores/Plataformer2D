@@ -12,13 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46b3d876a574e8c419dd7ee6ceb0e01c, type: 3}
   m_Name: Player_01
   m_EditorClassIdentifier: 
-  life: 0
+  life: 3
   armour: 0
   damage: 0
   characterAnimator: {fileID: 0}
   criticalChance: 0
   criticalDamage: 0
-  attackSpeed: 0
+  attackSpeed: 0.09
   projectilePerAttack: 0
   lifeStealWhenKill: 0
   movementSpeed: 10
@@ -33,9 +33,9 @@ MonoBehaviour:
   leftRaycastOffset: {x: -0.5, y: 0.07, z: 0}
   middleRaycastOffset: {x: 0.81, y: 0.07, z: 0}
   rightRaycastOffset: {x: 2.09, y: 0.07, z: 0}
-  movementAxisName: HorizontalP1
+  movementAxisName: Horizontal
   jumpKey: 32
-  attackKey: 0
+  attackKey: 120
   dashKey: 304
   triggerIdle: Idle
   triggerMovement: Movement
@@ -45,3 +45,4 @@ MonoBehaviour:
   triggerDeath: Death
   playerSwipeDuration: 0.01
   dashVFXOffset: {x: 0, y: 2, z: 0}
+  jumpVFXOffset: {x: 0, y: 0, z: 0}

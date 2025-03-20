@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static VFXManager;
 
 namespace Orby.Player.StateMachine.ConcretStates
 {

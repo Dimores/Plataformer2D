@@ -6,6 +6,8 @@ using Orby.Player.StateMachine;
 using Orby.Player.StateMachine.ConcretStates;
 using System.Collections;
 using UnityEngine.VFX;
+using static UnityEditor.Searcher.SearcherWindow.Alignment;
+using Orby.Managers;
 
 namespace Orby.Player
 {
@@ -14,6 +16,8 @@ namespace Orby.Player
         public PlayerData playerData;
         public Animator playerAnimator;
         public VisualEffect smokeVisualEffect;
+        public VisualEffect smokeJumpVisualEffect;
+
         public bool HasDashedOnAir { get; set; } = false;
         public bool IsDashOnCooldown { get; private set; }
 
@@ -34,6 +38,7 @@ namespace Orby.Player
         private void Awake()
         {
             StateMachine = new PlayerStateMachine();
+            StateMachine.PlayerStateSwitchChecker = new PlayerStateSwitchChecker(this);
 
             IdleState = new PlayerIdleState(this, StateMachine);
             MovementState = new PlayerMovementState(this, StateMachine);
@@ -126,6 +131,16 @@ namespace Orby.Player
                 Destroy(item.gameObject, 3f);
         }
 
+        public void PlaySmokeJumpVFX(Vector3 position, Vector3 offset, 
+            bool willDestroy = true)
+        {
+            var item = Instantiate(smokeJumpVisualEffect, null);
+            item.transform.position = position + offset;
+
+            if (willDestroy)
+                Destroy(item.gameObject, 3f);
+        }
+
 
         public void Knockback(float knockbackForce)
         {
@@ -147,13 +162,14 @@ namespace Orby.Player
             return false;
         }
 
-        #region AnimationTriggers
-        private void AnimationTriggerEvent(string trigger)
+        private void HandleScaleX()
         {
-            StateMachine.CurrentPlayerState.AnimationTriggerEvent(trigger);
+            if (InputManager.Instance.Horizontal != 0)
+            {
+                Rb.transform.DOScaleX(InputManager.Instance.Horizontal,
+                  playerData.playerSwipeDuration);
+            }
         }
-
-        #endregion
 
         #region OLD
         //[Header("Player Data")]

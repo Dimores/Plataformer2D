@@ -1,7 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using DG.Tweening; // Importa o DOTween
+using DG.Tweening;
+using Orby.Managers; // Importa o DOTween
 
 public class ItemCollectableCoin : ItemCollectableBase
 {

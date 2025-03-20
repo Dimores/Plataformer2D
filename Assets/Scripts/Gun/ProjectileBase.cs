@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Orby.Enemy;
+using Orby.Managers;
 using UnityEngine;
 
 public class ProjectileBase : MonoBehaviour
@@ -13,6 +14,8 @@ public class ProjectileBase : MonoBehaviour
 
     public int damageAmount = 1;
 
+    public Vector3 Direction { get => direction; set => direction = value; }
+
     private void Awake()
     {
         Destroy(gameObject, timeToDestroy);
@@ -20,7 +23,7 @@ public class ProjectileBase : MonoBehaviour
 
     void Update()
     {
-        transform.Translate(direction * Time.deltaTime * side);
+        transform.Translate(Direction * Time.deltaTime * side);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
