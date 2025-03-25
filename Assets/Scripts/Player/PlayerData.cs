@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using Orby.Character;
+using Orby.Managers;
 using UnityEngine;
 using UnityEngine.Animations;
 
@@ -11,14 +12,13 @@ namespace Orby.Player
     public class PlayerData : CharacterData
     {
         [Header("Player Data - Combat Setup")]
-        public float criticalChance;
-        public float criticalDamage;
         public float attackSpeed;
+        public float projectileSpeed;
         // Invencibility time here later <--
-        public int projectilePerAttack;
-        public int lifeStealWhenKill;
 
         [Header("Player Data - Movement Setup")]
+        public Rigidbody2D Rb;
+        public Transform PlayerTransform;
         public float movementSpeed;
         public float jumpForce;
         public float dashForce;
@@ -51,5 +51,53 @@ namespace Orby.Player
         [Header("Player Data - VFX Setup")]
         public Vector3 dashVFXOffset;
         public Vector3 jumpVFXOffset;
+
+        #region METHODS
+        public void Move(float direction)
+        {
+            Rb.velocity = new Vector2(movementSpeed * direction, Rb.velocity.y);
+        }
+
+        public void Jump(float jumpForce)
+        {
+            Rb.velocity = Vector2.up * jumpForce;
+        }
+
+        public void Dash(float dashForce, float direction)
+        {
+            Rb.velocity = new Vector2(Rb.velocity.x, 0);
+            Rb.AddForce(new Vector2(dashForce * direction, 0), ForceMode2D.Impulse);
+        }
+
+        public void HandleMovement()
+        {
+            if (InputManager.Instance.Horizontal != 0)
+            {
+                Move(InputManager.Instance.Horizontal);
+                HandleScaleX();
+            }
+        }
+
+        private void HandleScaleX()
+        {
+            Rb.transform.DOScaleX(InputManager.Instance.Horizontal,
+                this.playerSwipeDuration);
+        }
+
+        public bool CheckGrounded()
+        {
+            if (Physics2D.Raycast(PlayerTransform.position + this.leftRaycastOffset,
+                    Vector2.down, this.raycastDetectionDistance, this.groundLayer)
+                ||
+                    Physics2D.Raycast(PlayerTransform.position + this.middleRaycastOffset,
+                    Vector2.down, this.raycastDetectionDistance, this.groundLayer)
+                ||
+                    Physics2D.Raycast(PlayerTransform.position + this.rightRaycastOffset,
+                    Vector2.down, this.raycastDetectionDistance, this.groundLayer))
+                return true;
+
+            return false;
+        }
+        #endregion
     }
 }

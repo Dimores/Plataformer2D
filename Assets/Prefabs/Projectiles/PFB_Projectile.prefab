@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5506433769759550738}
   - component: {fileID: 6522894654980645224}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Circle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -26,8 +26,8 @@ Transform:
   m_GameObject: {fileID: 1257166158916078653}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.0845, z: 0}
-  m_LocalScale: {x: 0.68245226, y: 0.18819329, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.68245226, y: 0.07894708, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2110561579956365038}
@@ -54,7 +54,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 1061420a1f6707e458aa3a326d356138, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -97,7 +97,7 @@ GameObject:
   - component: {fileID: 2110561579956365038}
   - component: {fileID: 7894251976964326450}
   - component: {fileID: 6057621346625870631}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: PFB_Projectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -132,8 +132,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3adbf6bb962ba8e4d8512d43414b08a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  direction: {x: 35, y: 0, z: 0}
-  timeToDestroy: 1
+  direction: {x: 0, y: 0, z: 0}
+  timeToDestroy: 2
   side: 1
   damageAmount: 1
 --- !u!61 &6057621346625870631
@@ -152,7 +152,7 @@ BoxCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 192
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -180,5 +180,5 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.109334946, y: 0.03821516}
+  m_Size: {x: 0.109334946, y: 0.08537722}
   m_EdgeRadius: 0

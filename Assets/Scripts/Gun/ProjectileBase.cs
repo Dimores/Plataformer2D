@@ -23,7 +23,10 @@ public class ProjectileBase : MonoBehaviour
 
     void Update()
     {
-        transform.Translate(Direction * Time.deltaTime * side);
+        if (Direction.x != 0 && Direction.y == 0)
+            transform.Translate(Direction * Time.deltaTime * side, Space.World);
+        else
+            transform.Translate(Direction * Time.deltaTime, Space.World);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

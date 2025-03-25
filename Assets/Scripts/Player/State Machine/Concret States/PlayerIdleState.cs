@@ -30,33 +30,13 @@ namespace Orby.Player.StateMachine.ConcretStates
         {
             base.FrameUpdate();
 
-
-            // State Transition Check
-            //CheckIfMoveState();
             player.StateMachine.PlayerStateSwitchChecker.CheckIfMovementState();
-            CheckIfJumpState();
-            player.Rb.velocity = new Vector2(0, player.Rb.velocity.y);
+            player.StateMachine.PlayerStateSwitchChecker.CheckIfJumpState();
 
-            CheckIfDashState();
+            player.playerData.Rb.velocity = new Vector2(0, player.playerData.Rb.velocity.y);
 
-        }
+            player.StateMachine.PlayerStateSwitchChecker.CheckIfDashState();
 
-        private void CheckIfMoveState()
-        {
-            if (Input.GetAxisRaw(player.playerData.movementAxisName) != 0)
-                player.StateMachine.ChangeState(player.MovementState);
-        }
-
-        private void CheckIfJumpState()
-        {
-            if (Input.GetKeyDown(player.playerData.jumpKey))
-                player.StateMachine.ChangeState(player.JumpState);
-        }
-
-        private void CheckIfDashState()
-        {
-            if (Input.GetKeyDown(player.playerData.dashKey) && !player.IsDashOnCooldown)
-                player.StateMachine.ChangeState(player.DashState);
         }
     }
 }

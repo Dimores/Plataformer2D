@@ -1,84 +1,117 @@
 using System.Collections;
 using System.Collections.Generic;
-using Orby.Player;
 using UnityEngine;
 
-public class GunBase : MonoBehaviour
+namespace Orby.Gun
 {
-    //public PlayerData playerData;
-    public ProjectileBase prefabProjectile;
+    using Orby.Managers;
+    using Orby.Player;
 
-    public Transform positioToShoot;
-    public Transform playerSideReference;
-
-    public AudioRandomPlayAudioClips randomShootAudio;
-
-    private Coroutine _currentCoroutine;
-    private Player player;
-
-    // Input
-    private float horizontal;
-    private float vertical;
-
-    private void Awake()
+    public class GunBase : MonoBehaviour
     {
-        playerSideReference = GetComponentInParent<Player>().gameObject.transform;
-        player = GetComponentInParent<Player>();
-    }
+        [Header("Projectile")]
+        public ProjectileBase prefabProjectile;
 
-    private void Update()
-    {
-        ProcessInputs();
-        if (Input.GetKeyDown(player.playerData.attackKey) && _currentCoroutine == null)
+        [Header("Projectile Spawn Points")]
+        public Transform shootPointDefault;
+        public Transform shootPointDiagonal;
+        public Transform shootPointUp;
+
+        [Header("Animation triggers")]
+        public string defaultTrigger;
+        public string upTrigger;
+        public string diagonalTrigger;
+
+        [Header("Audio")]
+        public AudioRandomPlayAudioClips randomShootAudio;
+
+        private Coroutine _currentCoroutine;
+        private Player _player;
+        private Transform _playerSideReference;
+
+        private void Awake()
         {
-            _currentCoroutine = StartCoroutine(StartShoot());
+            _playerSideReference = GetComponentInParent<Player>().gameObject.transform;
+            _player = GetComponentInParent<Player>();
         }
-        else if (Input.GetKeyUp(player.playerData.attackKey) && _currentCoroutine != null)
+
+        private void Update()
         {
-            StopCoroutine(_currentCoroutine);
-            _currentCoroutine = null;
+            if (Input.GetKey(_player.playerData.attackKey) && _currentCoroutine == null)
+            {
+                _currentCoroutine = StartCoroutine(StartShoot());
+            }
+            else if (Input.GetKeyUp(_player.playerData.attackKey) && _currentCoroutine != null)
+            {
+                StopCoroutine(_currentCoroutine);
+                _player.playerData.characterAnimator.SetTrigger(defaultTrigger);
+                _currentCoroutine = null;
+            }
         }
-    }
 
-
-    IEnumerator StartShoot()
-    {
-        while (true)
+        IEnumerator StartShoot()
         {
-            Shoot();
-            yield return new WaitForSeconds(player.playerData.attackSpeed);
+            while (true)
+            {
+                Shoot();
+                yield return new WaitForSeconds(_player.playerData.attackSpeed);
+            }
         }
-    }
 
-    public void Shoot()
-    {
-        if (randomShootAudio != null) randomShootAudio.PlayRandom();
-
-        var projectile = Instantiate(prefabProjectile);
-        projectile.transform.position = positioToShoot.position;
-        projectile.side = playerSideReference.transform.localScale.x;
-        DefineProjectileDirection(projectile);
-    }
-
-    private void ProcessInputs()
-    {
-        horizontal = Input.GetAxis("Horizontal");
-        vertical = Input.GetAxis("Vertical");
-    }
-
-    private void DefineProjectileDirection(ProjectileBase projectile)
-    {
-        if (horizontal > 0 && vertical == 0)
+        public void Shoot()
         {
-            projectile.Direction = new Vector3(35, 0, 0);
-        } else if (horizontal > 0 && vertical > 0)
-        {
-            projectile.Direction = new Vector3(35, 10, 0);
+            if (randomShootAudio != null) randomShootAudio.PlayRandom();
+            AudioManager.Instance.PlayAudioByTypeWithRandomPitch(AudioManager.AudioType.SHOOT,
+                new Vector2(0.9f, 1.1f), 0.5f);
+
+            var shootPoint = GetShootPoint(); 
+            var direction = GetProjectileDirection(); 
+
+            var projectile = Instantiate(prefabProjectile);
+            projectile.transform.position = shootPoint.position;
+            projectile.transform.rotation = shootPoint.rotation;
+            projectile.side = _playerSideReference.transform.localScale.x;
+            projectile.Direction = direction * _player.playerData.projectileSpeed;
         }
-        // Calcula o ângulo em relação ao eixo X
-        float angle = Mathf.Atan2(projectile.Direction.y, projectile.Direction.x) * Mathf.Rad2Deg;
 
-        // Aplica a rotação
-        projectile.transform.rotation = Quaternion.Euler(0, 0, angle);
+        private Transform GetShootPoint()
+        {
+            if (InputManager.Instance.Horizontal != 0 && InputManager.Instance.Vertical > 0)
+            {
+                _player.playerData.characterAnimator.SetTrigger(diagonalTrigger);
+                return shootPointDiagonal;
+            }
+
+            if (InputManager.Instance.Vertical > 0)
+            {
+                _player.playerData.characterAnimator.SetTrigger(upTrigger);
+                return shootPointUp;
+            }
+
+            _player.playerData.characterAnimator.SetTrigger(defaultTrigger);
+            return shootPointDefault;
+        }
+
+        private Vector3 GetProjectileDirection()
+        {
+            if (InputManager.Instance.Vertical > 0 && InputManager.Instance.Horizontal == 0)
+                return Vector3.up; 
+
+            if (InputManager.Instance.Vertical > 0 && InputManager.Instance.Horizontal != 0)
+            {
+                return new Vector3(InputManager.Instance.Horizontal, 1, 0).normalized * Mathf.Sqrt(2);
+            }
+
+            return new Vector3(1f, 0f, 0f);
+        }
+
+        private void OnDisable()
+        {
+            if (_currentCoroutine != null)
+            {
+                StopCoroutine(_currentCoroutine);
+                _currentCoroutine = null;
+            }
+        }
     }
 }

@@ -35,5 +35,11 @@ namespace Orby.Player.StateMachine
             if (Input.GetKeyDown(_player.playerData.dashKey) && !_player.IsDashOnCooldown)
                 _player.StateMachine.ChangeState(_player.DashState);
         }
+
+        public void CheckIfFallingState()
+        {
+            if (_player.playerData.Rb.velocity.y <= 0.1f)
+                _player.StateMachine.ChangeState(_player.FallingState);
+        }
     }
 }

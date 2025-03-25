@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Orby.Managers;
 using UnityEngine;
 
 namespace Orby.Player.StateMachine.ConcretStates
@@ -22,10 +23,12 @@ namespace Orby.Player.StateMachine.ConcretStates
         {
             base.EnterState();
 
+            player.GunBase.enabled = false;
+
             player.StartDashCooldown(player.playerData.dashCooldown); 
 
-            playerInitialGravityScale = player.Rb.gravityScale;
-            player.Rb.gravityScale = 0f;
+            playerInitialGravityScale = player.playerData.Rb.gravityScale;
+            player.playerData.Rb.gravityScale = 0f;
 
             if (currentDashCoroutine == null)
             {
@@ -33,11 +36,11 @@ namespace Orby.Player.StateMachine.ConcretStates
             }
         }
 
-
         public override void ExitState()
         {
             base.ExitState();
-            player.Rb.gravityScale = playerInitialGravityScale;
+            player.playerData.Rb.gravityScale = playerInitialGravityScale;
+            player.GunBase.enabled = true;
         }
 
         public override void FrameUpdate()
@@ -47,40 +50,43 @@ namespace Orby.Player.StateMachine.ConcretStates
 
         IEnumerator Dash()
         {
-            player.Dash(player.playerData.dashForce, player.transform.localScale.x);
+            player.playerData.Dash(player.playerData.dashForce, player.transform.localScale.x);
             AnimationTriggerEvent(player.playerData.triggerDash);
             player.PlaySmokeVFX(player.transform.position,
                 player.playerData.dashVFXOffset, true);
             yield return new WaitForSeconds(player.playerData.dashDuration);
-            CheckIfFallingState();
-            CheckIfIdleState();
+            CheckIfFallingStateAfterDash();
+            CheckIfIdleStateAfterDash();
+            CheckIfMovementStateAfterDash();
             currentDashCoroutine = null;
         }
 
         // Dash on air
-        private void CheckIfFallingState()
+        private void CheckIfFallingStateAfterDash()
         {
-            if (!player.CheckGrounded())
+            if (!player.playerData.CheckGrounded())
             {
                 player.HasDashedOnAir = true;
                 player.StateMachine.ChangeState(player.FallingState);
             }
         }
 
-        private void CheckIfIdleState()
+        private void CheckIfIdleStateAfterDash()
         {
-            if (player.CheckGrounded())
+            if (player.playerData.CheckGrounded() && InputManager.Instance.Horizontal == 0)
             {
                 player.HasDashedOnAir = false;
                 player.StateMachine.ChangeState(player.IdleState);
             }
         }
 
-        private void CheckIfMovementState()
+        private void CheckIfMovementStateAfterDash()
         {
-
+            if (player.playerData.CheckGrounded() && InputManager.Instance.Horizontal != 0)
+            {
+                player.HasDashedOnAir = false;
+                player.StateMachine.ChangeState(player.MovementState);
+            }
         }
-
-
     }
 }

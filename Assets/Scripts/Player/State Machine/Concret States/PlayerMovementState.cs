@@ -7,8 +7,6 @@ namespace Orby.Player.StateMachine.ConcretStates
 {
     public class PlayerMovementState : PlayerState
     {
-        private float horizontal;
-
         public PlayerMovementState(Player player, PlayerStateMachine playerStateMachine) : base(player, playerStateMachine)
         {
         }
@@ -32,48 +30,11 @@ namespace Orby.Player.StateMachine.ConcretStates
         public override void FrameUpdate()
         {
             base.FrameUpdate();
-            HandleMovement();
-            HandleScaleX();
+            player.playerData.HandleMovement();
 
-            // State Transition Check
-            CheckIfJumpState();
-            CheckIfIdleState();
-            CheckIfDashState();
-
-        }
-
-        private void HandleMovement()
-        {
-            horizontal = Input.GetAxisRaw(player.playerData.movementAxisName);
-
-            if (horizontal != 0)
-                player.Move(player.playerData.movementSpeed, horizontal);
-        }
-
-        private void HandleScaleX()
-        {
-            if (horizontal != 0)
-            {
-                player.Rb.transform.DOScaleX(horizontal, player.playerData.playerSwipeDuration);
-            }
-        }
-
-        private void CheckIfIdleState()
-        {
-            if (horizontal == 0)
-                player.StateMachine.ChangeState(player.IdleState);
-        }
-
-        private void CheckIfJumpState()
-        {
-            if (Input.GetKeyDown(player.playerData.jumpKey))
-                player.StateMachine.ChangeState(player.JumpState);
-        }
-
-        private void CheckIfDashState()
-        {
-            if (Input.GetKeyDown(player.playerData.dashKey) && !player.IsDashOnCooldown)
-                player.StateMachine.ChangeState(player.DashState);
+            player.StateMachine.PlayerStateSwitchChecker.CheckIfJumpState();
+            player.StateMachine.PlayerStateSwitchChecker.CheckIfIdleState();
+            player.StateMachine.PlayerStateSwitchChecker.CheckIfDashState();
         }
     }
 }

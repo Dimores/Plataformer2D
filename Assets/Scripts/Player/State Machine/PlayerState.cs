@@ -19,7 +19,7 @@ namespace Orby.Player.StateMachine
         public virtual void ExitState() { }
         public virtual void FrameUpdate() { }
         public virtual void AnimationTriggerEvent(string triggerName) {
-            player.playerAnimator.SetTrigger(triggerName);
+            player.playerData.characterAnimator.SetTrigger(triggerName);
         }
     }
 }
