@@ -18,9 +18,11 @@ namespace Orby.Gun
         public Transform shootPointUp;
 
         [Header("Animation triggers")]
+        public Animator gunAnimator;
         public string defaultTrigger;
         public string upTrigger;
         public string diagonalTrigger;
+        public string muzzleTrigger = "Muzzle";
 
         [Header("Audio")]
         public AudioRandomPlayAudioClips randomShootAudio;
@@ -28,6 +30,8 @@ namespace Orby.Gun
         private Coroutine _currentCoroutine;
         private Player _player;
         private Transform _playerSideReference;
+        private bool _wasShooting;
+        private float _lastShootTime;
 
         private void Awake()
         {
@@ -37,14 +41,32 @@ namespace Orby.Gun
 
         private void Update()
         {
-            if (Input.GetKey(_player.playerData.attackKey) && _currentCoroutine == null)
+            if (Input.GetKey(_player.playerData.attackKey))
             {
+                TryStartShooting();
+            }
+            else if (Input.GetKeyUp(_player.playerData.attackKey))
+            {
+                StopShooting();
+            }
+        }
+
+        private void TryStartShooting()
+        {
+            if (_currentCoroutine == null && Time.time >= _lastShootTime + _player.playerData.attackSpeed)
+            {
+                _wasShooting = true;
                 _currentCoroutine = StartCoroutine(StartShoot());
             }
-            else if (Input.GetKeyUp(_player.playerData.attackKey) && _currentCoroutine != null)
+        }
+
+        private void StopShooting()
+        {
+            if (_currentCoroutine != null)
             {
                 StopCoroutine(_currentCoroutine);
                 _player.playerData.characterAnimator.SetTrigger(defaultTrigger);
+                _wasShooting = false;
                 _currentCoroutine = null;
             }
         }
@@ -54,6 +76,7 @@ namespace Orby.Gun
             while (true)
             {
                 Shoot();
+                _lastShootTime = Time.time; 
                 yield return new WaitForSeconds(_player.playerData.attackSpeed);
             }
         }
@@ -61,17 +84,19 @@ namespace Orby.Gun
         public void Shoot()
         {
             if (randomShootAudio != null) randomShootAudio.PlayRandom();
+            gunAnimator.SetTrigger(muzzleTrigger);
             AudioManager.Instance.PlayAudioByTypeWithRandomPitch(AudioManager.AudioType.SHOOT,
                 new Vector2(0.9f, 1.1f), 0.5f);
 
-            var shootPoint = GetShootPoint(); 
-            var direction = GetProjectileDirection(); 
+            var shootPoint = GetShootPoint();
+            var direction = GetProjectileDirection();
 
             var projectile = Instantiate(prefabProjectile);
             projectile.transform.position = shootPoint.position;
             projectile.transform.rotation = shootPoint.rotation;
             projectile.side = _playerSideReference.transform.localScale.x;
             projectile.Direction = direction * _player.playerData.projectileSpeed;
+            projectile.DamageAmount = _player.playerData.damage;
         }
 
         private Transform GetShootPoint()
@@ -95,7 +120,7 @@ namespace Orby.Gun
         private Vector3 GetProjectileDirection()
         {
             if (InputManager.Instance.Vertical > 0 && InputManager.Instance.Horizontal == 0)
-                return Vector3.up; 
+                return Vector3.up;
 
             if (InputManager.Instance.Vertical > 0 && InputManager.Instance.Horizontal != 0)
             {
@@ -107,10 +132,14 @@ namespace Orby.Gun
 
         private void OnDisable()
         {
-            if (_currentCoroutine != null)
+            StopShooting();
+        }
+
+        private void OnEnable()
+        {
+            if (_wasShooting && _currentCoroutine == null)
             {
-                StopCoroutine(_currentCoroutine);
-                _currentCoroutine = null;
+                TryStartShooting();
             }
         }
     }

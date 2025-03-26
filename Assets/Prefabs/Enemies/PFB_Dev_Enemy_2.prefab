@@ -50,10 +50,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 10
+  pushForce: 0
+  knockTime: 0
   anim: {fileID: 5600433752203551424}
   triggerAttack: Attack
   triggerDeath: Death
   healthBase: {fileID: 2151549160962478672}
+  timeToDestroy: 0
+  audioSourceKill: {fileID: 0}
 --- !u!114 &2151549160962478672
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -69,6 +73,7 @@ MonoBehaviour:
   startLife: 10
   destroyOnKill: 0
   delayToKill: 2
+  _flashColor: {fileID: 0}
 --- !u!114 &1739149665694235503
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -172,6 +177,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 9034813920033190703}
     m_Modifications:
+    - target: {fileID: 444083526418024891, guid: e0d57717ad485d748986ddb9eba2beb8, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 897a3da725b12f64da754b40e147a767, type: 2}
+    - target: {fileID: 1181539698875460310, guid: e0d57717ad485d748986ddb9eba2beb8, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 897a3da725b12f64da754b40e147a767, type: 2}
+    - target: {fileID: 1500872795854394982, guid: e0d57717ad485d748986ddb9eba2beb8, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 897a3da725b12f64da754b40e147a767, type: 2}
     - target: {fileID: 2944973745361044811, guid: e0d57717ad485d748986ddb9eba2beb8, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -220,6 +237,30 @@ PrefabInstance:
       propertyPath: m_Name
       value: PFB_Enemy_2
       objectReference: {fileID: 0}
+    - target: {fileID: 3562818169227747833, guid: e0d57717ad485d748986ddb9eba2beb8, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 897a3da725b12f64da754b40e147a767, type: 2}
+    - target: {fileID: 4888461157795809913, guid: e0d57717ad485d748986ddb9eba2beb8, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 897a3da725b12f64da754b40e147a767, type: 2}
+    - target: {fileID: 6176580827313767728, guid: e0d57717ad485d748986ddb9eba2beb8, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 897a3da725b12f64da754b40e147a767, type: 2}
+    - target: {fileID: 7779900026986254017, guid: e0d57717ad485d748986ddb9eba2beb8, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 897a3da725b12f64da754b40e147a767, type: 2}
+    - target: {fileID: 7803505671189439292, guid: e0d57717ad485d748986ddb9eba2beb8, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 897a3da725b12f64da754b40e147a767, type: 2}
+    - target: {fileID: 8779633609815029051, guid: e0d57717ad485d748986ddb9eba2beb8, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 897a3da725b12f64da754b40e147a767, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -265,7 +306,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45e86ccf7b2297f48bd2523980dcc3c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetObject: {fileID: 1294548791440522405}
 --- !u!95 &5600433752203551424 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 3122169294817524646, guid: e0d57717ad485d748986ddb9eba2beb8, type: 3}

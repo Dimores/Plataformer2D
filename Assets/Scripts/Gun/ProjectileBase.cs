@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using Orby.Enemy;
 using Orby.Managers;
 using UnityEngine;
@@ -12,7 +10,7 @@ public class ProjectileBase : MonoBehaviour
 
     public float side = 1;
 
-    public int damageAmount = 1;
+    public int DamageAmount { get; set; }
 
     public Vector3 Direction { get => direction; set => direction = value; }
 
@@ -36,7 +34,7 @@ public class ProjectileBase : MonoBehaviour
         {
             VFXManager.Instance.PlayVFXByType(VFXManager.VFXType.EXPLOSION, this.transform.position,
                 null);
-            enemy.Damage(damageAmount);
+            enemy.Damage(DamageAmount);
             Destroy(gameObject);
         }
     }

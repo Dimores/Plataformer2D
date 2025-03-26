@@ -43,10 +43,10 @@ Material:
     m_Floats:
     - _GlowAmount: 10
     m_Colors:
-    - _Color: {r: 0, g: 2.0433643, b: 5.2164755, a: 1}
+    - _Color: {r: 0, g: 7.050433, b: 15.999998, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
---- !u!114 &8508257923999442154
+--- !u!114 &7588445961858850095
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
