@@ -7,6 +7,7 @@ using System.Collections;
 using UnityEngine.VFX;
 using Orby.Managers;
 using Orby.Gun;
+using Orby.UI;
 
 namespace Orby.Player
 {
@@ -60,6 +61,11 @@ namespace Orby.Player
         private void Update()
         {
             StateMachine.CurrentPlayerState.FrameUpdate();
+
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                Damage(1);
+            }
         }
 
         // Raycast Debug
@@ -74,6 +80,7 @@ namespace Orby.Player
         public void Damage(int damageAmount)
         {
             CurrentHealth -= damageAmount;
+            UiLifeManager.Instance.UpdateLifeOnUi(CurrentHealth);
 
             if (CurrentHealth <= 0)
                 Kill();

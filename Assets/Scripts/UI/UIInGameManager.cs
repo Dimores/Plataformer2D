@@ -1,13 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
-using UnityEngine;
 using Orby.Core.Singleton;
 
-public class UIInGameManager : Singleton<UIInGameManager>
+namespace Orby.UI
 {
-    public static void UpdateTextOnUI(TextMeshProUGUI text, string value)
+    public class UIInGameManager : Singleton<UIInGameManager>
     {
-        text.text = value;
+        public static void UpdateTextOnUI(TextMeshProUGUI text, string value)
+        {
+            text.text = value;
+        }
     }
 }
