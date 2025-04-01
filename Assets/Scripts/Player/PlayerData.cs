@@ -19,6 +19,7 @@ namespace Orby.Player
         [Header("Player Data - Movement Setup")]
         public Rigidbody2D Rb;
         public Transform PlayerTransform;
+        public Collider2D playerCollider;
         public float movementSpeed;
         public float jumpForce;
         public float dashForce;
@@ -60,13 +61,12 @@ namespace Orby.Player
 
         public void Jump(float jumpForce)
         {
-            Rb.velocity = Vector2.up * jumpForce;
+            Rb.velocity = new Vector2(Rb.velocity.x, jumpForce);
         }
 
         public void Dash(float dashForce, float direction)
         {
-            Rb.velocity = new Vector2(Rb.velocity.x, 0);
-            Rb.AddForce(new Vector2(dashForce * direction, 0), ForceMode2D.Impulse);
+            Rb.velocity = new Vector2(dashForce * direction, 0);
         }
 
         public void HandleMovement()

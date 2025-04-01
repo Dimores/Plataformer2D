@@ -5097,6 +5097,7 @@ MonoBehaviour:
   deadContainer: {fileID: 1686710902}
   scaleAmount: 1.23
   scaleDuration: 0.15
+  fadeColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!1 &966246940
 GameObject:
   m_ObjectHideFlags: 0

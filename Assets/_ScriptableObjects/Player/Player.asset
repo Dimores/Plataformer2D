@@ -19,6 +19,7 @@ MonoBehaviour:
   projectileSpeed: 40
   Rb: {fileID: 0}
   PlayerTransform: {fileID: 0}
+  playerCollider: {fileID: 0}
   movementSpeed: 10
   jumpForce: 35
   dashForce: 20
@@ -32,7 +33,7 @@ MonoBehaviour:
   middleRaycastOffset: {x: 0.81, y: 0.07, z: 0}
   rightRaycastOffset: {x: 2.09, y: 0.07, z: 0}
   movementAxisName: Horizontal
-  jumpKey: 32
+  jumpKey: 122
   attackKey: 120
   dashKey: 304
   triggerIdle: Idle

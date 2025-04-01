@@ -39,7 +39,6 @@ namespace Orby.Player.StateMachine.ConcretStates
         public override void ExitState()
         {
             base.ExitState();
-            player.playerData.Rb.gravityScale = playerInitialGravityScale;
             player.GunBase.enabled = true;
         }
 
@@ -50,18 +49,22 @@ namespace Orby.Player.StateMachine.ConcretStates
 
         IEnumerator Dash()
         {
+            player.playerData.Rb.velocity = Vector2.zero;
             player.playerData.Dash(player.playerData.dashForce, player.transform.localScale.x);
             AnimationTriggerEvent(player.playerData.triggerDash);
             player.PlaySmokeVFX(player.transform.position,
                 player.playerData.dashVFXOffset, true);
+
             yield return new WaitForSeconds(player.playerData.dashDuration);
+
+            player.playerData.Rb.gravityScale = playerInitialGravityScale;
+
             CheckIfFallingStateAfterDash();
             CheckIfIdleStateAfterDash();
             CheckIfMovementStateAfterDash();
             currentDashCoroutine = null;
         }
 
-        // Dash on air
         private void CheckIfFallingStateAfterDash()
         {
             if (!player.playerData.CheckGrounded())

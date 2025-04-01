@@ -8,6 +8,7 @@ using UnityEngine.VFX;
 using Orby.Managers;
 using Orby.Gun;
 using Orby.UI;
+using Orby.Utils;
 
 namespace Orby.Player
 {
@@ -18,6 +19,7 @@ namespace Orby.Player
         public VisualEffect smokeJumpVisualEffect;
 
         public GunBase GunBase;
+        public Dissolve dissolve;
 
         public bool HasDashedOnAir { get; set; } = false;
         public bool IsDashOnCooldown { get; private set; }
@@ -32,6 +34,8 @@ namespace Orby.Player
         public PlayerJumpState JumpState { get; set; }
         public PlayerFallingState FallingState { get; set; }
         public PlayerDashState DashState { get; set; }
+        public PlayerDeathState DeathState { get; set; }
+        public PlayerAimState AimState { get; set; }
         #endregion
 
         private void Awake()
@@ -44,6 +48,8 @@ namespace Orby.Player
             JumpState = new PlayerJumpState(this, StateMachine);
             FallingState = new PlayerFallingState(this, StateMachine);
             DashState = new PlayerDashState(this, StateMachine);
+            DeathState = new PlayerDeathState(this, StateMachine);
+            AimState = new PlayerAimState(this, StateMachine);
         }
 
         private void Start()
@@ -51,6 +57,9 @@ namespace Orby.Player
             playerData.Rb = GetComponent<Rigidbody2D>();
             playerData.characterAnimator = GetComponent<Animator>();
             playerData.PlayerTransform = this.transform;
+            playerData.playerCollider = GetComponent<Collider2D>();
+
+            dissolve = GetComponent<Dissolve>();
 
             MaxHealth = playerData.life;
             CurrentHealth = MaxHealth;
@@ -76,7 +85,6 @@ namespace Orby.Player
         //    Debug.DrawRay(transform.position + playerData.rightRaycastOffset, Vector2.down * playerData.raycastDetectionDistance, Color.red);
         //}
 
-
         public void Damage(int damageAmount)
         {
             CurrentHealth -= damageAmount;
@@ -88,7 +96,7 @@ namespace Orby.Player
 
         public void Kill()
         {
-            Destroy(gameObject);
+            StateMachine.ChangeState(DeathState);
         }
 
         public void StartDashCooldown(float cooldownTime)
