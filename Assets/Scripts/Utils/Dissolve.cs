@@ -13,14 +13,16 @@ namespace Orby.Utils
 
         private int _dissolveAmount = Shader.PropertyToID("_DissolveAmount");
 
+        public SpriteRenderer[] SpriteRenderers { get => _spriteRenderers; set => _spriteRenderers = value; }
+
         private void Start()
         {
-            _spriteRenderers = GetComponentsInChildren<SpriteRenderer>();
+            SpriteRenderers = GetComponentsInChildren<SpriteRenderer>();
 
-            _materials = new Material[_spriteRenderers.Length];
-            for (int i = 0; i < _spriteRenderers.Length; i++)
+            _materials = new Material[SpriteRenderers.Length];
+            for (int i = 0; i < SpriteRenderers.Length; i++)
             {
-                _materials[i] = _spriteRenderers[i].material;
+                _materials[i] = SpriteRenderers[i].material;
             }
         }
 

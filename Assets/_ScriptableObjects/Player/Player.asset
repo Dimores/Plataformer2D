@@ -45,3 +45,5 @@ MonoBehaviour:
   playerSwipeDuration: 0.01
   dashVFXOffset: {x: 0, y: 2, z: 0}
   jumpVFXOffset: {x: 0, y: 0, z: 0}
+  specialAmount: 0
+  maxSpecial: 400

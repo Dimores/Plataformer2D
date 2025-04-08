@@ -10,7 +10,8 @@ namespace Orby.Managers
         public enum AudioType
         {
             SHOOT,
-            JUMP
+            JUMP,
+            DAMAGE
         }
 
         public List<AudioManagerSetup> audioSetup;
@@ -27,6 +28,24 @@ namespace Orby.Managers
             GameObject audioObj = new GameObject($"Audio_{audioType}");
             AudioSource audioSource = audioObj.AddComponent<AudioSource>();
             audioSource.clip = clip;
+
+            audioSource.Play();
+
+            Destroy(audioObj, clip.length);
+        }
+
+        public void PlayAudioByType(AudioType audioType, float volume)
+        {
+            AudioClip clip = GetAudioClip(audioType);
+            if (clip == null)
+            {
+                return;
+            }
+
+            GameObject audioObj = new GameObject($"Audio_{audioType}");
+            AudioSource audioSource = audioObj.AddComponent<AudioSource>();
+            audioSource.clip = clip;
+            audioSource.volume = volume;
 
             audioSource.Play();
 

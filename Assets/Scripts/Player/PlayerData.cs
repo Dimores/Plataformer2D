@@ -53,6 +53,10 @@ namespace Orby.Player
         public Vector3 dashVFXOffset;
         public Vector3 jumpVFXOffset;
 
+        [Header("Player Data - Points Setup")]
+        public int specialAmount;
+        public int maxSpecial;
+
         #region METHODS
         public void Move(float direction)
         {
@@ -98,6 +102,25 @@ namespace Orby.Player
 
             return false;
         }
+
+        public void AddSpecial(int value)
+        {
+            if (specialAmount + value >= maxSpecial) 
+                specialAmount = maxSpecial;
+            else
+                specialAmount += value;
+        }
+
+        public void RemoveSpecial(int value)
+        {
+            this.specialAmount -= value;
+        }
+
+        public void ResetSpecial()
+        {
+            this.specialAmount = 0;
+        }
+
         #endregion
     }
 }

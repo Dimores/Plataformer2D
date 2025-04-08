@@ -14,6 +14,8 @@ public class ProjectileBase : MonoBehaviour
 
     public Vector3 Direction { get => direction; set => direction = value; }
 
+    public int specialAmountOnHit = 1;
+
     private void Awake()
     {
         Destroy(gameObject, timeToDestroy);
@@ -34,7 +36,9 @@ public class ProjectileBase : MonoBehaviour
         {
             VFXManager.Instance.PlayVFXByType(VFXManager.VFXType.EXPLOSION, this.transform.position,
                 null);
+            SpecialManager.Instance.AddSpecial(5);
             enemy.Damage(DamageAmount);
+            
             Destroy(gameObject);
         }
     }

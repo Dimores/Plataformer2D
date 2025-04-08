@@ -38,6 +38,8 @@ namespace Orby.Player
         public PlayerAimState AimState { get; set; }
         #endregion
 
+        private bool _invincibility = false;
+
         private void Awake()
         {
             StateMachine = new PlayerStateMachine();
@@ -85,20 +87,96 @@ namespace Orby.Player
         //    Debug.DrawRay(transform.position + playerData.rightRaycastOffset, Vector2.down * playerData.raycastDetectionDistance, Color.red);
         //}
 
+        public void Move(float direction)
+        {
+            playerData.Move(direction);
+        }
+
+        public void Freeze()
+        {
+            playerData.Rb.constraints = RigidbodyConstraints2D.FreezePosition;
+        }
+
+        public void Unfreeze()
+        {
+            playerData.Rb.constraints = RigidbodyConstraints2D.FreezeRotation; 
+        }
+
         public void Damage(int damageAmount)
         {
+            if (_invincibility) return; 
+
             CurrentHealth -= damageAmount;
+            AudioManager.Instance.PlayAudioByType(AudioManager.AudioType.DAMAGE, 0.9f);
             UiLifeManager.Instance.UpdateLifeOnUi(CurrentHealth);
+
+
+            if (CurrentHealth > 0) {
+                StartCoroutine(FreezePlayerCoroutine(0.2f));
+                StartCoroutine(BlinkEffect());
+            }
 
             if (CurrentHealth <= 0)
                 Kill();
         }
+
+        private void WillCollideWithEnemy(bool value)
+        {
+            int playerLayer = LayerMask.NameToLayer("Player");
+            int enemyLayer = LayerMask.NameToLayer("Enemy");
+
+            Physics2D.IgnoreLayerCollision(playerLayer, enemyLayer, !value);
+        }
+
+
 
         public void Kill()
         {
             StateMachine.ChangeState(DeathState);
         }
 
+        private IEnumerator FreezePlayerCoroutine(float freezeTime)
+        {
+            Freeze();
+            yield return new WaitForSeconds(freezeTime);
+            Unfreeze();
+        }
+
+        #region DOTWEEN
+        private IEnumerator BlinkEffect()
+        {
+            _invincibility = true;
+            WillCollideWithEnemy(false); 
+
+            float blinkDuration = 0.2f;
+            int blinkCount = 4;
+
+            int completedEffects = 0; 
+
+            foreach (var spriteRenderer in dissolve.SpriteRenderers)
+            {
+                spriteRenderer.DOFade(0, blinkDuration)
+                    .SetLoops(blinkCount * 2, LoopType.Yoyo)
+                    .OnComplete(() =>
+                    {
+                        spriteRenderer.color = Color.white; 
+                        completedEffects++; 
+
+                        
+                        if (completedEffects == dissolve.SpriteRenderers.Length)
+                        {
+                            _invincibility = false;
+                            WillCollideWithEnemy(true);
+                        }
+                    });
+            }
+
+            yield return null; 
+        }
+
+        #endregion
+
+        #region DASH
         public void StartDashCooldown(float cooldownTime)
         {
             IsDashOnCooldown = true;
@@ -110,7 +188,9 @@ namespace Orby.Player
             yield return new WaitForSeconds(cooldownTime);
             IsDashOnCooldown = false;
         }
+        #endregion
 
+        #region VFX
         public void PlaySmokeVFX(Vector3 position, Vector3 offset,
             bool willDestroy = true)
         {
@@ -138,10 +218,6 @@ namespace Orby.Player
             if (willDestroy)
                 Destroy(item.gameObject, 3f);
         }
-
-        public void Move(float direction)
-        {
-            playerData.Move(direction);
-        }
+        #endregion
     }
 }

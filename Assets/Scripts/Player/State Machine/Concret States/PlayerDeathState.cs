@@ -18,7 +18,7 @@ namespace Orby.Player.StateMachine.ConcretStates
         public override void EnterState()
         {
             base.EnterState();
-            FreezePlayer();
+            player.Freeze();
             DisableAnimator();
             StartDissolving();
         }
@@ -31,11 +31,6 @@ namespace Orby.Player.StateMachine.ConcretStates
         public override void FrameUpdate()
         {
             base.FrameUpdate();
-        }
-
-        private void FreezePlayer()
-        {
-            player.playerData.Rb.constraints = RigidbodyConstraints2D.FreezePosition;
         }
 
         private void DisableAnimator()

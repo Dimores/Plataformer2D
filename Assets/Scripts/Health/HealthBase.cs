@@ -32,9 +32,6 @@ public class HealthBase : MonoBehaviour
         _currentLife = startLife;
 
         _flashColor = GetComponentInChildren<FlashColor>(true);
-
-        if (_flashColor == null)
-            Debug.LogError($"FlashColor não encontrado em {gameObject.name}");
     }
 
     public void Damage(int damage)
