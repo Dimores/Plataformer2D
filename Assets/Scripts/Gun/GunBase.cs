@@ -33,6 +33,8 @@ namespace Orby.Gun
         private bool _wasShooting;
         private float _lastShootTime;
 
+        private string _currentTrigger;
+
         private void Awake()
         {
             _playerSideReference = GetComponentInParent<Player>().gameObject.transform;
@@ -50,6 +52,29 @@ namespace Orby.Gun
                 StopShooting();
             }
         }
+
+        public void Aim()
+        {
+            if (InputManager.Instance.Horizontal != 0 && InputManager.Instance.Vertical > 0)
+            {
+                SetAnimationTriggerOnce(diagonalTrigger);
+                return;
+            }
+
+            if (InputManager.Instance.Vertical > 0)
+            {
+                SetAnimationTriggerOnce(upTrigger);
+                return;
+            }
+
+            SetAnimationTriggerOnce(defaultTrigger);
+        }
+
+        public void ExitAim()
+        {
+            SetAnimationTriggerOnce(defaultTrigger);
+        }
+
 
         private void TryStartShooting()
         {
@@ -103,18 +128,35 @@ namespace Orby.Gun
         {
             if (InputManager.Instance.Horizontal != 0 && InputManager.Instance.Vertical > 0)
             {
-                _player.playerData.characterAnimator.SetTrigger(diagonalTrigger);
+                SetAnimationTrigger(diagonalTrigger);
                 return shootPointDiagonal;
             }
 
             if (InputManager.Instance.Vertical > 0)
             {
-                _player.playerData.characterAnimator.SetTrigger(upTrigger);
+                SetAnimationTrigger(upTrigger);
                 return shootPointUp;
             }
 
-            _player.playerData.characterAnimator.SetTrigger(defaultTrigger);
+            SetAnimationTrigger(defaultTrigger);
             return shootPointDefault;
+        }
+
+
+        private void SetAnimationTriggerOnce(string newTrigger)
+        {
+            if (_currentTrigger == newTrigger) return;
+
+            if (!string.IsNullOrEmpty(_currentTrigger))
+                _player.playerData.characterAnimator.ResetTrigger(_currentTrigger);
+
+            _player.playerData.characterAnimator.SetTrigger(newTrigger);
+            _currentTrigger = newTrigger;
+        }
+
+        public void SetAnimationTrigger(string trigger)
+        {
+            _player.playerData.characterAnimator.SetTrigger(trigger);
         }
 
         private Vector3 GetProjectileDirection()

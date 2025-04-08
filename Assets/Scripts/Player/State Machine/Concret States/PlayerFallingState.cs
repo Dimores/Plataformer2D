@@ -21,11 +21,6 @@ namespace Orby.Player.StateMachine.ConcretStates
         {
             base.EnterState();
             AnimationTriggerEvent(player.playerData.triggerFalling);
-
-            if (InputManager.Instance.Horizontal == 0)
-            {
-                player.playerData.Rb.velocity = new Vector2(0, player.playerData.Rb.velocity.y);
-            }
         }
 
         public override void ExitState()

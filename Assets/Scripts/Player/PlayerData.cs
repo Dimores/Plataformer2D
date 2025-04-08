@@ -39,6 +39,7 @@ namespace Orby.Player
         public KeyCode jumpKey;
         public KeyCode attackKey;
         public KeyCode dashKey;
+        public KeyCode aimKey;
 
         [Header("Player Data - Animation Setup")]
         public string triggerIdle;

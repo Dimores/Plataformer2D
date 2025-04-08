@@ -41,5 +41,11 @@ namespace Orby.Player.StateMachine
             if (_player.playerData.Rb.velocity.y <= 0.1f)
                 _player.StateMachine.ChangeState(_player.FallingState);
         }
+
+        public void CheckIfAimState()
+        {
+            if (Input.GetKeyDown(_player.playerData.aimKey))
+                _player.StateMachine.ChangeState(_player.AimState);
+        }
     }
 }

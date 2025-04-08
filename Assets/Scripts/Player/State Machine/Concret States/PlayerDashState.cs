@@ -40,6 +40,11 @@ namespace Orby.Player.StateMachine.ConcretStates
         {
             base.ExitState();
             player.GunBase.enabled = true;
+
+            if (InputManager.Instance.Horizontal == 0)
+            {
+                player.playerData.Rb.velocity = new Vector2(0, player.playerData.Rb.velocity.y);
+            }
         }
 
         public override void FrameUpdate()

@@ -36,6 +36,7 @@ MonoBehaviour:
   jumpKey: 122
   attackKey: 120
   dashKey: 304
+  aimKey: 99
   triggerIdle: Idle
   triggerMovement: Movement
   triggerJump: Jump
