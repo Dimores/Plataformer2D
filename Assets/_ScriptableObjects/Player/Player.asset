@@ -22,6 +22,7 @@ MonoBehaviour:
   playerCollider: {fileID: 0}
   movementSpeed: 10
   jumpForce: 35
+  variableJumpHeightMultiplier: 0.3
   dashForce: 20
   dashDuration: 0.3
   dashCooldown: 0.8

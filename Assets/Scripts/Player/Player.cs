@@ -95,11 +95,13 @@ namespace Orby.Player
         public void Freeze()
         {
             playerData.Rb.constraints = RigidbodyConstraints2D.FreezePosition;
+            playerData.characterAnimator.enabled = false;
         }
 
         public void Unfreeze()
         {
-            playerData.Rb.constraints = RigidbodyConstraints2D.FreezeRotation; 
+            playerData.Rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+            playerData.characterAnimator.enabled = true;
         }
 
         public void Damage(int damageAmount)
@@ -107,9 +109,9 @@ namespace Orby.Player
             if (_invincibility) return; 
 
             CurrentHealth -= damageAmount;
+
             AudioManager.Instance.PlayAudioByType(AudioManager.AudioType.DAMAGE, 0.9f);
             UiLifeManager.Instance.UpdateLifeOnUi(CurrentHealth);
-
 
             if (CurrentHealth > 0) {
                 StartCoroutine(FreezePlayerCoroutine(0.2f));

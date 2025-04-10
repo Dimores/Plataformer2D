@@ -57,6 +57,8 @@ namespace Orby.Player.StateMachine.ConcretStates
             player.playerData.Rb.velocity = Vector2.zero;
             player.playerData.Dash(player.playerData.dashForce, player.transform.localScale.x);
             AnimationTriggerEvent(player.playerData.triggerDash);
+            AudioManager.Instance.PlayAudioByTypeWithRandomPitch(AudioManager.AudioType.DASH,
+                new Vector2(0.9f, 1.1f), 1.2f);
             player.PlaySmokeVFX(player.transform.position,
                 player.playerData.dashVFXOffset, true);
 

@@ -22,6 +22,7 @@ namespace Orby.Player
         public Collider2D playerCollider;
         public float movementSpeed;
         public float jumpForce;
+        public float variableJumpHeightMultiplier;
         public float dashForce;
         public float dashDuration;
         public float dashCooldown;

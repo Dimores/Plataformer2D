@@ -111,7 +111,7 @@ namespace Orby.Gun
             if (randomShootAudio != null) randomShootAudio.PlayRandom();
             gunAnimator.SetTrigger(muzzleTrigger);
             AudioManager.Instance.PlayAudioByTypeWithRandomPitch(AudioManager.AudioType.SHOOT,
-                new Vector2(0.9f, 1.1f), 0.5f);
+                new Vector2(0.9f, 1.1f), 0.17f);
 
             var shootPoint = GetShootPoint();
             var direction = GetProjectileDirection();

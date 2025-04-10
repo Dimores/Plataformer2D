@@ -21,6 +21,7 @@ namespace Orby.Player.StateMachine.ConcretStates
         public override void EnterState()
         {
             base.EnterState();
+            AnimationTriggerEvent(player.playerData.triggerIdle);
         }
 
         public override void ExitState()
@@ -33,22 +34,23 @@ namespace Orby.Player.StateMachine.ConcretStates
         {
             base.FrameUpdate();
             player.GunBase.Aim();
-
-            CheckIfStateSwitch();
             player.playerData.Rb.velocity = new Vector2(0, player.playerData.Rb.velocity.y);
+
+            player.StateMachine.PlayerStateSwitchChecker.CheckIfJumpState();
+            CheckIfStateSwitchGround();
+
         }
 
-        private void CheckIfStateSwitch()
+        private void CheckIfStateSwitchGround()
         {
             if (Input.GetKeyUp(player.playerData.aimKey))
             {
-                if (Input.GetKeyDown(player.playerData.dashKey))
-                    player.StateMachine.ChangeState(player.DashState);
-                else if (InputManager.Instance.Horizontal == 0)
+                if (InputManager.Instance.Horizontal == 0)
                     player.StateMachine.ChangeState(player.IdleState);
                 else
                     player.StateMachine.ChangeState(player.MovementState);
-            }
+            }else if (Input.GetKeyDown(player.playerData.dashKey))
+                player.StateMachine.ChangeState(player.DashState);
         }
     }
 }

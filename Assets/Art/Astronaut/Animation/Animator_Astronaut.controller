@@ -51,6 +51,32 @@ AnimatorState:
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
+--- !u!1102 &-8286573126447363175
+AnimatorState:
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: ANIM_Astronaut_Aim
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: 7400000, guid: 5b3aa0d55de8314449513ce72b82f5cd, type: 2}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
 --- !u!1101 &-7789132802895215083
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -76,14 +102,14 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
---- !u!1102 &-6925995536864947511
+--- !u!1102 &-7757434329846871425
 AnimatorState:
   serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: ANIM_Arm_Default
+  m_Name: Anim_Astronaut_Damage
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -96,20 +122,20 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 2a81e0b7bd89275479fa09b8a2467dab, type: 2}
+  m_Motion: {fileID: 7400000, guid: 4582d5961bf484f4291a1e79db677b2e, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
---- !u!1102 &-6664130702622279966
+--- !u!1102 &-6925995536864947511
 AnimatorState:
   serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: ANIM_Arm
+  m_Name: ANIM_Arm_Default
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -146,6 +172,12 @@ AnimatorStateMachine:
   - serializedVersion: 1
     m_State: {fileID: -2514432437011333477}
     m_Position: {x: 310, y: 470, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: -7757434329846871425}
+    m_Position: {x: 345, y: 535, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 1266572234976069924}
+    m_Position: {x: 380, y: 600, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions:
   - {fileID: -2370640211907287347}
@@ -441,6 +473,31 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
+--- !u!1101 &-1454124823269284806
+AnimatorStateTransition:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_Conditions:
+  - m_ConditionMode: 1
+    m_ConditionEvent: Aim
+    m_EventTreshold: 0
+  m_DstStateMachine: {fileID: 0}
+  m_DstState: {fileID: -8286573126447363175}
+  m_Solo: 0
+  m_Mute: 0
+  m_IsExit: 0
+  serializedVersion: 3
+  m_TransitionDuration: 0
+  m_TransitionOffset: 0
+  m_ExitTime: 0.75
+  m_HasExitTime: 0
+  m_HasFixedDuration: 1
+  m_InterruptionSource: 0
+  m_OrderedInterruption: 1
+  m_CanTransitionToSelf: 1
 --- !u!91 &9100000
 AnimatorController:
   m_ObjectHideFlags: 0
@@ -554,6 +611,32 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
+--- !u!1102 &1266572234976069924
+AnimatorState:
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: ANIM_Astronaut_Aim
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: 7400000, guid: 5b3aa0d55de8314449513ce72b82f5cd, type: 2}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
 --- !u!1107 &4672741905286511746
 AnimatorStateMachine:
   serializedVersion: 6
@@ -568,31 +651,31 @@ AnimatorStateMachine:
     m_Position: {x: -120, y: 70, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -3105400265312665223}
-    m_Position: {x: -650, y: 280, z: 0}
+    m_Position: {x: -850, y: 120, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -8775934341210572221}
-    m_Position: {x: -10, y: 280, z: 0}
+    m_Position: {x: -760, y: 350, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 7441445602786537524}
     m_Position: {x: 530, y: 500, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 7319914402210842450}
-    m_Position: {x: -430, y: 280, z: 0}
+    m_Position: {x: -860, y: 190, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -4098786853882591159}
-    m_Position: {x: -220, y: 280, z: 0}
+    m_Position: {x: -830, y: 270, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 6260240535457015735}
     m_Position: {x: 520, y: 10, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -1871824918774532844}
-    m_Position: {x: 530, y: 100, z: 0}
+    m_Position: {x: 560, y: 180, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -3904601402327569584}
-    m_Position: {x: -820, y: 200, z: 0}
+    m_Position: {x: -850, y: 60, z: 0}
   - serializedVersion: 1
-    m_State: {fileID: -6664130702622279966}
-    m_Position: {x: -785, y: 265, z: 0}
+    m_State: {fileID: -8286573126447363175}
+    m_Position: {x: -720, y: 430, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions:
   - {fileID: -2235947576253487846}
@@ -601,6 +684,7 @@ AnimatorStateMachine:
   - {fileID: -7789132802895215083}
   - {fileID: -8946250435191660260}
   - {fileID: 7452965812614401139}
+  - {fileID: -1454124823269284806}
   m_EntryTransitions: []
   m_StateMachineTransitions: {}
   m_StateMachineBehaviours: []

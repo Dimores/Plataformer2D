@@ -523,6 +523,12 @@ MonoBehaviour:
     audioClip: {fileID: 8300000, guid: e27901d6ec5996349882e7f86ca4ec46, type: 3}
   - audioType: 2
     audioClip: {fileID: 8300000, guid: 7bac478e205ad4a44a80c1e18dea2130, type: 3}
+  - audioType: 3
+    audioClip: {fileID: 8300000, guid: 7bac478e205ad4a44a80c1e18dea2130, type: 3}
+  - audioType: 5
+    audioClip: {fileID: 8300000, guid: d40088e986d70484caad408464499b3c, type: 3}
+  - audioType: 4
+    audioClip: {fileID: 8300000, guid: 32d2478c181adb8448255fe3e545f751, type: 3}
 --- !u!4 &74588738 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 843268172831062601, guid: c518061a99db308489a2f563ac7deb1e, type: 3}
@@ -13953,11 +13959,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5862974302242985913, guid: 0469773d839925844b7b4d65845ff64c, type: 3}
       propertyPath: m_Size.y
-      value: 2.0281072
+      value: 1.4871025
       objectReference: {fileID: 0}
     - target: {fileID: 5862974302242985913, guid: 0469773d839925844b7b4d65845ff64c, type: 3}
       propertyPath: m_Offset.y
-      value: 5.6429586
+      value: 5.9134607
       objectReference: {fileID: 0}
     - target: {fileID: 5862974302242985913, guid: 0469773d839925844b7b4d65845ff64c, type: 3}
       propertyPath: m_IsTrigger

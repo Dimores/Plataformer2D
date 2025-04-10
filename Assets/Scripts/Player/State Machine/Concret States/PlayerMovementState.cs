@@ -35,6 +35,7 @@ namespace Orby.Player.StateMachine.ConcretStates
             player.StateMachine.PlayerStateSwitchChecker.CheckIfJumpState();
             player.StateMachine.PlayerStateSwitchChecker.CheckIfIdleState();
             player.StateMachine.PlayerStateSwitchChecker.CheckIfDashState();
+            player.StateMachine.PlayerStateSwitchChecker.CheckIfAimState();
         }
     }
 }

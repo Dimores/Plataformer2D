@@ -11,7 +11,10 @@ namespace Orby.Managers
         {
             SHOOT,
             JUMP,
-            DAMAGE
+            FALL,
+            DAMAGE,
+            SLIMEDAMAGE,
+            DASH
         }
 
         public List<AudioManagerSetup> audioSetup;

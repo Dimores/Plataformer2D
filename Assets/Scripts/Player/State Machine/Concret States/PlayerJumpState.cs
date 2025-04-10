@@ -35,6 +35,14 @@ namespace Orby.Player.StateMachine.ConcretStates
 
             player.playerData.HandleMovement();
 
+            if (Input.GetKeyUp(player.playerData.jumpKey) && player.playerData.Rb.velocity.y > 0)
+            {
+                player.playerData.Rb.velocity = new Vector2(
+                    player.playerData.Rb.velocity.x,
+                    player.playerData.Rb.velocity.y * player.playerData.variableJumpHeightMultiplier
+                );
+            }
+
             player.StateMachine.PlayerStateSwitchChecker.CheckIfFallingState();
             player.StateMachine.PlayerStateSwitchChecker.CheckIfDashState();
         }
