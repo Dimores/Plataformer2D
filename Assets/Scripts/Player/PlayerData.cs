@@ -37,7 +37,7 @@ namespace Orby.Player
 
         [Header("Player Data - Input Setup")]
         public string movementAxisName;
-        public KeyCode jumpKey;
+        public string jumpButtonName;
         public KeyCode attackKey;
         public KeyCode dashKey;
         public KeyCode aimKey;
@@ -81,6 +81,9 @@ namespace Orby.Player
             {
                 Move(InputManager.Instance.Horizontal);
                 HandleScaleX();
+            } else if (InputManager.Instance.Horizontal == 0)
+            {
+                Move(0);
             }
         }
 

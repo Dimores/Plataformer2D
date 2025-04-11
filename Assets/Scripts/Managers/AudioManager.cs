@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Orby.Core.Singleton;
 using UnityEngine;
+using UnityEngine.Audio;
 
 namespace Orby.Managers
 {
@@ -103,5 +104,6 @@ namespace Orby.Managers
     {
         public AudioManager.AudioType audioType;
         public AudioClip audioClip;
+        public AudioMixerGroup outputGroup; 
     }
 }

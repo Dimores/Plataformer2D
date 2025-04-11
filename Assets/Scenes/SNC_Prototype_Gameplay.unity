@@ -519,16 +519,22 @@ MonoBehaviour:
   audioSetup:
   - audioType: 0
     audioClip: {fileID: 8300000, guid: e27901d6ec5996349882e7f86ca4ec46, type: 3}
+    outputGroup: {fileID: -7664053957186897266, guid: ffec9cfa7afdbbc4cb273cb6fdd9652d, type: 2}
   - audioType: 0
     audioClip: {fileID: 8300000, guid: e27901d6ec5996349882e7f86ca4ec46, type: 3}
+    outputGroup: {fileID: -7664053957186897266, guid: ffec9cfa7afdbbc4cb273cb6fdd9652d, type: 2}
   - audioType: 2
     audioClip: {fileID: 8300000, guid: 7bac478e205ad4a44a80c1e18dea2130, type: 3}
+    outputGroup: {fileID: -7664053957186897266, guid: ffec9cfa7afdbbc4cb273cb6fdd9652d, type: 2}
   - audioType: 3
     audioClip: {fileID: 8300000, guid: 7bac478e205ad4a44a80c1e18dea2130, type: 3}
+    outputGroup: {fileID: -7664053957186897266, guid: ffec9cfa7afdbbc4cb273cb6fdd9652d, type: 2}
   - audioType: 5
     audioClip: {fileID: 8300000, guid: d40088e986d70484caad408464499b3c, type: 3}
+    outputGroup: {fileID: -7664053957186897266, guid: ffec9cfa7afdbbc4cb273cb6fdd9652d, type: 2}
   - audioType: 4
     audioClip: {fileID: 8300000, guid: 32d2478c181adb8448255fe3e545f751, type: 3}
+    outputGroup: {fileID: -7664053957186897266, guid: ffec9cfa7afdbbc4cb273cb6fdd9652d, type: 2}
 --- !u!4 &74588738 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 843268172831062601, guid: c518061a99db308489a2f563ac7deb1e, type: 3}

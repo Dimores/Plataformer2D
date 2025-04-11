@@ -26,7 +26,7 @@ namespace Orby.Player.StateMachine
 
         public void CheckIfJumpState()
         {
-            if (Input.GetKeyDown(_player.playerData.jumpKey))
+            if (Input.GetButtonDown(_player.playerData.jumpButtonName))
                 _player.StateMachine.ChangeState(_player.JumpState);
         }
 

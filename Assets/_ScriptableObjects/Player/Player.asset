@@ -34,7 +34,7 @@ MonoBehaviour:
   middleRaycastOffset: {x: 0.81, y: 0.07, z: 0}
   rightRaycastOffset: {x: 2.09, y: 0.07, z: 0}
   movementAxisName: Horizontal
-  jumpKey: 122
+  jumpButtonName: Jump
   attackKey: 120
   dashKey: 304
   aimKey: 99

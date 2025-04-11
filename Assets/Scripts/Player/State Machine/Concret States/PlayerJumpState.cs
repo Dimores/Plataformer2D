@@ -35,7 +35,7 @@ namespace Orby.Player.StateMachine.ConcretStates
 
             player.playerData.HandleMovement();
 
-            if (Input.GetKeyUp(player.playerData.jumpKey) && player.playerData.Rb.velocity.y > 0)
+            if (Input.GetButtonUp(player.playerData.jumpButtonName) && player.playerData.Rb.velocity.y > 0)
             {
                 player.playerData.Rb.velocity = new Vector2(
                     player.playerData.Rb.velocity.x,
