@@ -9,6 +9,8 @@ using Orby.Managers;
 using Orby.Gun;
 using Orby.UI;
 using Orby.Utils;
+using NUnit.Framework;
+using System.Collections.Generic;
 
 namespace Orby.Player
 {
@@ -20,6 +22,8 @@ namespace Orby.Player
 
         public GunBase GunBase;
         public Dissolve dissolve;
+
+        public Transform bonesTransform;
 
         public bool HasDashedOnAir { get; set; } = false;
         public bool IsDashOnCooldown { get; private set; }
@@ -39,7 +43,7 @@ namespace Orby.Player
         #endregion
 
         private bool _invincibility = false;
-
+        
         private void Awake()
         {
             StateMachine = new PlayerStateMachine();
@@ -58,10 +62,13 @@ namespace Orby.Player
         {
             playerData.Rb = GetComponent<Rigidbody2D>();
             playerData.characterAnimator = GetComponent<Animator>();
-            playerData.PlayerTransform = this.transform;
+
             playerData.playerCollider = GetComponent<Collider2D>();
 
             dissolve = GetComponent<Dissolve>();
+
+            playerData.playerTransform = this.transform;
+            playerData.bonesTransform = bonesTransform;
 
             MaxHealth = playerData.life;
             CurrentHealth = MaxHealth;
@@ -79,6 +86,7 @@ namespace Orby.Player
             }
         }
 
+
         // Raycast Debug
         //private void LateUpdate()
         //{
@@ -90,6 +98,12 @@ namespace Orby.Player
         public void Move(float direction)
         {
             playerData.Move(direction);
+        }
+
+        public void Dash()
+        {
+            float dashDirection = playerData.bonesTransform.rotation.y == 0 ? 1f : -1f;
+            playerData.Dash(dashDirection);
         }
 
         public void Freeze()

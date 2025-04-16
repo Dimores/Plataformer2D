@@ -22,8 +22,9 @@ MonoBehaviour:
   playerCollider: {fileID: 0}
   movementSpeed: 10
   jumpForce: 35
-  variableJumpHeightMultiplier: 0.3
+  variableJumpHeightMultiplier: 0.7
   dashForce: 20
+  dashDiretion: 1
   dashDuration: 0.3
   dashCooldown: 0.8
   groundLayer:
@@ -35,9 +36,9 @@ MonoBehaviour:
   rightRaycastOffset: {x: 2.09, y: 0.07, z: 0}
   movementAxisName: Horizontal
   jumpButtonName: Jump
-  attackKey: 120
-  dashKey: 304
-  aimKey: 99
+  attackKey: Attack
+  dashKey: Dash
+  aimKey: Aim
   triggerIdle: Idle
   triggerMovement: Movement
   triggerJump: Jump

@@ -18,7 +18,8 @@ namespace Orby.Player
 
         [Header("Player Data - Movement Setup")]
         public Rigidbody2D Rb;
-        public Transform PlayerTransform;
+        public Transform bonesTransform;
+        public Transform playerTransform;
         public Collider2D playerCollider;
         public float movementSpeed;
         public float jumpForce;
@@ -26,7 +27,6 @@ namespace Orby.Player
         public float dashForce;
         public float dashDuration;
         public float dashCooldown;
-        // Maybe time to crouch and raise right here <--
 
         [Header("Player Data - Ground Check Setup")]
         public LayerMask groundLayer;
@@ -38,9 +38,9 @@ namespace Orby.Player
         [Header("Player Data - Input Setup")]
         public string movementAxisName;
         public string jumpButtonName;
-        public KeyCode attackKey;
-        public KeyCode dashKey;
-        public KeyCode aimKey;
+        public string attackKey;
+        public string dashKey;
+        public string aimKey;
 
         [Header("Player Data - Animation Setup")]
         public string triggerIdle;
@@ -70,7 +70,7 @@ namespace Orby.Player
             Rb.velocity = new Vector2(Rb.velocity.x, jumpForce);
         }
 
-        public void Dash(float dashForce, float direction)
+        public void Dash(float direction)
         {
             Rb.velocity = new Vector2(dashForce * direction, 0);
         }
@@ -87,21 +87,26 @@ namespace Orby.Player
             }
         }
 
-        private void HandleScaleX()
+        public void HandleScaleX()
         {
-            Rb.transform.DOScaleX(InputManager.Instance.Horizontal,
-                this.playerSwipeDuration);
+            if (Mathf.Abs(InputManager.Instance.Horizontal) < 0.1f)
+                return;
+
+            float yRotation = InputManager.Instance.Horizontal > 0 ? 0f : -180f;
+
+            bonesTransform.DORotate(new Vector3(0f, yRotation, 0f), playerSwipeDuration);
         }
+
 
         public bool CheckGrounded()
         {
-            if (Physics2D.Raycast(PlayerTransform.position + this.leftRaycastOffset,
+            if (Physics2D.Raycast(playerTransform.position + this.leftRaycastOffset,
                     Vector2.down, this.raycastDetectionDistance, this.groundLayer)
                 ||
-                    Physics2D.Raycast(PlayerTransform.position + this.middleRaycastOffset,
+                    Physics2D.Raycast(playerTransform.position + this.middleRaycastOffset,
                     Vector2.down, this.raycastDetectionDistance, this.groundLayer)
                 ||
-                    Physics2D.Raycast(PlayerTransform.position + this.rightRaycastOffset,
+                    Physics2D.Raycast(playerTransform.position + this.rightRaycastOffset,
                     Vector2.down, this.raycastDetectionDistance, this.groundLayer))
                 return true;
 

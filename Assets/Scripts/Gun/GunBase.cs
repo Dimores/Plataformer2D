@@ -43,11 +43,11 @@ namespace Orby.Gun
 
         private void Update()
         {
-            if (Input.GetKey(_player.playerData.attackKey))
+            if (Input.GetButton(_player.playerData.attackKey))
             {
                 TryStartShooting();
             }
-            else if (Input.GetKeyUp(_player.playerData.attackKey))
+            else if (Input.GetButtonUp(_player.playerData.attackKey))
             {
                 StopShooting();
             }
@@ -55,6 +55,11 @@ namespace Orby.Gun
 
         public void Aim()
         {
+            if (Mathf.Abs(InputManager.Instance.Horizontal) > 0.1f)
+            {
+                _player.playerData.HandleScaleX(); 
+            }
+
             if (InputManager.Instance.Horizontal != 0 && InputManager.Instance.Vertical > 0)
             {
                 SetAnimationTriggerOnce(diagonalTrigger);

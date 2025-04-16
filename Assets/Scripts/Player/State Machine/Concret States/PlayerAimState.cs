@@ -38,18 +38,17 @@ namespace Orby.Player.StateMachine.ConcretStates
 
             player.StateMachine.PlayerStateSwitchChecker.CheckIfJumpState();
             CheckIfStateSwitchGround();
-
         }
 
         private void CheckIfStateSwitchGround()
         {
-            if (Input.GetKeyUp(player.playerData.aimKey))
+            if (Input.GetButtonUp(player.playerData.aimKey))
             {
                 if (InputManager.Instance.Horizontal == 0)
                     player.StateMachine.ChangeState(player.IdleState);
                 else
                     player.StateMachine.ChangeState(player.MovementState);
-            }else if (Input.GetKeyDown(player.playerData.dashKey))
+            }else if (Input.GetButtonDown(player.playerData.dashKey))
                 player.StateMachine.ChangeState(player.DashState);
         }
     }

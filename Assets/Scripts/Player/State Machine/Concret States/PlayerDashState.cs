@@ -55,7 +55,7 @@ namespace Orby.Player.StateMachine.ConcretStates
         IEnumerator Dash()
         {
             player.playerData.Rb.velocity = Vector2.zero;
-            player.playerData.Dash(player.playerData.dashForce, player.transform.localScale.x);
+            player.Dash();
             AnimationTriggerEvent(player.playerData.triggerDash);
             AudioManager.Instance.PlayAudioByTypeWithRandomPitch(AudioManager.AudioType.DASH,
                 new Vector2(0.9f, 1.1f), 1.2f);

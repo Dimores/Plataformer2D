@@ -21,8 +21,13 @@ namespace Orby.Managers
 
         private void ProcessInputs()
         {
-            Horizontal = Input.GetAxisRaw(_horizontalAxis);
+            Horizontal = ApplyDeadZone(Input.GetAxisRaw(_horizontalAxis), 1f);
             Vertical = Input.GetAxisRaw(_verticalAxis);
+        }
+
+        private float ApplyDeadZone(float input, float deadZone)
+        {
+            return Mathf.Abs(input) < deadZone ? 0f : input;
         }
     }
 }

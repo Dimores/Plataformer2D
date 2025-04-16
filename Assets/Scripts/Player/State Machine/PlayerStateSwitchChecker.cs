@@ -32,7 +32,7 @@ namespace Orby.Player.StateMachine
 
         public void CheckIfDashState()
         {
-            if (Input.GetKeyDown(_player.playerData.dashKey) && !_player.IsDashOnCooldown)
+            if (Input.GetButtonDown(_player.playerData.dashKey) && !_player.IsDashOnCooldown)
                 _player.StateMachine.ChangeState(_player.DashState);
         }
 
@@ -44,7 +44,7 @@ namespace Orby.Player.StateMachine
 
         public void CheckIfAimState()
         {
-            if (Input.GetKeyDown(_player.playerData.aimKey))
+            if (Input.GetButtonDown(_player.playerData.aimKey))
                 _player.StateMachine.ChangeState(_player.AimState);
         }
     }
