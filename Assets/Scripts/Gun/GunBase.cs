@@ -13,6 +13,7 @@ namespace Orby.Gun
         public ProjectileBase prefabProjectile;
 
         [Header("Projectile Spawn Points")]
+        public GameObject shootPoints;
         public Transform shootPointDefault;
         public Transform shootPointDiagonal;
         public Transform shootPointUp;
@@ -29,7 +30,6 @@ namespace Orby.Gun
 
         private Coroutine _currentCoroutine;
         private Player _player;
-        private Transform _playerSideReference;
         private bool _wasShooting;
         private float _lastShootTime;
 
@@ -37,7 +37,6 @@ namespace Orby.Gun
 
         private void Awake()
         {
-            _playerSideReference = GetComponentInParent<Player>().gameObject.transform;
             _player = GetComponentInParent<Player>();
         }
 
@@ -116,7 +115,9 @@ namespace Orby.Gun
             if (randomShootAudio != null) randomShootAudio.PlayRandom();
             gunAnimator.SetTrigger(muzzleTrigger);
             AudioManager.Instance.PlayAudioByTypeWithRandomPitch(AudioManager.AudioType.SHOOT,
-                new Vector2(0.9f, 1.1f), 0.17f);
+                new Vector2(1.1f, 1.4f), _player.playerData.normalShootVolume);
+
+            FlipShootPoints();
 
             var shootPoint = GetShootPoint();
             var direction = GetProjectileDirection();
@@ -124,7 +125,7 @@ namespace Orby.Gun
             var projectile = Instantiate(prefabProjectile);
             projectile.transform.position = shootPoint.position;
             projectile.transform.rotation = shootPoint.rotation;
-            projectile.side = _playerSideReference.transform.localScale.x;
+            projectile.side = _player.playerData.direction;
             projectile.Direction = direction * _player.playerData.projectileSpeed;
             projectile.DamageAmount = _player.playerData.damage;
         }
@@ -175,6 +176,16 @@ namespace Orby.Gun
             }
 
             return new Vector3(1f, 0f, 0f);
+        }
+
+        // Flip shoot points and angle (left side) correctly
+        private void FlipShootPoints()
+        {
+            shootPoints.transform.localPosition = _player.playerData.direction == 1 ?
+                Vector3.zero : new Vector3(1.41f, 0f, 0f);
+
+            shootPoints.transform.localScale = new Vector3(_player.playerData.direction, 
+                shootPoints.transform.localScale.y, shootPoints.transform.localScale.z);
         }
 
         private void OnDisable()

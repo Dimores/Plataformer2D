@@ -518,10 +518,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   audioSetup:
   - audioType: 0
-    audioClip: {fileID: 8300000, guid: e27901d6ec5996349882e7f86ca4ec46, type: 3}
-    outputGroup: {fileID: -7664053957186897266, guid: ffec9cfa7afdbbc4cb273cb6fdd9652d, type: 2}
-  - audioType: 0
-    audioClip: {fileID: 8300000, guid: e27901d6ec5996349882e7f86ca4ec46, type: 3}
+    audioClip: {fileID: 8300000, guid: 1b1c6cddc048c9345a58b9c0a102deb5, type: 3}
     outputGroup: {fileID: -7664053957186897266, guid: ffec9cfa7afdbbc4cb273cb6fdd9652d, type: 2}
   - audioType: 2
     audioClip: {fileID: 8300000, guid: 7bac478e205ad4a44a80c1e18dea2130, type: 3}
@@ -12336,7 +12333,7 @@ GameObject:
   - component: {fileID: 1643374193}
   - component: {fileID: 1643374194}
   m_Layer: 0
-  m_Name: Ambience
+  m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12367,10 +12364,10 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 5034071927665155291, guid: ffec9cfa7afdbbc4cb273cb6fdd9652d, type: 2}
-  m_audioClip: {fileID: 8300000, guid: c17e59932145c644b8f1061621f6940f, type: 3}
-  m_Resource: {fileID: 8300000, guid: c17e59932145c644b8f1061621f6940f, type: 3}
+  m_audioClip: {fileID: 8300000, guid: f577ab80072146f49b56c79eea94da0d, type: 3}
+  m_Resource: {fileID: 8300000, guid: f577ab80072146f49b56c79eea94da0d, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0
+  m_Volume: 0.78
   m_Pitch: 1
   Loop: 0
   Mute: 0

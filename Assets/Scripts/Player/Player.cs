@@ -74,6 +74,9 @@ namespace Orby.Player
             CurrentHealth = MaxHealth;
 
             StateMachine.Initialize(IdleState);
+
+            // Set initial direction
+            playerData.direction = 1;
         }
 
         private void Update()
@@ -102,8 +105,7 @@ namespace Orby.Player
 
         public void Dash()
         {
-            float dashDirection = playerData.bonesTransform.rotation.y == 0 ? 1f : -1f;
-            playerData.Dash(dashDirection);
+            playerData.Dash(playerData.direction);
         }
 
         public void Freeze()
@@ -213,9 +215,8 @@ namespace Orby.Player
             var item = Instantiate(smokeVisualEffect, null);
             var vfx = item.GetComponent<VisualEffect>();
 
-            var scaleX = Mathf.Round(transform.localScale.x);
-            var direction = Mathf.Approximately(transform.localScale.x, 1f) ? -17 : 17;
-            float offsetX = Mathf.Approximately(transform.localScale.x, 1f) ? 2.5f : -2.5f;
+            var direction = playerData.direction == 1f ? -17 : 17;
+            float offsetX = playerData.direction == 1f ? 2.5f : -1.5f;
 
             item.transform.position = position + new Vector3(offsetX, offset.y, offset.z);
             vfx.SetVector3("Direction", new Vector3(direction, 0, 0));

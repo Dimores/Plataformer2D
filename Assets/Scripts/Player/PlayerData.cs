@@ -27,6 +27,7 @@ namespace Orby.Player
         public float dashForce;
         public float dashDuration;
         public float dashCooldown;
+        public float direction;
 
         [Header("Player Data - Ground Check Setup")]
         public LayerMask groundLayer;
@@ -58,6 +59,9 @@ namespace Orby.Player
         [Header("Player Data - Points Setup")]
         public int specialAmount;
         public int maxSpecial;
+
+        [Header("Player Data - Volume Setup")]
+        public float normalShootVolume;
 
         #region METHODS
         public void Move(float direction)
@@ -93,6 +97,8 @@ namespace Orby.Player
                 return;
 
             float yRotation = InputManager.Instance.Horizontal > 0 ? 0f : -180f;
+
+            direction = yRotation == 0 ? 1f : -1f;
 
             bonesTransform.DORotate(new Vector3(0f, yRotation, 0f), playerSwipeDuration);
         }

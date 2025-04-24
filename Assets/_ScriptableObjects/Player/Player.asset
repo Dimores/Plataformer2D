@@ -18,15 +18,16 @@ MonoBehaviour:
   attackSpeed: 0.3
   projectileSpeed: 40
   Rb: {fileID: 0}
-  PlayerTransform: {fileID: 0}
+  bonesTransform: {fileID: 0}
+  playerTransform: {fileID: 0}
   playerCollider: {fileID: 0}
   movementSpeed: 10
   jumpForce: 35
   variableJumpHeightMultiplier: 0.7
   dashForce: 20
-  dashDiretion: 1
   dashDuration: 0.3
   dashCooldown: 0.8
+  direction: -1
   groundLayer:
     serializedVersion: 2
     m_Bits: 8
@@ -48,5 +49,6 @@ MonoBehaviour:
   playerSwipeDuration: 0.01
   dashVFXOffset: {x: 0, y: 2, z: 0}
   jumpVFXOffset: {x: 0, y: 0, z: 0}
-  specialAmount: 0
+  specialAmount: 55
   maxSpecial: 400
+  normalShootVolume: 0.2
