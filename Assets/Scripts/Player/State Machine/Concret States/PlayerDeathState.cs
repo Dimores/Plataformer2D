@@ -21,6 +21,7 @@ namespace Orby.Player.StateMachine.ConcretStates
             player.Freeze();
             DisableAnimator();
             StartDissolving();
+            DisableCollider();
         }
 
         public override void ExitState()
@@ -36,6 +37,11 @@ namespace Orby.Player.StateMachine.ConcretStates
         private void DisableAnimator()
         {
             player.playerData.characterAnimator.enabled = false;
+        }
+
+        private void DisableCollider()
+        {
+            player.GetComponent<Collider2D>().enabled = false;
         }
 
         private void StartDissolving()

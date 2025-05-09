@@ -15,7 +15,7 @@ namespace Orby.Player.StateMachine
             CurrentPlayerState = startingState;
             CurrentPlayerState.EnterState();
         }
-
+        
         public void ChangeState(PlayerState newState)
         {
             CurrentPlayerState.ExitState();

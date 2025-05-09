@@ -138,7 +138,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2994254202028530727}
-  - component: {fileID: 3065151694316804359}
   - component: {fileID: 2768526361453180992}
   - component: {fileID: 5984911845546311258}
   - component: {fileID: 5549326817389309966}
@@ -167,27 +166,6 @@ Transform:
   - {fileID: 1706675433799577959}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3065151694316804359
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2671199605462920905}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 220ca1753e4899744b94563a3d3ca318, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damage: 10
-  pushForce: 0
-  knockTime: 0
-  anim: {fileID: 6325103108509467203}
-  triggerAttack: Attack
-  triggerDeath: Death
-  healthBase: {fileID: 2768526361453180992}
-  timeToDestroy: 0
-  audioSourceKill: {fileID: 5669099139083146565}
 --- !u!114 &2768526361453180992
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -412,11 +390,6 @@ SpriteRenderer:
 --- !u!212 &5678188972803844360 stripped
 SpriteRenderer:
   m_CorrespondingSourceObject: {fileID: 4058282757918593861, guid: 3de838754c767a446a5473969062a84e, type: 3}
-  m_PrefabInstance: {fileID: 8547005689306282573}
-  m_PrefabAsset: {fileID: 0}
---- !u!95 &6325103108509467203 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 2403329696302037006, guid: 3de838754c767a446a5473969062a84e, type: 3}
   m_PrefabInstance: {fileID: 8547005689306282573}
   m_PrefabAsset: {fileID: 0}
 --- !u!212 &6567666624225429856 stripped

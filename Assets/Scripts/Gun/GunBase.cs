@@ -123,6 +123,7 @@ namespace Orby.Gun
             var direction = GetProjectileDirection();
 
             var projectile = Instantiate(prefabProjectile);
+            FlipSprite(projectile.GetComponentInChildren<SpriteRenderer>());
             projectile.transform.position = shootPoint.position;
             projectile.transform.rotation = shootPoint.rotation;
             projectile.side = _player.playerData.direction;
@@ -186,6 +187,11 @@ namespace Orby.Gun
 
             shootPoints.transform.localScale = new Vector3(_player.playerData.direction, 
                 shootPoints.transform.localScale.y, shootPoints.transform.localScale.z);
+        }
+
+        private void FlipSprite(SpriteRenderer sprite)
+        {
+            sprite.flipX = _player.playerData.direction == 1 ? false : true;
         }
 
         private void OnDisable()

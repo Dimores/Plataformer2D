@@ -4,6 +4,6 @@ namespace Orby.Interfaces
 {
     public interface IMoveable
     {
-        public void Move(float direction);
+        public void Move();
     }
 }

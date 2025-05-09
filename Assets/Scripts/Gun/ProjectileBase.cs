@@ -36,6 +36,8 @@ public class ProjectileBase : MonoBehaviour
         {
             VFXManager.Instance.PlayVFXByType(VFXManager.VFXType.EXPLOSION, this.transform.position,
                 null);
+            AudioManager.Instance.PlayAudioByTypeWithRandomPitch(AudioManager.AudioType.SLIMEDAMAGE,
+                new Vector2(0.8f, 1.1f), 0.5f);
             SpecialManager.Instance.AddSpecial(5);
             enemy.Damage(DamageAmount);
             

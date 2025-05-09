@@ -98,9 +98,9 @@ namespace Orby.Player
         //    Debug.DrawRay(transform.position + playerData.rightRaycastOffset, Vector2.down * playerData.raycastDetectionDistance, Color.red);
         //}
 
-        public void Move(float direction)
+        public void Move()
         {
-            playerData.Move(direction);
+            playerData.Move();
         }
 
         public void Dash()
@@ -146,8 +146,6 @@ namespace Orby.Player
             Physics2D.IgnoreLayerCollision(playerLayer, enemyLayer, !value);
         }
 
-
-
         public void Kill()
         {
             StateMachine.ChangeState(DeathState);
@@ -167,7 +165,7 @@ namespace Orby.Player
             WillCollideWithEnemy(false); 
 
             float blinkDuration = 0.2f;
-            int blinkCount = 4;
+            int blinkCount = 6;
 
             int completedEffects = 0; 
 

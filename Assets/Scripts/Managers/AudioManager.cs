@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Orby.Core.Singleton;
 using UnityEngine;
 using UnityEngine.Audio;
+using static Orby.Managers.AudioManager;
 
 namespace Orby.Managers
 {
@@ -15,12 +16,31 @@ namespace Orby.Managers
             FALL,
             DAMAGE,
             SLIMEDAMAGE,
-            DASH
+            DASH,
+            MENUBUTTONHOVER
         }
 
         public List<AudioManagerSetup> audioSetup;
 
         #region METHODS
+        public void PlayMenuButtonHoverAudio(float volume)
+        {
+            AudioClip clip = GetAudioClip(AudioType.MENUBUTTONHOVER);
+            if (clip == null)
+            {
+                return;
+            }
+
+            GameObject audioObj = new GameObject($"Audio_MENUBUTTONHOVER");
+            AudioSource audioSource = audioObj.AddComponent<AudioSource>();
+            audioSource.clip = clip;
+            audioSource.volume = volume;
+
+            audioSource.Play();
+
+            Destroy(audioObj, clip.length);
+        }
+
         public void PlayAudioByType(AudioType audioType)
         {
             AudioClip clip = GetAudioClip(audioType);

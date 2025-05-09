@@ -1084,7 +1084,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.8061347, y: 2.8065424}
+  m_Offset: {x: 0.8061347, y: 2.606138}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -1094,7 +1094,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 2.6122694, y: 5.5382395}
+  m_Size: {x: 2.6122694, y: 5.1374307}
   m_EdgeRadius: 0
 --- !u!50 &8128906707854352969
 Rigidbody2D:
@@ -1139,7 +1139,7 @@ MonoBehaviour:
   smokeVisualEffect: {fileID: 7668831316902137974, guid: 5ede2fdc0bdb85d4bb5ced36d3558160, type: 3}
   smokeJumpVisualEffect: {fileID: 67211978942250181, guid: 190cda9b83537aa4ebabfc2bb243d23f, type: 3}
   GunBase: {fileID: 7276968210649436951}
-  dissolve: {fileID: 0}
+  dissolve: {fileID: 2849633855724833134}
   bonesTransform: {fileID: 9085816490854181119}
 --- !u!114 &2849633855724833134
 MonoBehaviour:

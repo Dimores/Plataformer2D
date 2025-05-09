@@ -15,8 +15,7 @@ namespace Orby.Managers
 
         #region REFERENCES
         [Header("Player")]
-        [SerializeField] private GameObject playerPrefab;
-        private GameObject player;
+        [SerializeField] private GameObject player;
 
         [Space(5)]
         [SerializeField] private Transform playerSpawnPosition;
@@ -28,9 +27,9 @@ namespace Orby.Managers
         #endregion
 
 
-        private void Awake()
+        private void Start()
         {
-            if (playerPrefab != null)
+            if (player != null)
             {
                 SpawnPlayer();
                 SetCameraTarget(Player.GetComponent<Transform>());
@@ -39,7 +38,7 @@ namespace Orby.Managers
 
         private void SpawnPlayer()
         {
-            Player = Instantiate(playerPrefab, GetPlayerSpawnVector(), Quaternion.identity, null);
+            Player = Instantiate(player, GetPlayerSpawnVector(), Quaternion.identity, null);
         }
 
         private Vector3 GetPlayerSpawnVector()

@@ -64,9 +64,14 @@ namespace Orby.Player
         public float normalShootVolume;
 
         #region METHODS
-        public void Move(float direction)
+        public void Move()
         {
             Rb.velocity = new Vector2(movementSpeed * direction, Rb.velocity.y);
+        }
+
+        public void Stationary()
+        {
+            Rb.velocity = new Vector2(movementSpeed * 0, Rb.velocity.y);
         }
 
         public void Jump(float jumpForce)
@@ -83,11 +88,11 @@ namespace Orby.Player
         {
             if (InputManager.Instance.Horizontal != 0)
             {
-                Move(InputManager.Instance.Horizontal);
+                Move();
                 HandleScaleX();
             } else if (InputManager.Instance.Horizontal == 0)
             {
-                Move(0);
+                Stationary();
             }
         }
 
