@@ -13,8 +13,6 @@ namespace Orby.Enemy.Boss
         [Header("Runner - Spawn positions")]
         [SerializeField] private List<Transform> spawnPositions; // Left and Right
 
-       
-
         // Update is called once per frame
         void Update()
         {
@@ -23,8 +21,10 @@ namespace Orby.Enemy.Boss
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            if(collision.gameObject.tag == "Player")
+            if (collision.gameObject.tag == "Player")
+            {
                 firstPhase.StartFireballAttack();
+            }
         }
     }
 }

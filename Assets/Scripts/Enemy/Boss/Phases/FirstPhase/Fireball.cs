@@ -39,6 +39,7 @@ namespace Orby.Enemy.Boss.Phases.FirstPhase
         {
             if (collision.gameObject.tag == "Player")
             {
+                VFXManager.Instance.PlayVFXByType(VFXManager.VFXType.EXPLOSION, transform.position);
                 var damageable = collision.gameObject.GetComponent<IDamageable>();
 
                 if (damageable != null)

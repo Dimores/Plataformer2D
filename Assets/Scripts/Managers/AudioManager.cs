@@ -17,7 +17,9 @@ namespace Orby.Managers
             DAMAGE,
             SLIMEDAMAGE,
             DASH,
-            MENUBUTTONHOVER
+            MENUBUTTONHOVER,
+            FIREBALLATTACK,
+            FIREBALLEXPLOSION
         }
 
         public List<AudioManagerSetup> audioSetup;

@@ -7,6 +7,8 @@ namespace Orby.Enemy.Boss.Phases.FirstPhase
 {
     public class FirstPhaseAttacks : MonoBehaviour
     {
+        public EnemyData enemyData;
+
         [Header("Limits")]
         public int consecutiveFireballLimit = 4;
 
@@ -33,28 +35,46 @@ namespace Orby.Enemy.Boss.Phases.FirstPhase
 
             while (fireballCount < consecutiveFireballLimit)
             {
-                Vector3 playerCenter = GameManager.Instance.Player.transform.position + new Vector3(0, 0.5f, 0);
-                Vector3 rawDirection = playerCenter - shootPoint.position;
-                rawDirection.z = 0f;
-                playerDirection = rawDirection.normalized;
+                enemyData.characterAnimator.SetTrigger("Fireball");
 
-
-
-                var firstFireball = Instantiate(fireballPrefab);
-                firstFireball.transform.position = shootPoint.position;
-                firstFireball.Direction = playerDirection * fireballSpeed;
-
-                yield return new WaitForSeconds(timeBetweenShoots);
-
-                var secondFireball = Instantiate(fireballPrefab);
-                secondFireball.transform.position = shootPoint.position;
-                secondFireball.Direction = playerDirection * fireballSpeed;
-
-                fireballCount++;
-
-                yield return new WaitForSeconds(reloadTime);
-                currentFireballCoroutine = null;
+                // Espera a animação acontecer e o evento de animação chamar ShootFireball()
+                // Este tempo precisa ser maior que a duração da animação
+                yield return new WaitUntil(() => fireballCount >= consecutiveFireballLimit);
             }
+
+            currentFireballCoroutine = null;
+            enemyData.characterAnimator.SetTrigger("Idle");
         }
+
+
+
+
+        // Chamado pela animação no momento exato do disparo
+        public void ShootFireball()
+        {
+            // Impede disparos além do limite
+            if (fireballCount >= consecutiveFireballLimit)
+                return;
+
+            Vector3 playerCenter = GameManager.Instance.Player.transform.position + new Vector3(0, 0.5f, 0);
+            Vector3 rawDirection = playerCenter - shootPoint.position;
+            rawDirection.z = 0f;
+            playerDirection = rawDirection.normalized;
+
+            var fireball = Instantiate(fireballPrefab);
+            fireball.transform.position = shootPoint.position;
+            fireball.Direction = playerDirection * fireballSpeed;
+
+            AudioManager.Instance.PlayAudioByTypeWithRandomPitch(
+                AudioManager.AudioType.FIREBALLATTACK,
+                new Vector2(0.7f, 1f),
+                0.2f
+            );
+
+            fireballCount++;
+        }
+
+
+
     }
 }

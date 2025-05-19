@@ -14,12 +14,23 @@ namespace Orby.Enemy
 
         protected virtual void Start()
         {
+            Initialize();
+        }
+
+        private void Initialize()
+        {
             SetLife();
+            SetAnimator();
         }
 
         public void SetLife()
         {
             CurrentHealth = enemyData.life;
+        }
+
+        public void SetAnimator()
+        {
+            enemyData.characterAnimator = GetComponent<Animator>();
         }
 
         public void Damage(int damageAmount)
