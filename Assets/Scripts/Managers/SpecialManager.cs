@@ -19,6 +19,7 @@ namespace Orby.Managers
         private void Start()
         {
             playerData.ResetSpecial();
+            UpdateSpecialUI();
         }
 
         public void AddSpecial(int value)

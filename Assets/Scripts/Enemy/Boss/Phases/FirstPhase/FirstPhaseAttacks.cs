@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using Orby.Managers;
 using UnityEngine;
 
@@ -7,10 +9,12 @@ namespace Orby.Enemy.Boss.Phases.FirstPhase
 {
     public class FirstPhaseAttacks : MonoBehaviour
     {
-        public EnemyData enemyData;
+        [Header("Boss Data")]
+        public Boss bossData;
 
         [Header("Limits")]
-        public int consecutiveFireballLimit = 4;
+        private int consecutiveFireballLimit = 4;
+        private int shooterLimit = 2;
 
         [Header("Shoot")]
         [SerializeField] private Fireball fireballPrefab;
@@ -19,10 +23,24 @@ namespace Orby.Enemy.Boss.Phases.FirstPhase
         [SerializeField] private float reloadTime;
         [SerializeField] private float fireballSpeed;
 
+        [Header("Summon Shooter")]
+        [SerializeField] private EnemyShooter shooterPrefab;
+
+        [Header("VFX")]
+        public GameObject portalPrefab;
+        public Vector3 portalOffset;
+
+        public Action OnAttackFinished;
+
         private int fireballCount = 0;
         private Vector3 playerDirection;
         private Coroutine currentFireballCoroutine;
 
+        private int shooterAmount;
+
+        public int ShooterAmount { get => shooterAmount; private set => shooterAmount = value; }
+
+        #region FIREBALL
         public void StartFireballAttack()
         {
             if(currentFireballCoroutine == null)
@@ -35,24 +53,19 @@ namespace Orby.Enemy.Boss.Phases.FirstPhase
 
             while (fireballCount < consecutiveFireballLimit)
             {
-                enemyData.characterAnimator.SetTrigger("Fireball");
+                bossData.Animator.SetTrigger("Fireball");
 
-                // Espera a animação acontecer e o evento de animação chamar ShootFireball()
-                // Este tempo precisa ser maior que a duração da animação
                 yield return new WaitUntil(() => fireballCount >= consecutiveFireballLimit);
             }
 
             currentFireballCoroutine = null;
-            enemyData.characterAnimator.SetTrigger("Idle");
+            bossData.Animator.SetTrigger("Idle");
+
+            OnAttackFinished?.Invoke();
         }
 
-
-
-
-        // Chamado pela animação no momento exato do disparo
         public void ShootFireball()
         {
-            // Impede disparos além do limite
             if (fireballCount >= consecutiveFireballLimit)
                 return;
 
@@ -73,8 +86,99 @@ namespace Orby.Enemy.Boss.Phases.FirstPhase
 
             fireballCount++;
         }
+        #endregion
+
+        #region SHOOTER
+        private IEnumerator SummonShooter(Transform summonPoint, Vector3 rotation, EnemyShooter shooter)
+        {
+            if (ShooterAmount >= shooterLimit)
+                yield break;
+
+            // 1. Instanciar o portal com escala zero
+            GameObject portal = Instantiate(portalPrefab, summonPoint.position + portalOffset, Quaternion.identity);
+            Transform portalTransform = portal.transform;
+            Vector3 originalScale = portalTransform.localScale;
+            portalTransform.localScale = Vector3.zero;
+            portal.transform.position += portalOffset;
+
+            // 2. Animar o portal crescendo com Ease.OutBack
+            AudioManager.Instance.PlayAudioByTypeWithRandomPitch(
+                AudioManager.AudioType.PORTALOPEN,
+                new Vector2(1f, 1.1f),
+                0.3f
+                );
+            portalTransform.DOScale(originalScale, 1.3f).SetEase(Ease.OutBack);
+
+            // 3. Aguardar tempo para "abrir" o portal
+            yield return new WaitForSeconds(1.2f);
+
+            // 4. Instanciar o inimigo atirador
+            EnemyShooter summonedShooter = Instantiate(shooter, summonPoint.position, Quaternion.Euler(rotation));
+            summonedShooter.SpawnPosition = summonPoint;
+
+            summonedShooter.WillCollide(false);
+
+            // 5. Fade-in nos SpriteRenderers
+            List<SpriteRenderer> renderers = summonedShooter.SpriteRenderers;
+            float fadeDuration = 2f;
+            foreach (var sr in renderers)
+            {
+                Color c = sr.color;
+                c.a = 0f;
+                sr.color = c;
+                sr.DOFade(1f, fadeDuration);
+            }
+
+            yield return new WaitForSeconds(fadeDuration);
+
+            AudioManager.Instance.PlayAudioByTypeWithRandomPitch(
+                AudioManager.AudioType.PORTALCLOSE,
+                new Vector2(1f, 1.1f),
+                0.3f
+                );
+            portalTransform.DOScale(Vector3.zero, 1.2f)
+                .SetEase(Ease.InBack)
+                .OnComplete(() =>
+                {
+                    Destroy(portal); 
+                });
 
 
+            summonedShooter.StartCoroutine(summonedShooter.Shoot());
 
+            ShooterAmount++;
+        }
+
+
+        public void SummonShooterWrapper(Transform spawnTransform)
+        {
+            Vector3 rotation = Vector3.zero;
+
+            if (spawnTransform == GameManager.Instance.boss.SpawnPositions[0])
+            {
+                rotation = new Vector3(0f, 180f, 0f);
+            }
+
+            StartCoroutine(SummonShooter(spawnTransform, rotation, shooterPrefab));
+        }
+
+        #endregion
+
+        #region SHOOTER EVENT
+        private void OnEnable()
+        {
+            EnemyShooter.OnShooterKilled += HandleShooterKilled;
+        }
+
+        private void OnDisable()
+        {
+            EnemyShooter.OnShooterKilled -= HandleShooterKilled;
+        }
+
+        private void HandleShooterKilled(EnemyShooter shooter)
+        {
+            ShooterAmount--;
+        }
+        #endregion
     }
 }

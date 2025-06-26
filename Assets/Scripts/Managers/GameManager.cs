@@ -5,6 +5,9 @@ using Orby.Core.Singleton;
 using DG.Tweening;
 using Cinemachine;
 using Orby.Player;
+using Orby.Enemy.Boss;
+using NUnit;
+using System.Net;
 
 namespace Orby.Managers
 {
@@ -23,9 +26,11 @@ namespace Orby.Managers
         [Header("Camera")]
         [SerializeField] private CinemachineVirtualCamera virtualCamera;
 
+        [Header("Boss")]
+        public Boss boss;
+
         public GameObject Player { get => player; set => player = value; }
         #endregion
-
 
         private void Start()
         {

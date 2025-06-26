@@ -14,7 +14,7 @@ namespace Orby.Player
         [Header("Player Data - Combat Setup")]
         public float attackSpeed;
         public float projectileSpeed;
-        // Invencibility time here later <--
+        public GameObject laserPrefab;
 
         [Header("Player Data - Movement Setup")]
         public Rigidbody2D Rb;
@@ -42,6 +42,7 @@ namespace Orby.Player
         public string attackKey;
         public string dashKey;
         public string aimKey;
+        public string specialKey;
 
         [Header("Player Data - Animation Setup")]
         public string triggerIdle;
@@ -49,6 +50,7 @@ namespace Orby.Player
         public string triggerJump;
         public string triggerFalling;
         public string triggerDash;
+        public string triggerSpecial;
         public string triggerDeath;
         public float playerSwipeDuration;
 
@@ -56,7 +58,7 @@ namespace Orby.Player
         public Vector3 dashVFXOffset;
         public Vector3 jumpVFXOffset;
 
-        [Header("Player Data - Points Setup")]
+        [Header("Player Data - Special Setup")]
         public int specialAmount;
         public int maxSpecial;
 
@@ -82,6 +84,13 @@ namespace Orby.Player
         public void Dash(float direction)
         {
             Rb.velocity = new Vector2(dashForce * direction, 0);
+        }
+
+        public void Special(Vector3 start, Vector3 end)
+        {
+            GameObject laserGO = Instantiate(laserPrefab, start, Quaternion.identity);
+            Laser laser = laserGO.GetComponent<Laser>();
+            laser.Initialize(start, end);
         }
 
         public void HandleMovement()
@@ -139,7 +148,7 @@ namespace Orby.Player
 
         public void ResetSpecial()
         {
-            this.specialAmount = 0;
+            this.specialAmount = 400;
         }
 
         #endregion

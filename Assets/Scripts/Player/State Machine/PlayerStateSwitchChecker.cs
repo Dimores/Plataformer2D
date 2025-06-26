@@ -47,5 +47,11 @@ namespace Orby.Player.StateMachine
             if (Input.GetButtonDown(_player.playerData.aimKey))
                 _player.StateMachine.ChangeState(_player.AimState);
         }
+
+        public void CheckIfSpecialState() {
+            if (Input.GetButtonDown(_player.playerData.specialKey) 
+                && !_player.IsSpecialOnCooldown && _player.playerData.specialAmount >= 100)
+                _player.StateMachine.ChangeState(_player.SpecialState);
+        }
     }
 }

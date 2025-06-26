@@ -19,7 +19,12 @@ namespace Orby.Managers
             DASH,
             MENUBUTTONHOVER,
             FIREBALLATTACK,
-            FIREBALLEXPLOSION
+            FIREBALLEXPLOSION,
+            SHOOTERATTACK,
+            PORTALOPEN,
+            PORTALCLOSE,
+            LOADLASER,
+            SHOOTLASER
         }
 
         public List<AudioManagerSetup> audioSetup;

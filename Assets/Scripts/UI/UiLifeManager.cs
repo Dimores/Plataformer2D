@@ -17,6 +17,7 @@ namespace Orby.UI
         [Header("DOTween setup")]
         public float scaleAmount = 1.2f;
         public float scaleDuration = .2f;
+        public float scaleDownDuration = .1f;
         public Color fadeColor = Color.red;
 
         private Tween _fadeTween;
@@ -31,7 +32,7 @@ namespace Orby.UI
                 }
 
                 lifeContainer.transform.DOScale(scaleAmount, scaleDuration)
-                    .OnComplete(() => lifeContainer.transform.DOScale(1f, scaleDuration));
+                    .OnComplete(() => lifeContainer.transform.DOScale(1f, scaleDownDuration));
 
                 if (value == 1)
                 {

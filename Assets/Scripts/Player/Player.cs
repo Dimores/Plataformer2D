@@ -16,17 +16,22 @@ namespace Orby.Player
 {
     public class Player : MonoBehaviour, IDamageable, IMoveable, IKillable
     {
+        [Header("Player Data")]
         public PlayerData playerData;
+        public Transform bonesTransform;
+
+        [Header("Visual")]
         public VisualEffect smokeVisualEffect;
         public VisualEffect smokeJumpVisualEffect;
-
-        public GunBase GunBase;
         public Dissolve dissolve;
+        public Animator animator;
 
-        public Transform bonesTransform;
+        [Header("Gun & Special")]
+        public GunBase GunBase;
 
         public bool HasDashedOnAir { get; set; } = false;
         public bool IsDashOnCooldown { get; private set; }
+        public bool IsSpecialOnCooldown { get; private set; }
 
         public int MaxHealth { get; set; }
         public int CurrentHealth { get; set; }
@@ -40,6 +45,7 @@ namespace Orby.Player
         public PlayerDashState DashState { get; set; }
         public PlayerDeathState DeathState { get; set; }
         public PlayerAimState AimState { get; set; }
+        public PlayerSpecialState SpecialState { get; set; }
         #endregion
 
         private bool _invincibility = false;
@@ -56,12 +62,12 @@ namespace Orby.Player
             DashState = new PlayerDashState(this, StateMachine);
             DeathState = new PlayerDeathState(this, StateMachine);
             AimState = new PlayerAimState(this, StateMachine);
+            SpecialState = new PlayerSpecialState(this, StateMachine);
         }
 
         private void Start()
         {
             playerData.Rb = GetComponent<Rigidbody2D>();
-            playerData.characterAnimator = GetComponent<Animator>();
 
             playerData.playerCollider = GetComponent<Collider2D>();
 
@@ -82,11 +88,6 @@ namespace Orby.Player
         private void Update()
         {
             StateMachine.CurrentPlayerState.FrameUpdate();
-
-            if (Input.GetKeyDown(KeyCode.R))
-            {
-                Damage(1);
-            }
         }
 
 
@@ -111,13 +112,13 @@ namespace Orby.Player
         public void Freeze()
         {
             playerData.Rb.constraints = RigidbodyConstraints2D.FreezePosition;
-            playerData.characterAnimator.enabled = false;
+            animator.enabled = false;
         }
 
         public void Unfreeze()
         {
             playerData.Rb.constraints = RigidbodyConstraints2D.FreezeRotation;
-            playerData.characterAnimator.enabled = true;
+            animator.enabled = true;
         }
 
         public void Damage(int damageAmount)
@@ -142,8 +143,10 @@ namespace Orby.Player
         {
             int playerLayer = LayerMask.NameToLayer("Player");
             int enemyLayer = LayerMask.NameToLayer("Enemy");
+            int enemyProjectileLayer = LayerMask.NameToLayer("EnemyProjectile");
 
             Physics2D.IgnoreLayerCollision(playerLayer, enemyLayer, !value);
+            Physics2D.IgnoreLayerCollision(playerLayer, enemyProjectileLayer, !value);
         }
 
         public void Kill()

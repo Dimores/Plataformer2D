@@ -37,6 +37,7 @@ namespace Orby.Player.StateMachine.ConcretStates
             player.playerData.Rb.velocity = new Vector2(0, player.playerData.Rb.velocity.y);
 
             player.StateMachine.PlayerStateSwitchChecker.CheckIfJumpState();
+            player.StateMachine.PlayerStateSwitchChecker.CheckIfSpecialState();
             CheckIfStateSwitchGround();
         }
 

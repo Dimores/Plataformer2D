@@ -1,6 +1,7 @@
 using UnityEngine;
 using Orby.Player;
 using Orby.Interfaces;
+using System.Collections.Generic;
 
 namespace Orby.Enemy
 {
@@ -12,6 +13,16 @@ namespace Orby.Enemy
         public int MaxHealth { get; set; }
         public int CurrentHealth { get; set; }
 
+        protected Animator animator;
+        public Animator Animator { get => animator; private set => animator = value; }
+
+        public List<SpriteRenderer> SpriteRenderers { get; private set; } = new List<SpriteRenderer>();
+
+        private void Awake()
+        {
+            FillSpriteRendererList();
+        }
+
         protected virtual void Start()
         {
             Initialize();
@@ -21,6 +32,13 @@ namespace Orby.Enemy
         {
             SetLife();
             SetAnimator();
+            FillSpriteRendererList();
+        }
+
+        private void FillSpriteRendererList()
+        {
+            SpriteRenderers.Clear();
+            SpriteRenderers.AddRange(GetComponentsInChildren<SpriteRenderer>());
         }
 
         public void SetLife()
@@ -30,7 +48,7 @@ namespace Orby.Enemy
 
         public void SetAnimator()
         {
-            enemyData.characterAnimator = GetComponent<Animator>();
+            Animator = GetComponent<Animator>();
         }
 
         public void Damage(int damageAmount)

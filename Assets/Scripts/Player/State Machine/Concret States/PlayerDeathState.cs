@@ -22,6 +22,7 @@ namespace Orby.Player.StateMachine.ConcretStates
             DisableAnimator();
             StartDissolving();
             DisableCollider();
+            DisableGun();
         }
 
         public override void ExitState()
@@ -34,9 +35,14 @@ namespace Orby.Player.StateMachine.ConcretStates
             base.FrameUpdate();
         }
 
+        private void DisableGun()
+        {
+            player.GunBase.enabled = false;
+        }
+
         private void DisableAnimator()
         {
-            player.playerData.characterAnimator.enabled = false;
+            player.animator.enabled = false;
         }
 
         private void DisableCollider()

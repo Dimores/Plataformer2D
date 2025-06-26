@@ -7,8 +7,5 @@ namespace Orby.Character
         [Header("Character Data - Combat Setup")]
         public int life;
         public int damage;
-
-        [Header("Character Data - Animation Setup")]
-        public Animator characterAnimator;
     }
 }

@@ -24,22 +24,16 @@ namespace Orby.Enemy.Boss.Phases.FirstPhase
             transform.Translate(Direction * Time.deltaTime, Space.World);
         }
 
-        private void OnTriggerEnter2D(Collider2D collision)
-        {
-            if(collision.gameObject.tag == "Player")
-            {
-                var damageable = collision.gameObject.GetComponent<IDamageable>();
-
-                if (damageable != null)
-                    damageable.Damage(1);
-            }
-        }
-
         private void OnCollisionEnter2D(Collision2D collision)
         {
             if (collision.gameObject.tag == "Player")
             {
                 VFXManager.Instance.PlayVFXByType(VFXManager.VFXType.EXPLOSION, transform.position);
+                AudioManager.Instance.PlayAudioByTypeWithRandomPitch(
+                    AudioManager.AudioType.FIREBALLEXPLOSION,
+                    new Vector2(0.9f, 1.6f),
+                    0.2f
+                );
                 var damageable = collision.gameObject.GetComponent<IDamageable>();
 
                 if (damageable != null)
@@ -47,9 +41,14 @@ namespace Orby.Enemy.Boss.Phases.FirstPhase
                     damageable.Damage(1);
                     Destroy(gameObject);
                 }
-            }else if(collision.gameObject.tag == "Ground")
+            }else if(collision.gameObject.tag == "Ground" || collision.gameObject.tag == "Wall")
             {
                 VFXManager.Instance.PlayVFXByType(VFXManager.VFXType.EXPLOSION, transform.position);
+                AudioManager.Instance.PlayAudioByTypeWithRandomPitch(
+                    AudioManager.AudioType.FIREBALLEXPLOSION,
+                    new Vector2(0.9f, 1.6f),
+                    0.2f
+                );
                 Destroy(gameObject);
             }
         }

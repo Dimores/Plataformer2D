@@ -34,7 +34,8 @@ public class ProjectileBase : MonoBehaviour
         var enemy = collision.transform.GetComponent<EnemyBase>();
         if (enemy != null)
         {
-            VFXManager.Instance.PlayVFXByType(VFXManager.VFXType.EXPLOSION, this.transform.position,
+            VFXManager.Instance.PlayVFXByType(VFXManager.VFXType.EXPLOSIONPLAYER, 
+                this.transform.position,
                 null);
             AudioManager.Instance.PlayAudioByTypeWithRandomPitch(AudioManager.AudioType.SLIMEDAMAGE,
                 new Vector2(0.8f, 1.1f), 0.5f);

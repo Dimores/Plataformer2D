@@ -14,15 +14,25 @@ namespace Orby.Gun
 
         [Header("Projectile Spawn Points")]
         public GameObject shootPoints;
+        public GameObject shootPointsEnd;
         public Transform shootPointDefault;
         public Transform shootPointDiagonal;
+        public Transform shootPointDiagonalDown;
         public Transform shootPointUp;
+        public Transform shootPointDown;
+        public Transform shootPointDefaultEnd;
+        public Transform shootPointDiagonalEnd;
+        public Transform shootPointDiagonalDownEnd;
+        public Transform shootPointUpEnd;
+        public Transform shootPointDownEnd;
 
         [Header("Animation triggers")]
         public Animator gunAnimator;
         public string defaultTrigger;
         public string upTrigger;
+        public string downTrigger;
         public string diagonalTrigger;
+        public string diagonalDownTrigger;
         public string muzzleTrigger = "Muzzle";
 
         [Header("Audio")]
@@ -34,6 +44,9 @@ namespace Orby.Gun
         private float _lastShootTime;
 
         private string _currentTrigger;
+
+        private Transform _lastShootPoint;
+
 
         private void Awake()
         {
@@ -56,7 +69,7 @@ namespace Orby.Gun
         {
             if (Mathf.Abs(InputManager.Instance.Horizontal) > 0.1f)
             {
-                _player.playerData.HandleScaleX(); 
+                _player.playerData.HandleScaleX();
             }
 
             if (InputManager.Instance.Horizontal != 0 && InputManager.Instance.Vertical > 0)
@@ -65,9 +78,21 @@ namespace Orby.Gun
                 return;
             }
 
+            if (InputManager.Instance.Horizontal != 0 && InputManager.Instance.Vertical < 0)
+            {
+                SetAnimationTriggerOnce(diagonalDownTrigger);
+                return;
+            }
+
             if (InputManager.Instance.Vertical > 0)
             {
                 SetAnimationTriggerOnce(upTrigger);
+                return;
+            }
+
+            if (InputManager.Instance.Vertical < 0)
+            {
+                SetAnimationTriggerOnce(downTrigger);
                 return;
             }
 
@@ -78,7 +103,6 @@ namespace Orby.Gun
         {
             SetAnimationTriggerOnce(defaultTrigger);
         }
-
 
         private void TryStartShooting()
         {
@@ -94,7 +118,7 @@ namespace Orby.Gun
             if (_currentCoroutine != null)
             {
                 StopCoroutine(_currentCoroutine);
-                _player.playerData.characterAnimator.SetTrigger(defaultTrigger);
+                _player.animator.SetTrigger(defaultTrigger);
                 _wasShooting = false;
                 _currentCoroutine = null;
             }
@@ -105,7 +129,7 @@ namespace Orby.Gun
             while (true)
             {
                 Shoot();
-                _lastShootTime = Time.time; 
+                _lastShootTime = Time.time;
                 yield return new WaitForSeconds(_player.playerData.attackSpeed);
             }
         }
@@ -131,61 +155,101 @@ namespace Orby.Gun
             projectile.DamageAmount = _player.playerData.damage;
         }
 
-        private Transform GetShootPoint()
+        public Transform GetShootPoint()
         {
-            if (InputManager.Instance.Horizontal != 0 && InputManager.Instance.Vertical > 0)
+            float h = InputManager.Instance.Horizontal;
+            float v = InputManager.Instance.Vertical;
+
+            if (Mathf.Abs(h) > 0.1f && v < -0.1f)
+            {
+                SetAnimationTrigger(diagonalDownTrigger);
+                _lastShootPoint = shootPointDiagonalDown;
+                return shootPointDiagonalDown;
+            }
+
+            if (Mathf.Abs(h) > 0.1f && v > 0.1f)
             {
                 SetAnimationTrigger(diagonalTrigger);
+                _lastShootPoint = shootPointDiagonal;
                 return shootPointDiagonal;
             }
 
-            if (InputManager.Instance.Vertical > 0)
+            if (v > 0.1f)
             {
                 SetAnimationTrigger(upTrigger);
+                _lastShootPoint = shootPointUp;
                 return shootPointUp;
             }
 
+            if (v < -0.1f)
+            {
+                SetAnimationTrigger(downTrigger);
+                _lastShootPoint = shootPointDown;
+                return shootPointDown;
+            }
+
             SetAnimationTrigger(defaultTrigger);
+            _lastShootPoint = shootPointDefault;
             return shootPointDefault;
         }
 
+        public Transform GetEndShootPoint()
+        {
+            if (_lastShootPoint == shootPointDiagonalDown) return shootPointDiagonalDownEnd;
+            if (_lastShootPoint == shootPointDiagonal) return shootPointDiagonalEnd;
+            if (_lastShootPoint == shootPointUp) return shootPointUpEnd;
+            if (_lastShootPoint == shootPointDown) return shootPointDownEnd;
+            return shootPointDefaultEnd;
+        }
 
         private void SetAnimationTriggerOnce(string newTrigger)
         {
             if (_currentTrigger == newTrigger) return;
 
             if (!string.IsNullOrEmpty(_currentTrigger))
-                _player.playerData.characterAnimator.ResetTrigger(_currentTrigger);
+                _player.animator.ResetTrigger(_currentTrigger);
 
-            _player.playerData.characterAnimator.SetTrigger(newTrigger);
+            _player.animator.SetTrigger(newTrigger);
             _currentTrigger = newTrigger;
         }
 
         public void SetAnimationTrigger(string trigger)
         {
-            _player.playerData.characterAnimator.SetTrigger(trigger);
+            _player.animator.SetTrigger(trigger);
         }
 
         private Vector3 GetProjectileDirection()
         {
-            if (InputManager.Instance.Vertical > 0 && InputManager.Instance.Horizontal == 0)
+            var h = InputManager.Instance.Horizontal;
+            var v = InputManager.Instance.Vertical;
+
+            if (v > 0 && h == 0)
                 return Vector3.up;
 
-            if (InputManager.Instance.Vertical > 0 && InputManager.Instance.Horizontal != 0)
-            {
-                return new Vector3(InputManager.Instance.Horizontal, 1, 0).normalized * Mathf.Sqrt(2);
-            }
+            if (v > 0 && h != 0)
+                return new Vector3(h, 1, 0).normalized;
+
+            if (v < 0 && h == 0)
+                return Vector3.down;
+
+            if (v < 0 && h != 0)
+                return new Vector3(h, -1, 0).normalized;
 
             return new Vector3(1f, 0f, 0f);
         }
 
-        // Flip shoot points and angle (left side) correctly
-        private void FlipShootPoints()
+        public void FlipShootPoints()
         {
             shootPoints.transform.localPosition = _player.playerData.direction == 1 ?
                 Vector3.zero : new Vector3(1.41f, 0f, 0f);
 
-            shootPoints.transform.localScale = new Vector3(_player.playerData.direction, 
+            shootPointsEnd.transform.localPosition = _player.playerData.direction == 1 ?
+                Vector3.zero : new Vector3(1.41f, 0f, 0f);
+
+            shootPoints.transform.localScale = new Vector3(_player.playerData.direction,
+                shootPoints.transform.localScale.y, shootPoints.transform.localScale.z);
+
+            shootPointsEnd.transform.localScale = new Vector3(_player.playerData.direction,
                 shootPoints.transform.localScale.y, shootPoints.transform.localScale.z);
         }
 

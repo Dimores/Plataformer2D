@@ -14,6 +14,8 @@ namespace Orby.Managers
             FALL,
             COIN,
             EXPLOSION,
+            EXPLOSIONPLAYER,
+            EXPLOSIONLASER,
             DASH
         }
 
