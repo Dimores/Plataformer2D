@@ -8,6 +8,7 @@ using Orby.Player;
 using Orby.Enemy.Boss;
 using NUnit;
 using System.Net;
+using UnityEngine.Audio;
 
 namespace Orby.Managers
 {
@@ -29,8 +30,43 @@ namespace Orby.Managers
         [Header("Boss")]
         public Boss boss;
 
+        [Header("Audio")]
+        [SerializeField] private AudioMixer audioMixer;
+        [SerializeField] private float abafadoCutoff = 500f;
+        [SerializeField] private float normalCutoff = 22000f;
+
+        [Header("Screens")]
+        [SerializeField] private GameObject lostScreen;
+        [SerializeField] private GameObject victoryScreen;
+        [SerializeField] private RectTransform lostImageRect;
+
+
         public GameObject Player { get => player; set => player = value; }
         #endregion
+
+        private bool gameOver = false;
+        public bool GameOver
+        {
+            get => gameOver;
+            set
+            {
+                gameOver = value;
+                if (gameOver)
+                {
+                    MuffleMusic();
+                    lostScreen.SetActive(true);
+
+                    lostImageRect.anchoredPosition = new Vector2(lostImageRect.anchoredPosition.x, -1004);
+
+                    lostImageRect.DOAnchorPosY(0f, 2f).SetEase(Ease.OutElastic);
+
+                }
+                else
+                {
+                    ResetMusic();
+                }
+            }
+        }
 
         private void Start()
         {
@@ -52,6 +88,18 @@ namespace Orby.Managers
                 return playerSpawnPosition.position;
             else return Vector3.zero;
         }
+
+        #region MUSIC
+        private void MuffleMusic()
+        {
+            audioMixer.SetFloat("LowPassCutoff", abafadoCutoff);
+        }
+
+        private void ResetMusic()
+        {
+            audioMixer.SetFloat("LowPassCutoff", normalCutoff);
+        }
+        #endregion
 
         #region CAMERA
         private void SetCameraTarget(Transform cameraTarget)

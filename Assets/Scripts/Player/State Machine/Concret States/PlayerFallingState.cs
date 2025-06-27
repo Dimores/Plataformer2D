@@ -35,12 +35,16 @@ namespace Orby.Player.StateMachine.ConcretStates
 
             CheckIfDashState();
             CheckIfIdleOrMovementState();
+            playerStateMachine.PlayerStateSwitchChecker.CheckIfSpecialState();
         }
 
         private void CheckIfIdleOrMovementState()
         {
             if (player.playerData.CheckGrounded())
             {
+                AudioManager.Instance.PlayAudioByTypeWithRandomPitch(AudioManager.AudioType.FALL,
+                    new Vector2(0.96f, 1.1f), 0.55f);
+                player.PlaySmokeFallVFX(player.transform.position, player.playerData.fallVFXOffset);
                 player.HasDashedOnAir = false;
                 if (InputManager.Instance.Horizontal == 0)
                     player.StateMachine.ChangeState(player.IdleState);

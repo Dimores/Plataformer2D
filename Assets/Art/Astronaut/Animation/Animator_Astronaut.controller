@@ -187,6 +187,9 @@ AnimatorStateMachine:
   - serializedVersion: 1
     m_State: {fileID: 5913519814511586589}
     m_Position: {x: 265, y: 635, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: -2778934079240835019}
+    m_Position: {x: 300, y: 700, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions:
   - {fileID: -2370640211907287347}
@@ -377,6 +380,32 @@ AnimatorState:
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
   m_Motion: {fileID: 7400000, guid: a5fe4338ba1a6264a978bbcd82c97c3a, type: 2}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
+--- !u!1102 &-2778934079240835019
+AnimatorState:
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: ANIM_Astronaut_Menu
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: 7400000, guid: ccc3884312ac8b04c9296a7ae20fdcb3, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 

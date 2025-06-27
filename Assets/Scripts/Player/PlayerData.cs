@@ -14,6 +14,7 @@ namespace Orby.Player
         [Header("Player Data - Combat Setup")]
         public float attackSpeed;
         public float projectileSpeed;
+        public float specialRechargeTime;
         public GameObject laserPrefab;
 
         [Header("Player Data - Movement Setup")]
@@ -56,7 +57,7 @@ namespace Orby.Player
 
         [Header("Player Data - VFX Setup")]
         public Vector3 dashVFXOffset;
-        public Vector3 jumpVFXOffset;
+        public Vector3 fallVFXOffset;
 
         [Header("Player Data - Special Setup")]
         public int specialAmount;

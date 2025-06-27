@@ -16,6 +16,7 @@ MonoBehaviour:
   damage: 1
   attackSpeed: 0.3
   projectileSpeed: 50
+  specialRechargeTime: 1.5
   laserPrefab: {fileID: 2456520208677131165, guid: 27b055f88e105df42b33ddf89594eb98, type: 3}
   Rb: {fileID: 0}
   bonesTransform: {fileID: 0}
@@ -27,7 +28,7 @@ MonoBehaviour:
   dashForce: 20
   dashDuration: 0.3
   dashCooldown: 0.8
-  direction: 1
+  direction: -1
   groundLayer:
     serializedVersion: 2
     m_Bits: 8
@@ -50,7 +51,7 @@ MonoBehaviour:
   triggerDeath: Death
   playerSwipeDuration: 0.01
   dashVFXOffset: {x: 0, y: 2, z: 0}
-  jumpVFXOffset: {x: 0, y: 0, z: 0}
-  specialAmount: 300
+  fallVFXOffset: {x: 0.1, y: -0.1, z: 0}
+  specialAmount: 15
   maxSpecial: 400
   normalShootVolume: 0.2

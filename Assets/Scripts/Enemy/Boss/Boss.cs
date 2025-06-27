@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Orby.Enemy.Boss.Phases.FirstPhase;
+using Orby.Managers;
+
 
 namespace Orby.Enemy.Boss
 {
@@ -96,16 +98,16 @@ namespace Orby.Enemy.Boss
 
         void Update()
         {
-            //if (!isAttacking)
-            //{
-            //    attackCooldown -= Time.deltaTime;
+            if (!isAttacking && GameManager.Instance.GameOver == false)
+            {
+                attackCooldown -= Time.deltaTime;
 
-            //    if (attackCooldown <= 0f)
-            //    {
-            //        TryAttack();
-            //        attackCooldown = timeBetweenAttacks;
-            //    }
-            //}
+                if (attackCooldown <= 0f)
+                {
+                    TryAttack();
+                    attackCooldown = timeBetweenAttacks;
+                }
+            }
         }
     }
 }

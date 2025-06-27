@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using Orby.Managers;
 using Orby.Player.StateMachine;
 using UnityEngine;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 namespace Orby.Player.StateMachine.ConcretStates
 {
     public class PlayerSpecialState : PlayerState
     {
         private Laser laser;
+        private float playerInitialGravityScale;
+
         public PlayerSpecialState(Player player, PlayerStateMachine playerStateMachine) : base(player, playerStateMachine)
         {
         }
@@ -23,6 +26,9 @@ namespace Orby.Player.StateMachine.ConcretStates
             base.EnterState();
             AnimationTriggerEvent(player.playerData.triggerSpecial);
 
+            playerInitialGravityScale = player.playerData.Rb.gravityScale;
+            player.playerData.Rb.gravityScale = 0f;
+
             laser = player.playerData.laserPrefab.GetComponent<Laser>();
 
             SpecialManager.Instance.RemoveSpecial(100);
@@ -32,6 +38,7 @@ namespace Orby.Player.StateMachine.ConcretStates
             player.playerData.Special(player.GunBase.GetShootPoint().position, 
                 player.GunBase.GetEndShootPoint().position);
             player.GunBase.enabled = false;
+
             player.StartCoroutine(WaitLaserTime());
         }
 
@@ -40,18 +47,41 @@ namespace Orby.Player.StateMachine.ConcretStates
             base.ExitState();
             player.GunBase.enabled = true;
             player.GunBase.SetAnimationTrigger(player.GunBase.defaultTrigger);
+            player.playerData.Rb.gravityScale = playerInitialGravityScale;
         }
 
         public override void FrameUpdate()
         {
             base.FrameUpdate();
-            player.playerData.Rb.velocity = new Vector2 (0, 0); // Stop in air too
+            player.playerData.Rb.velocity = new Vector2 (0, 0);
+            Debug.Log("Special");
         }
 
         private IEnumerator WaitLaserTime()
         {
             yield return new WaitForSeconds(laser.goTime + laser.backTime);
-            player.StateMachine.ChangeState(player.IdleState);
+            player.StartCoroutine(StartSpecialCooldown());
+            CheckIfGroundOrFallingState();
+        }
+
+        private IEnumerator StartSpecialCooldown()
+        {
+            player.IsSpecialOnCooldown = true;
+            yield return new WaitForSeconds(player.playerData.specialRechargeTime);
+            player.IsSpecialOnCooldown = false;
+        }
+
+        private void CheckIfGroundOrFallingState()
+        {
+            if (player.playerData.CheckGrounded())
+            {
+                playerStateMachine.PlayerStateSwitchChecker.CheckIfIdleState();
+                playerStateMachine.PlayerStateSwitchChecker.CheckIfMovementState();
+            }
+            else
+            {
+                player.StateMachine.ChangeState(player.FallingState);
+            }
         }
     }
 }

@@ -43,6 +43,12 @@ namespace Orby.Enemy
             _collider.enabled = willCollide;
         }
 
+        private void FixedUpdate()
+        {
+            if (GameManager.Instance.GameOver == true)
+                _shooting = false;
+        }
+
         public IEnumerator Shoot()
         {
             while (_shooting)

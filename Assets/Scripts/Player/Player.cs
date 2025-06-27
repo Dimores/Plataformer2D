@@ -31,7 +31,7 @@ namespace Orby.Player
 
         public bool HasDashedOnAir { get; set; } = false;
         public bool IsDashOnCooldown { get; private set; }
-        public bool IsSpecialOnCooldown { get; private set; }
+        public bool IsSpecialOnCooldown { get; set; } = false;
 
         public int MaxHealth { get; set; }
         public int CurrentHealth { get; set; }
@@ -152,6 +152,7 @@ namespace Orby.Player
         public void Kill()
         {
             StateMachine.ChangeState(DeathState);
+            GameManager.Instance.GameOver = true;
         }
 
         private IEnumerator FreezePlayerCoroutine(float freezeTime)
@@ -227,7 +228,7 @@ namespace Orby.Player
                 Destroy(item.gameObject, 3f);
         }
 
-        public void PlaySmokeJumpVFX(Vector3 position, Vector3 offset, 
+        public void PlaySmokeFallVFX(Vector3 position, Vector3 offset, 
             bool willDestroy = true)
         {
             var item = Instantiate(smokeJumpVisualEffect, null);

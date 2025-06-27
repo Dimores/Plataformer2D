@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
+using Orby.Managers;
 using UnityEngine;
 
 namespace Orby.Player.StateMachine.ConcretStates
@@ -20,7 +21,8 @@ namespace Orby.Player.StateMachine.ConcretStates
         {
             base.EnterState();
             player.playerData.Jump(player.playerData.jumpForce);
-            player.PlaySmokeJumpVFX(player.transform.position, player.playerData.jumpVFXOffset);
+            AudioManager.Instance.PlayAudioByTypeWithRandomPitch(AudioManager.AudioType.JUMP,
+                new Vector2(0.9f, 1.1f), 0.6f);
             AnimationTriggerEvent(player.playerData.triggerJump);
         }
 
@@ -45,6 +47,7 @@ namespace Orby.Player.StateMachine.ConcretStates
 
             player.StateMachine.PlayerStateSwitchChecker.CheckIfFallingState();
             player.StateMachine.PlayerStateSwitchChecker.CheckIfDashState();
+            player.StateMachine.PlayerStateSwitchChecker.CheckIfSpecialState();
         }
     }
 }
