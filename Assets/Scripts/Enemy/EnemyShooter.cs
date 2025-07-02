@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Orby.Enemy.Boss.Phases.FirstPhase;
 using Orby.Interfaces;
+using Orby.Interfaces.General;
 using Orby.Managers;
 using UnityEngine;
 
@@ -20,7 +21,6 @@ namespace Orby.Enemy
         [Header("Limitations")]
         [SerializeField] private float shootSpeed = 5;
 
-        public Transform SpawnPosition { get; set; }
         public BoxCollider2D _collider;
 
         // Event
@@ -77,7 +77,8 @@ namespace Orby.Enemy
 
         public override void Kill()
         {
-            // Play vfx
+            base.Kill();
+
             _shooting = false;
             StopCoroutine(Shoot());
 
@@ -96,14 +97,6 @@ namespace Orby.Enemy
                 {
                     damageable.Damage(1);
                 }
-            }
-        }
-
-        private void OnDestroy()
-        {
-            if (GameManager.Instance != null && GameManager.Instance.boss != null)
-            {
-                GameManager.Instance.boss.ReleaseSpawnPosition(SpawnPosition);
             }
         }
     }

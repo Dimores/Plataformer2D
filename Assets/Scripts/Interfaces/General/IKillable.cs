@@ -1,4 +1,4 @@
-namespace Orby.Interfaces
+namespace Orby.Interfaces.General
 {
     public interface IKillable
     {

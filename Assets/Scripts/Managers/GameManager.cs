@@ -54,18 +54,22 @@ namespace Orby.Managers
                 if (gameOver)
                 {
                     MuffleMusic();
-                    lostScreen.SetActive(true);
-
-                    lostImageRect.anchoredPosition = new Vector2(lostImageRect.anchoredPosition.x, -1004);
-
-                    lostImageRect.DOAnchorPosY(0f, 2f).SetEase(Ease.OutElastic);
-
+                    StartCoroutine(ShowLostImage());
                 }
                 else
                 {
                     ResetMusic();
                 }
             }
+        }
+
+        private IEnumerator ShowLostImage()
+        {
+            yield return new WaitForSeconds(2.1f);
+            lostScreen.SetActive(true);
+
+            lostImageRect.anchoredPosition = new Vector2(lostImageRect.anchoredPosition.x, -1004);
+            lostImageRect.DOAnchorPosY(0f, 2f).SetEase(Ease.OutElastic);
         }
 
         private void Start()
@@ -95,7 +99,7 @@ namespace Orby.Managers
             audioMixer.SetFloat("LowPassCutoff", abafadoCutoff);
         }
 
-        private void ResetMusic()
+        public void ResetMusic()
         {
             audioMixer.SetFloat("LowPassCutoff", normalCutoff);
         }

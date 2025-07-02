@@ -1,6 +1,4 @@
-using UnityEngine;
-
-namespace Orby.Interfaces
+namespace Orby.Interfaces.General
 {
     public interface IMoveable
     {

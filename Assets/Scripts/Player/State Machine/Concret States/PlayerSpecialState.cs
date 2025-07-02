@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Orby.Managers;
 using Orby.Player.StateMachine;
 using UnityEngine;
-using static UnityEditor.Experimental.GraphView.GraphView;
 
 namespace Orby.Player.StateMachine.ConcretStates
 {

@@ -2,12 +2,13 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
+using Orby.Interfaces.IPhase;
 using Orby.Managers;
 using UnityEngine;
 
 namespace Orby.Enemy.Boss.Phases.FirstPhase
 {
-    public class FirstPhaseAttacks : MonoBehaviour
+    public class FirstPhaseAttacks : MonoBehaviour, IPhase
     {
         [Header("Boss Data")]
         public Boss bossData;
@@ -30,8 +31,6 @@ namespace Orby.Enemy.Boss.Phases.FirstPhase
         public GameObject portalPrefab;
         public Vector3 portalOffset;
 
-        public Action OnAttackFinished;
-
         private int fireballCount = 0;
         private Vector3 playerDirection;
         private Coroutine currentFireballCoroutine;
@@ -39,6 +38,30 @@ namespace Orby.Enemy.Boss.Phases.FirstPhase
         private int shooterAmount;
 
         public int ShooterAmount { get => shooterAmount; private set => shooterAmount = value; }
+
+        public event Action OnAttackFinished;
+        public event Action<Transform> OnSummonedEnemyKilled;
+
+
+        #region INTERFACE
+        public void FirstAttack()
+        {
+            if (currentFireballCoroutine == null)
+                currentFireballCoroutine = StartCoroutine(FireballAttack());
+        }
+
+        public void SecondAttack(Transform summonPoint)
+        {
+            Vector3 rotation = Vector3.zero;
+
+            if (summonPoint == GameManager.Instance.boss.SpawnPositions[0])
+            {
+                rotation = new Vector3(0f, 180f, 0f);
+            }
+
+            StartCoroutine(SummonShooter(summonPoint, rotation, shooterPrefab));
+        }
+        #endregion
 
         #region FIREBALL
         public void StartFireballAttack()
@@ -94,14 +117,12 @@ namespace Orby.Enemy.Boss.Phases.FirstPhase
             if (ShooterAmount >= shooterLimit)
                 yield break;
 
-            // 1. Instanciar o portal com escala zero
             GameObject portal = Instantiate(portalPrefab, summonPoint.position + portalOffset, Quaternion.identity);
             Transform portalTransform = portal.transform;
             Vector3 originalScale = portalTransform.localScale;
             portalTransform.localScale = Vector3.zero;
             portal.transform.position += portalOffset;
 
-            // 2. Animar o portal crescendo com Ease.OutBack
             AudioManager.Instance.PlayAudioByTypeWithRandomPitch(
                 AudioManager.AudioType.PORTALOPEN,
                 new Vector2(1f, 1.1f),
@@ -109,16 +130,13 @@ namespace Orby.Enemy.Boss.Phases.FirstPhase
                 );
             portalTransform.DOScale(originalScale, 1.3f).SetEase(Ease.OutBack);
 
-            // 3. Aguardar tempo para "abrir" o portal
             yield return new WaitForSeconds(1.2f);
 
-            // 4. Instanciar o inimigo atirador
             EnemyShooter summonedShooter = Instantiate(shooter, summonPoint.position, Quaternion.Euler(rotation));
             summonedShooter.SpawnPosition = summonPoint;
 
             summonedShooter.WillCollide(false);
 
-            // 5. Fade-in nos SpriteRenderers
             List<SpriteRenderer> renderers = summonedShooter.SpriteRenderers;
             float fadeDuration = 2f;
             foreach (var sr in renderers)
@@ -149,7 +167,6 @@ namespace Orby.Enemy.Boss.Phases.FirstPhase
             ShooterAmount++;
         }
 
-
         public void SummonShooterWrapper(Transform spawnTransform)
         {
             Vector3 rotation = Vector3.zero;
@@ -178,7 +195,13 @@ namespace Orby.Enemy.Boss.Phases.FirstPhase
         private void HandleShooterKilled(EnemyShooter shooter)
         {
             ShooterAmount--;
+            OnSummonedEnemyKilled?.Invoke(shooter.SpawnPosition);
         }
         #endregion
+
+        public bool CanUseSecondAttack()
+        {
+            return shooterAmount < shooterLimit;
+        }
     }
 }

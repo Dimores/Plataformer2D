@@ -71,7 +71,7 @@ namespace Orby.Player
 
         private void StartAlphaAnimation()
         {
-            AudioManager.Instance.PlayAudioByType(AudioManager.AudioType.LOADLASER, 0.3f);
+            AudioManager.Instance.PlayAudioByType(AudioManager.AudioType.LOADLASER, 0.5f);
 
             DOTween.To(() => lineMaterial.GetFloat("_Alpha"),
                        valor => lineMaterial.SetFloat("_Alpha", valor),
@@ -80,7 +80,7 @@ namespace Orby.Player
                    .OnComplete(() =>
                    {
                        edgeCollider.enabled = true;
-                       AudioManager.Instance.PlayAudioByType(AudioManager.AudioType.SHOOTLASER, 0.3f);
+                       AudioManager.Instance.PlayAudioByType(AudioManager.AudioType.SHOOTLASER, 1.2f);
                        StartCoroutine(StartParticles(timeToStopParticles));
                        DOTween.To(() => lineMaterial.GetFloat("_Alpha"),
                                   valor => lineMaterial.SetFloat("_Alpha", valor),

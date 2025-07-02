@@ -12,8 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: edb3c47db3ced64498ec8c1eee05ddbd, type: 3}
   m_Name: Boss
   m_EditorClassIdentifier: 
-  life: 200
+  life: 600
   damage: 0
-  characterAnimator: {fileID: 0}
   movementSpeed: 0
   triggerDeath: Death

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Orby.Interfaces;
+using Orby.Interfaces.General;
 using UnityEngine;
 
 namespace Orby.Enemy
